@@ -355,7 +355,7 @@ template: {
 					name: _name + "-" + strings.ToLower(v.protocol)
 				}
 			}
-			if v.nodePort != _|_ && parameter.exposeType == "NodePort" {
+			if parameter.exposeType == "NodePort" {
 				nodePort: v.nodePort
 			}
 			if v.protocol != _|_ {
