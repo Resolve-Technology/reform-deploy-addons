@@ -1,0 +1,216 @@
+- uiType: ImageInput
+  jsonKey: image
+  label: Container Image
+  sort: 1
+
+- jsonKey: imagePullSecrets
+  sort: 2
+
+- jsonKey: cpu
+  uiType: CPUNumber
+  sort: 3
+  label: CPU
+  description: Specifies the cpu resource required for the container, If set to 0, there is no limit.
+  validate:
+    required: true
+    defaultValue: "0.5"
+  style:
+    colSpan: 12
+
+- jsonKey: memory
+  uiType: MemoryNumber
+  sort: 4
+  label: Memory
+  description: Specifies the memory resource required for the container, If set to 0, there is no limit.
+  validate:
+    required: true
+    defaultValue: "128Mi"
+  style:
+    colSpan: 12
+
+- jsonKey: environmentVariables
+  sort: 5
+  label: Environment Variables
+  subParameters:
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+    - jsonKey: valueFrom
+      label: Secret Selector
+      uiType: Ignore
+  uiType: Structs
+
+- jsonKey: containers
+  label: Containers
+  sort: 6
+  subParameters:
+    - jsonKey: port
+      sort: 1
+      validate:
+        required: true
+        min: 1
+    - jsonKey: protocol
+      sort: 2
+  validate:
+    required: true
+    defaultValue: [{"port": 80, "protocol": "TCP"}]
+
+- jsonKey: readinessProbe
+  uiType: Group
+  label: ReadinessProbe
+  subParameters:
+  - jsonKey: handler
+    sort: 1
+  - jsonKey: exec
+    sort: 2
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: CMD
+        action: enable
+    validate:
+      required: true
+  - jsonKey: httpGet
+    sort: 3
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: HTTP
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        sort: 1
+        validate:
+          required: true
+          min: 1
+        style:
+          colSpan: 12
+      - jsonKey: path
+        sort: 3
+        validate:
+          required: true
+          pattern: ^/(.*)$
+        style:
+          colSpan: 12
+      - jsonKey: httpHeaders
+        sort: 5
+  - jsonKey: tcpSocket
+    sort: 4
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: TCPSocket
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        validate:
+          required: true
+          min: 1
+  - jsonKey: timeoutSeconds
+    sort: 5
+    style:
+      colSpan: 12
+  - jsonKey: failureThreshold
+    sort: 6
+    style:
+      colSpan: 12
+  - jsonKey: initialDelaySeconds
+    sort: 7
+    style:
+      colSpan: 12
+    validate:
+      defaultValue: 5
+      required: true
+  - jsonKey: periodSeconds
+    sort: 8
+    style:
+      colSpan: 12
+  - jsonKey: successThreshold
+    sort: 9
+    style:
+      colSpan: 12
+  sort: 7
+
+- jsonKey: livenessProbe
+  uiType: Group
+  label: LivenessProbe
+  subParameters:
+  - jsonKey: handler
+    sort: 1
+  - jsonKey: exec
+    sort: 2
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: CMD
+        action: enable
+    validate:
+      required: true
+  - jsonKey: httpGet
+    sort: 3
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: HTTP
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        sort: 1
+        validate:
+          required: true
+          min: 1
+        style:
+          colSpan: 12
+      - jsonKey: path
+        sort: 3
+        validate:
+          required: true
+          pattern: ^/(.*)$
+        style:
+          colSpan: 12
+      - jsonKey: httpHeaders
+        sort: 5
+  - jsonKey: tcpSocket
+    sort: 4
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: TCPSocket
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        validate:
+          required: true
+          min: 1
+  - jsonKey: timeoutSeconds
+    sort: 5
+    style:
+      colSpan: 12
+  - jsonKey: failureThreshold
+    sort: 6
+    style:
+      colSpan: 12
+  - jsonKey: initialDelaySeconds
+    sort: 7
+    style:
+      colSpan: 12
+    validate:
+      defaultValue: 5
+      required: true
+  - jsonKey: periodSeconds
+    sort: 8
+    style:
+      colSpan: 12
+  - jsonKey: successThreshold
+    sort: 9
+    style:
+      colSpan: 12
+  sort: 8

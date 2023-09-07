@@ -1,0 +1,41 @@
+- jsonKey: vpcName
+  label: VPC Name
+  description: The name of the VPC
+  sort: 1
+  subParameters: 
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+      validate:
+        required: true
+    - jsonKey: valueFrom
+      uiType: Ignore
+
+- jsonKey: cidrBlock
+  label: CIDR Block
+  description: The CIDR block for the VPC
+  sort: 2
+  subParameters: 
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+      validate:
+        required: true
+        pattern: ^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$|\$.*$
+    - jsonKey: valueFrom
+      uiType: Ignore  
+
+- jsonKey: terraformProviderName
+  label: Terraform Provider Configuration Name
+  description: The configuration name of the terraform provider
+  sort: 3
+
+- jsonKey: repoName
+  label: Repository Configuration Name
+  description: The configuration name of the repository, in which the repository stores the terraform templates
+  sort: 4
+
+- jsonKey: repoNamespace
+  label: Repository Configuration Namespace
+  description: The namespace of repository configuration, in which the repository stores the terraform templates
+  sort: 5

@@ -1,0 +1,16 @@
+icon: https://static.kubevela.net/images/logos/terraform.png
+url: https://github.com/weaveworks/tf-controller
+description: Terraform Controller is a Kubernetes Controller for Terraform.
+icon: ""
+invisible: false
+name: reform-terraform
+tags:
+  - IaC
+  - Cloud Resource
+  - Terraform Provider
+
+deployTo:
+  control_plane: true
+  runtime_cluster: false
+
+version: 1.0.0

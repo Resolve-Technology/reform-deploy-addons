@@ -1,0 +1,49 @@
+- jsonKey: helm
+  label: Helm
+  uiType: ReformHelm
+  sort: 1
+  subParameters: 
+    - jsonKey: url
+      label: The Helm Chart URL
+      sort: 1
+      style:
+        colSpan: 12
+    - jsonKey: chart
+      label: Chart
+      sort: 2
+      style:
+        colSpan: 12
+    - jsonKey: version
+      label: Version
+      sort: 3
+      style:
+        colSpan: 12
+    - jsonKey: interval
+      label: Intern 
+      sort: 4
+      style:
+        colSpan: 12
+    - jsonKey: values
+      label: Values
+      uiType: HelmValues
+      sort: 5
+      style:
+        colSpan: 12
+    - jsonKey: repository
+      label: Helm Repository
+      sort: 6
+      style:
+        colSpan: 12
+      subParameters: 
+        - jsonKey: name
+          label: Name
+          sort: 1
+          disabled: true
+          style:
+            colSpan: 12
+        - jsonKey: namepsace
+          label: Namespace
+          sort: 2
+          disabled: true
+          style:
+            colSpan: 12

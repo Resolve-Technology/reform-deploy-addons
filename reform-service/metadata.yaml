@@ -1,0 +1,12 @@
+description: Simplified service for deploying a containerized application
+
+invisible: false
+name: reform-service
+tags:
+  - Application Component Definition
+
+deployTo:
+  control_plane: true
+  runtime_cluster: true
+
+version: 1.0.0

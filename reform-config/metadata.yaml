@@ -1,0 +1,12 @@
+description: Configurations for Reform Deploy
+
+invisible: false
+name: reform-config
+tags:
+  - Configuration
+
+deployTo:
+  control_plane: true
+  runtime_cluster: false
+
+version: 1.0.0
