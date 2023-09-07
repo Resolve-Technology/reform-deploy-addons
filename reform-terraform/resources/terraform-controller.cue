@@ -6,7 +6,6 @@ terraformController: {
 	kind:       "HelmRelease"
 	metadata: {
 		name:      "terraform-controller"
-		namespace: "flux-system"
 	}
 	spec: {
 		interval: "5m"

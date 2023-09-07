@@ -5,7 +5,6 @@ output: {
 	kind:       "Application"
 	metadata: {
 		name: "reform-terraform"
-		namespace: "vela-system"
 	}
 	spec: {
 		components: [

@@ -6,7 +6,6 @@ terraformRepo: {
 	kind: 		 "HelmRepository"
 	metadata: {
 		name:      "terraform-repository"
-		namespace: "flux-system"
 	}
 	spec: {
     interval: "5m"
