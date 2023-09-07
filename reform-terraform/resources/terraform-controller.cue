@@ -6,6 +6,7 @@ terraformController: {
 	kind:       "HelmRelease"
 	metadata: {
 		name:      "terraform-controller"
+		namespace: "deploy"
 	}
 	spec: {
 		interval: "5m"
