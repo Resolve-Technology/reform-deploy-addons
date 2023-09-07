@@ -355,9 +355,9 @@ template: {
 					name: _name + "-" + strings.ToLower(v.protocol)
 				}
 			}
-			if parameter.exposeType == "NodePort" {
-				nodePort: v.nodePort
-			}
+			// if parameter.exposeType == "NodePort" {
+			// 	nodePort: v.nodePort
+			// }
 			if v.protocol != _|_ {
 				protocol: v.protocol
 			}
@@ -417,13 +417,13 @@ template: {
 			protocol: *"TCP" | "UDP" | "SCTP"
 			// +usage=Specify if the port should be exposed
 			expose: *false | bool
-			// +usage=exposed node port. Only Valid when exposeType is NodePort
-			nodePort: int
+			// // +usage=exposed node port. Only Valid when exposeType is NodePort
+			// nodePort: int
 		}]
 
 		// +ignore
 		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
-		exposeType: *"ClusterIP" | "NodePort" | "LoadBalancer"
+		exposeType: *"ClusterIP" | "LoadBalancer"
 
 		// +ignore
 		// +usage=If addRevisionLabel is true, the revision label will be added to the underlying pods
