@@ -418,7 +418,7 @@ template: {
 			// +usage=Specify if the port should be exposed
 			expose: *false | bool
 			// +usage=exposed node port. Only Valid when exposeType is NodePort
-			nodePort?: int
+			nodePort: int
 		}]
 
 		// +ignore
