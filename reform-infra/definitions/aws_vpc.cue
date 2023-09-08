@@ -81,7 +81,7 @@ template: {
 			destroyResourcesOnDeletion: true
 			storeReadablePlan: "human"
 			suspend: false
-			serviceAccountName: "kubevela-vela-core" // namepsaced, if deploy to other namespace, need to create service account
+			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
 			sourceRef: {
 			kind: "GitRepository"
 			name: parameter.repoName
