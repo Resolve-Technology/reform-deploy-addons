@@ -81,7 +81,7 @@ template: {
 			destroyResourcesOnDeletion: true
 			storeReadablePlan: "human"
 			suspend: false
-			serviceAccountName: "kubevela-vela-core" // namepsaced, if deploy to other namespace, need to create service account
+			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
 			sourceRef: {
 			kind: "GitRepository"
 			name: parameter.repoName
@@ -158,9 +158,9 @@ template: {
 
 	parameter: {
 		// +usage=The name of the infrastructure repository
-		repoName: *"terraform-repo" | string
+		repoName: *"default-terraform" | string
 		// +usage=The namespace of the infrastructure repository
-		repoNamespace: *"vela-system" | string
+		repoNamespace: *"deploy" | string
 		// +usage=The name of the terraform provider
 		terraformProviderName: *"aws" | string
 		// +usage=The cidr block of the vpc
