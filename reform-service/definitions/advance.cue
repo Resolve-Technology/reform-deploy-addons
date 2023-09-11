@@ -287,6 +287,10 @@ template: {
 							readinessProbe: parameter.readinessProbe
 						}
 
+						if parameter["securityContext"] != _|_ {
+							securityContext: parameter.securityContext
+						}
+
 					}]
 
 					if parameter["hostAliases"] != _|_ {
@@ -465,6 +469,19 @@ template: {
 
 		// +usage=Specifies the attributes of the memory resource required for the container.
 		memory?: string
+
+		// +usage=Specify the security context for the container
+		securityContext?: {
+			allowPrivilegeEscalation?: *false | bool
+			capabilities?: {
+				add?: [...string]
+				drop?: [...string]
+			}
+			privileged?: *false | bool
+			readOnlyRootFilesystem: *false | bool
+			runAsNonRoot?: *false | bool
+			runAsUser?: int
+		}
 
 		volumeMounts?: {
 			// +usage=Mount PVC type volume
