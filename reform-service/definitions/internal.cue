@@ -26,7 +26,17 @@ import (
 						readyReplicas: context.output.status.readyReplicas
 					}
 				}
-				message: "Ready:\(ready.readyReplicas)/\(context.output.spec.replicas)"
+				log: {
+					message: *"" | string
+				} & {
+					if context.output.status.conditions != _|_ {
+						for condition in context.output.status.conditions {
+							message: message + "\n" + condition.type + ":" + condition.message
+						}
+					}
+				}
+				availability: "Ready:\(ready.readyReplicas)/\(context.output.spec.replicas)"
+				message: "\(availability): \(log.message)"
 				"""#
 			healthPolicy: #"""
 				ready: {
