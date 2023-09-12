@@ -2,6 +2,7 @@
 import (
 	"strconv"
 	"strings"
+	"encoding/json"
 )
 
 "internal": {
@@ -19,24 +20,15 @@ import (
 		}
 		status: {
 			customStatus: #"""
+				import "encoding/json"
 				ready: {
-					readyReplicas: *0 | int
-				} & {
-					if context.output.status.readyReplicas != _|_ {
-						readyReplicas: context.output.status.readyReplicas
-					}
-				}
-				log: {
 					message: *"" | string
 				} & {
 					if context.output.status.conditions != _|_ {
-						for condition in context.output.status.conditions {
-							message: message + "\n" + condition.type + ":" + condition.message
-						}
+						message: json.Marshal(context.output.status.conditions)
 					}
 				}
-				availability: "Ready:\(ready.readyReplicas)/\(context.output.spec.replicas)"
-				message: "\(availability): \(log.message)"
+				message: ready.message
 				"""#
 			healthPolicy: #"""
 				ready: {

@@ -19,14 +19,15 @@ import (
 		}
 		status: {
 			customStatus: #"""
+				import "encoding/json"
 				ready: {
-					readyReplicas: *0 | int
+					message: *"" | string
 				} & {
-					if context.output.status.readyReplicas != _|_ {
-						readyReplicas: context.output.status.readyReplicas
+					if context.output.status.conditions != _|_ {
+						message: json.Marshal(context.output.status.conditions)
 					}
 				}
-				message: "Ready:\(ready.readyReplicas)/\(context.output.spec.replicas)"
+				message: ready.message
 				"""#
 			healthPolicy: #"""
 				ready: {
