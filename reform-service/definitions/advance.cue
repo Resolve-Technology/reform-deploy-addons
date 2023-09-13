@@ -246,7 +246,7 @@ template: {
 							args: parameter.args
 						}
 
-						if parameter["env"] != _|_ {
+						if parameter["environmentVariables"] != _|_ {
 							env: parameter.environmentVariables
 						}
 
