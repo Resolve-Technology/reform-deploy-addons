@@ -446,6 +446,8 @@ template: {
 			name: string
 			// +usage=The value of the environment variable
 			value?: string
+			// +usage=Specifies whether it is a secret value
+			isSecret: *false | bool
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
