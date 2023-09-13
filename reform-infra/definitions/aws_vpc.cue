@@ -21,19 +21,12 @@ import (
 		}
 		status: {
 			customStatus: #"""
+				import "encoding/json"
 				ready: {
 					message: *"" | string
 				} & {
-					if (context.output.status != _|_ && context.output.status.conditions != _|_ && len(context.output.status.conditions) > 0) {
-						message: context.output.status.conditions[0].message
-					}
-				} & {
-					if (context.output.status != _|_ && context.output.status.conditions != _|_) {
-						for condition in context.output.status.conditions {
-							if condition.type == "Ready" {
-								_ready_message: condition.message
-							}
-						}
+					if context.output.status.conditions != _|_ {
+						message: json.Marshal(context.output.status.conditions)
 					}
 				}
 				message: ready.message
