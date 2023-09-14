@@ -247,7 +247,15 @@ template: {
 						}
 
 						if parameter["environmentVariables"] != _|_ {
-							env: parameter.environmentVariables
+							env: [ for ev in ["environmentVariables"] {
+								name: ev.name
+								if ev.valueFrom != _|_ {
+									valueFrom: ev.valueFrom
+								} 
+								if ev.valueFrom == _|_ && ev.value != _|_ {
+									value: ev.value
+								}
+							}]
 						}
 
 						if context["config"] != _|_ {
@@ -448,6 +456,8 @@ template: {
 			value?: string
 			// +usage=Specifies whether it is a secret value
 			isSecret: *false | bool
+			// +usage=Specifies whether it should be updated
+			isUpdate: *false | bool
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
