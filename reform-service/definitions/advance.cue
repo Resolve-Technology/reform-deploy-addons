@@ -247,7 +247,7 @@ template: {
 						}
 
 						if parameter["environmentVariables"] != _|_ {
-							env: [ for ev in ["environmentVariables"] {
+							env: [ for ev in parameter["environmentVariables"] {
 								name: ev.name
 								if ev.valueFrom != _|_ {
 									valueFrom: ev.valueFrom
