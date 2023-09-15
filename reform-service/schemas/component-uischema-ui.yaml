@@ -38,7 +38,7 @@
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
-  uiType: Structs
+  uiType: ReformEnvVars
 
 - jsonKey: containers
   label: Containers
