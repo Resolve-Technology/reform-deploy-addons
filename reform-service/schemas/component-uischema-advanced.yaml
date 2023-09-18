@@ -60,7 +60,10 @@
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
+    - jsonKey: isUpdate
+      uiType: ReformIsUpdate
   uiType: Structs
+
 - jsonKey: volumeMounts
   label: Persistent Storage
   description: "Set the path and type that the service needs to persist."

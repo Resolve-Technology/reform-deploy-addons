@@ -38,6 +38,8 @@
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
+    - jsonKey: isUpdate
+      uiType: ReformIsUpdate
   uiType: Structs
 
 - jsonKey: containers
