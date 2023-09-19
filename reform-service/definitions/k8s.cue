@@ -8,7 +8,7 @@ import "encoding/yaml"
 	attributes: {}
 }
 template: {
-	output: yaml.Unmarshal(parameter.objects)
+	output: yaml.Unmarshal(strings.Replace(parameter.objects, "\r", "", -1))
 	
 	parameter: {
 		objects: {}
