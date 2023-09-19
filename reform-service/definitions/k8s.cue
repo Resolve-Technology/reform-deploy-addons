@@ -1,4 +1,5 @@
 import "encoding/yaml"
+import "strings"
 
 "k8s": {
 	type: "component"
