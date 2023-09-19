@@ -9,7 +9,8 @@ import "strings"
 	attributes: {}
 }
 template: {
-	output: yaml.Unmarshal(strings.Replace(parameter.objects, "\r", "", -1))
+	o: strings.Replace(parameter.objects, "\r", " ", -1)
+	output: yaml.Unmarshal(o)
 	
 	parameter: {
 		objects: {}
