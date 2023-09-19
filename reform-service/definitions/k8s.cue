@@ -8,7 +8,7 @@ import "encoding/yaml"
 	attributes: {}
 }
 template: {
-	output: yaml.Unmarshal(objects)
+	output: yaml.Unmarshal(parameter.objects)
 	
 	parameter: {
 		objects: {}
