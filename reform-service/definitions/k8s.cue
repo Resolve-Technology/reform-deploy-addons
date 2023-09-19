@@ -1,3 +1,5 @@
+import "encoding/yaml"
+
 "k8s": {
 	type: "component"
 	annotations: {}
@@ -6,16 +8,9 @@
 	attributes: {}
 }
 template: {
-	output: parameter.objects[0]
-
-	outputs: {
-		for i, v in parameter.objects {
-			if i > 0 {
-				"objects-\(i)": v
-			}
-		}
-	}
+	output: yaml.Unmarshal(objects)
+	
 	parameter: {
-		objects: [...{}]
+		objects: {}
 	}
 }
