@@ -1,0 +1,4 @@
+- uiType: K8sObjectsCode
+  jsonKey: objects
+  label: Objects
+  sort: 1
