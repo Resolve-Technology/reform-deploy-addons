@@ -1,5 +1,5 @@
 - jsonKey: bucketName
-  label: S3 Bucket Name
+  label: Bucket Name
   description: The name of the S3 bucket
   sort: 1
   subParameters: 

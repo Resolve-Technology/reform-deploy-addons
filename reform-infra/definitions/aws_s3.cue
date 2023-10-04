@@ -3,7 +3,7 @@ import (
 	"strings"
 )
 
-"aws-bucket": {
+"aws-s3": {
 	type: "component"
 	annotations: {}
 	labels: {
