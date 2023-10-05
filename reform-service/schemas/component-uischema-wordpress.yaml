@@ -2,6 +2,9 @@
   jsonKey: image
   label: Container Image
   sort: 1
+  validate:
+    required: true
+    defaultValue: "wordpress:latest"
 
 - jsonKey: exposeType
   sort: 6
