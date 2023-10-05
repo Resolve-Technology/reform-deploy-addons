@@ -141,7 +141,7 @@ template: {
 		// +usage=The name of the rds
 		rdsName: {
 			// +usage=Environment variable name
-			name: "name"
+			name: "rds_name"
 			// +usage=The value of the environment variable
 			value?: string
 			// +usage=Specifies a source the value of this var should come from
