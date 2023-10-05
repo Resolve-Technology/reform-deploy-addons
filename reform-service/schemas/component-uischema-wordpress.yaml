@@ -7,12 +7,12 @@
     defaultValue: "wordpress:latest"
 
 - jsonKey: exposeType
-  sort: 6
+  sort: 2
   validate:
 
 - jsonKey: ports
   label: Service Ports
-  sort: 7
+  sort: 3
   subParameters:
     - jsonKey: port
       sort: 1
@@ -30,8 +30,13 @@
     required: true
     defaultValue: [{"port": 80, "protocol": "TCP", "expose": true, "name": "http"}]
 
+- jsonKey: annotations
+  sort: 4
+  validate:
+    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}
+
 - jsonKey: environmentVariables
-  sort: 10
+  sort: 5
   label: Environment Variables
   subParameters:
     - jsonKey: name
@@ -45,11 +50,6 @@
   uiType: Structs
   validate:
     defaultValue: [{"name": "WORDPRESS_DB_HOST", "name": "WORDPRESS_DB_NAME", "name": "WORDPRESS_DB_USER", "name": "WORDPRESS_DB_PASSWORD"}]
-
-- jsonKey: annotations
-  sort: 19
-  validate:
-    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}
 
 - jsonKey: volumeMounts
   label: Persistent Storage
