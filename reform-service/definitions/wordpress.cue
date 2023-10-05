@@ -205,6 +205,11 @@ template: {
 					containers: [{
 						name:  context.name
 						image: parameter.image
+						if parameter["port"] != _|_ && parameter["ports"] == _|_ {
+							ports: [{
+								containerPort: parameter.port
+							}]
+						}
 						if parameter["ports"] != _|_ {
 							ports: [ for v in parameter.ports {
 								{
@@ -233,6 +238,10 @@ template: {
 									value: ev.value
 								}
 							}]
+						}
+
+						if context["config"] != _|_ {
+							env: context.config
 						}
 
 						if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
@@ -348,6 +357,12 @@ template: {
 		// +short=i
 		image: string
 
+
+		// +ignore
+		// +usage=Deprecated field, please use ports instead
+		// +short=p
+		port?: int
+
 		// +usage=Which ports do you want customer traffic sent to, defaults to 80
 		ports?: [...{
 			// +usage=Number of port to expose on the pod's IP address
@@ -445,5 +460,37 @@ template: {
 				path:      string
 			}]
 		}
+
+		// +usage=Deprecated field, use volumeMounts instead.
+		volumes?: [...{
+			name:      string
+			mountPath: string
+			// +usage=Specify volume type, options: "pvc","configMap","secret","emptyDir", default to emptyDir
+			type: *"emptyDir" | "pvc" | "configMap" | "secret"
+			if type == "pvc" {
+				claimName: string
+			}
+			if type == "configMap" {
+				defaultMode: *420 | int
+				cmName:      string
+				items?: [...{
+					key:  string
+					path: string
+					mode: *511 | int
+				}]
+			}
+			if type == "secret" {
+				defaultMode: *420 | int
+				secretName:  string
+				items?: [...{
+					key:  string
+					path: string
+					mode: *511 | int
+				}]
+			}
+			if type == "emptyDir" {
+				medium: *"" | "Memory"
+			}
+		}]
 	}
 }
