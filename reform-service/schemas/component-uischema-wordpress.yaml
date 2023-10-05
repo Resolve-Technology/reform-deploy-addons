@@ -118,3 +118,5 @@
 
 - jsonKey: annotations
   sort: 19
+  validate:
+    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}
