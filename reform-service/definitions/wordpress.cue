@@ -262,20 +262,6 @@ template: {
 							env: context.config
 						}
 
-						if parameter["cpu"] != _|_ {
-							resources: {
-								limits: cpu:   parameter.cpu
-								requests: cpu: parameter.cpu
-							}
-						}
-
-						if parameter["memory"] != _|_ {
-							resources: {
-								limits: memory:   parameter.memory
-								requests: memory: parameter.memory
-							}
-						}
-
 						if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
 							volumeMounts: [ for v in parameter.volumes {
 								{
@@ -459,12 +445,6 @@ template: {
 				}
 			}
 		}]
-
-		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
-		cpu?: string
-
-		// +usage=Specifies the attributes of the memory resource required for the container.
-		memory?: string
 
 		volumeMounts?: {
 			// +usage=Mount PVC type volume
