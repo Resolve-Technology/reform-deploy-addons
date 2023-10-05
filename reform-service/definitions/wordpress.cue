@@ -202,6 +202,9 @@ template: {
 						"application.deploy.reform/componentType": componentType
 						"app.kubernetes.io/name": context.name
 					}
+					if parameter.annotations != _|_ {
+						annotations: parameter.annotations
+					}
 				}
 
 				spec: {
@@ -231,6 +234,18 @@ template: {
 								}}]
 						}
 
+						if parameter["imagePullPolicy"] != _|_ {
+							imagePullPolicy: parameter.imagePullPolicy
+						}
+
+						if parameter["cmd"] != _|_ {
+							command: parameter.cmd
+						}
+
+						if parameter["args"] != _|_ {
+							args: parameter.args
+						}
+
 						if parameter["environmentVariables"] != _|_ {
 							env: [ for ev in parameter["environmentVariables"] {
 								name: ev.name
@@ -247,6 +262,20 @@ template: {
 							env: context.config
 						}
 
+						if parameter["cpu"] != _|_ {
+							resources: {
+								limits: cpu:   parameter.cpu
+								requests: cpu: parameter.cpu
+							}
+						}
+
+						if parameter["memory"] != _|_ {
+							resources: {
+								limits: memory:   parameter.memory
+								requests: memory: parameter.memory
+							}
+						}
+
 						if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
 							volumeMounts: [ for v in parameter.volumes {
 								{
@@ -259,7 +288,31 @@ template: {
 							volumeMounts: mountsArray
 						}
 
+						if parameter["livenessProbe"] != _|_ {
+							livenessProbe: parameter.livenessProbe
+						}
+
+						if parameter["readinessProbe"] != _|_ {
+							readinessProbe: parameter.readinessProbe
+						}
+
+						if parameter["securityContext"] != _|_ {
+							securityContext: parameter.securityContext
+						}
+
 					}]
+
+					if parameter["hostAliases"] != _|_ {
+						// +patchKey=ip
+						hostAliases: parameter.hostAliases
+					}
+
+					if parameter["imagePullSecrets"] != _|_ {
+						imagePullSecrets: [ for v in parameter.imagePullSecrets {
+							name: v
+						},
+						]
+					}
 
 					if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
 						volumes: [ for v in parameter.volumes {
@@ -335,9 +388,6 @@ template: {
 						"application.deploy.reform/component": context.name
 						"application.deploy.reform/componentType": componentType
 					}
-					if parameter.annotations != _|_ {
-						annotations: parameter.annotations
-					}
 				}
 				spec: {
 					selector: "app.oam.dev/component": context.name
@@ -349,6 +399,9 @@ template: {
 	}
 
 	parameter: {
+		// +usage=Specify the labels in the workload
+		labels?: [string]: string
+
 		// +usage=Specify the annotations in the workload
 		annotations?: [string]: string
 
@@ -358,6 +411,14 @@ template: {
 
 		// +usage=Specify image pull policy for your service
 		imagePullPolicy?: "Always" | "Never" | "IfNotPresent"
+
+		// +usage=Specify image pull secrets for your service
+		imagePullSecrets?: [...string]
+
+		// +ignore
+		// +usage=Deprecated field, please use ports instead
+		// +short=p
+		port?: int
 
 		// +usage=Which ports do you want customer traffic sent to, defaults to 80
 		ports?: [...{
@@ -376,6 +437,16 @@ template: {
 		// +ignore
 		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
 		exposeType: *"ClusterIP" | "LoadBalancer"
+
+		// +ignore
+		// +usage=If addRevisionLabel is true, the revision label will be added to the underlying pods
+		addRevisionLabel: *false | bool
+
+		// +usage=Commands to run in the container
+		cmd?: [...string]
+
+		// +usage=Arguments to the entrypoint
+		args?: [...string]
 
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
@@ -405,6 +476,25 @@ template: {
 				}
 			}
 		}]
+
+		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
+		cpu?: string
+
+		// +usage=Specifies the attributes of the memory resource required for the container.
+		memory?: string
+
+		// +usage=Specify the security context for the container
+		securityContext?: {
+			allowPrivilegeEscalation?: *false | bool
+			capabilities?: {
+				add?: [...string]
+				drop?: [...string]
+			}
+			privileged?: *false | bool
+			readOnlyRootFilesystem: *false | bool
+			runAsNonRoot?: *false | bool
+			runAsUser?: int
+		}
 
 		volumeMounts?: {
 			// +usage=Mount PVC type volume
@@ -456,5 +546,93 @@ template: {
 				path:      string
 			}]
 		}
+
+		// +usage=Deprecated field, use volumeMounts instead.
+		volumes?: [...{
+			name:      string
+			mountPath: string
+			// +usage=Specify volume type, options: "pvc","configMap","secret","emptyDir", default to emptyDir
+			type: *"emptyDir" | "pvc" | "configMap" | "secret"
+			if type == "pvc" {
+				claimName: string
+			}
+			if type == "configMap" {
+				defaultMode: *420 | int
+				cmName:      string
+				items?: [...{
+					key:  string
+					path: string
+					mode: *511 | int
+				}]
+			}
+			if type == "secret" {
+				defaultMode: *420 | int
+				secretName:  string
+				items?: [...{
+					key:  string
+					path: string
+					mode: *511 | int
+				}]
+			}
+			if type == "emptyDir" {
+				medium: *"" | "Memory"
+			}
+		}]
+
+		// +usage=Instructions for assessing whether the container is alive.
+		livenessProbe?: #HealthProbe
+
+		// +usage=Instructions for assessing whether the container is in a suitable state to serve traffic.
+		readinessProbe?: #HealthProbe
+
+		// +usage=Specify the hostAliases to add
+		hostAliases?: [...{
+			ip: string
+			hostnames: [...string]
+		}]
+	}
+
+	#HealthProbe: {
+
+		// +usage=Instructions for assessing container health by executing a command. Either this attribute or the httpGet attribute or the tcpSocket attribute MUST be specified. This attribute is mutually exclusive with both the httpGet attribute and the tcpSocket attribute.
+		exec?: {
+			// +usage=A command to be executed inside the container to assess its health. Each space delimited token of the command is a separate array element. Commands exiting 0 are considered to be successful probes, whilst all other exit codes are considered failures.
+			command: [...string]
+		}
+
+		// +usage=Instructions for assessing container health by executing an HTTP GET request. Either this attribute or the exec attribute or the tcpSocket attribute MUST be specified. This attribute is mutually exclusive with both the exec attribute and the tcpSocket attribute.
+		httpGet?: {
+			// +usage=The endpoint, relative to the port, to which the HTTP GET request should be directed.
+			path: string
+			// +usage=The TCP socket within the container to which the HTTP GET request should be directed.
+			port:    int
+			host?:   string
+			scheme?: *"HTTP" | string
+			httpHeaders?: [...{
+				name:  string
+				value: string
+			}]
+		}
+
+		// +usage=Instructions for assessing container health by probing a TCP socket. Either this attribute or the exec attribute or the httpGet attribute MUST be specified. This attribute is mutually exclusive with both the exec attribute and the httpGet attribute.
+		tcpSocket?: {
+			// +usage=The TCP socket within the container that should be probed to assess container health.
+			port: int
+		}
+
+		// +usage=Number of seconds after the container is started before the first probe is initiated.
+		initialDelaySeconds: *0 | int
+
+		// +usage=How often, in seconds, to execute the probe.
+		periodSeconds: *10 | int
+
+		// +usage=Number of seconds after which the probe times out.
+		timeoutSeconds: *1 | int
+
+		// +usage=Minimum consecutive successes for the probe to be considered successful after having failed.
+		successThreshold: *1 | int
+
+		// +usage=Number of consecutive failures required to determine the container is not alive (liveness probe) or not ready (readiness probe).
+		failureThreshold: *3 | int
 	}
 }
