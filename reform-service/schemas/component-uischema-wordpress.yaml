@@ -44,7 +44,12 @@
       uiType: ReformIsUpdate
   uiType: Structs
   validate:
-    defaultValue: [{"name": "WORDPRESS_DB_HOST"}]
+    defaultValue: [{"name": "WORDPRESS_DB_HOST", "name": "WORDPRESS_DB_NAME", "name": "WORDPRESS_DB_USER", "name": "WORDPRESS_DB_PASSWORD"}]
+
+- jsonKey: annotations
+  sort: 19
+  validate:
+    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}
 
 - jsonKey: volumeMounts
   label: Persistent Storage
@@ -115,8 +120,3 @@
             required: true
             pattern: ^/(.*)$
   sort: 12
-
-- jsonKey: annotations
-  sort: 19
-  validate:
-    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}

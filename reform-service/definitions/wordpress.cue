@@ -196,9 +196,6 @@ template: {
 						"application.deploy.reform/componentType": componentType
 						"app.kubernetes.io/name": context.name
 					}
-					if parameter.annotations != _|_ {
-						annotations: parameter.annotations
-					}
 				}
 
 				spec: {
@@ -339,6 +336,9 @@ template: {
 						"application.deploy.reform/component": context.name
 						"application.deploy.reform/componentType": componentType
 					}
+				if parameter.annotations != _|_ {
+					annotations: parameter.annotations
+				}
 				}
 				spec: {
 					selector: "app.oam.dev/component": context.name
