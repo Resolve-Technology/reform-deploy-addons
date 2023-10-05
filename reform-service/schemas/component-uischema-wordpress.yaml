@@ -9,9 +9,6 @@
 - jsonKey: exposeType
   sort: 6
   validate:
-  validate:
-    required: true
-    defaultValue: "LoadBalancer"
 
 - jsonKey: ports
   label: Service Ports
