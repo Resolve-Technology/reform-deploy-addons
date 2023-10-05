@@ -49,7 +49,7 @@
       uiType: ReformIsUpdate
   uiType: Structs
   validate:
-    defaultValue: [{"name": "WORDPRESS_DB_HOST", "name": "WORDPRESS_DB_NAME", "name": "WORDPRESS_DB_USER", "name": "WORDPRESS_DB_PASSWORD"}]
+    defaultValue: [{"name": "WORDPRESS_DB_HOST", {"name": "WORDPRESS_DB_NAME"}, {"name": "WORDPRESS_DB_USER"}, {"name": "WORDPRESS_DB_PASSWORD"}}]
 
 - jsonKey: volumeMounts
   label: Persistent Storage
