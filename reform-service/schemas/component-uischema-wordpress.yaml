@@ -9,6 +9,8 @@
 - jsonKey: exposeType
   sort: 6
   validate:
+    required: true
+    defaultValue: "LoadBalancer"
 
 - jsonKey: ports
   label: Service Ports
@@ -28,7 +30,7 @@
       sort: 5
   validate:
     required: true
-    defaultValue: [{"port": 80, "protocol": "TCP", "expose": true}]
+    defaultValue: [{"port": 80, "protocol": "TCP", "expose": true, "name": "http"}]
 
 - jsonKey: environmentVariables
   sort: 10
