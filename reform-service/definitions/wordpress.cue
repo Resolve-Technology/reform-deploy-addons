@@ -57,122 +57,6 @@ import (
 template: {
 	componentType: "wordpress"
 
-	mountsArray: [
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.pvc != _|_ for v in parameter.volumeMounts.pvc {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.configMap != _|_ for v in parameter.volumeMounts.configMap {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.secret != _|_ for v in parameter.volumeMounts.secret {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.emptyDir != _|_ for v in parameter.volumeMounts.emptyDir {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.hostPath != _|_ for v in parameter.volumeMounts.hostPath {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-	]
-
-	volumesList: [
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.pvc != _|_ for v in parameter.volumeMounts.pvc {
-			{
-				name: v.name
-				persistentVolumeClaim: claimName: v.claimName
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.configMap != _|_ for v in parameter.volumeMounts.configMap {
-			{
-				name: v.name
-				configMap: {
-					defaultMode: v.defaultMode
-					name:        v.cmName
-					if v.items != _|_ {
-						items: v.items
-					}
-				}
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.secret != _|_ for v in parameter.volumeMounts.secret {
-			{
-				name: v.name
-				secret: {
-					defaultMode: v.defaultMode
-					secretName:  v.secretName
-					if v.items != _|_ {
-						items: v.items
-					}
-				}
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.emptyDir != _|_ for v in parameter.volumeMounts.emptyDir {
-			{
-				name: v.name
-				emptyDir: medium: v.medium
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.hostPath != _|_ for v in parameter.volumeMounts.hostPath {
-			{
-				name: v.name
-				hostPath: {
-					path: v.path
-				}
-			}
-		},
-	]
-
-	deDupVolumesArray: [
-		for val in [
-			for i, vi in volumesList {
-				for j, vj in volumesList if j < i && vi.name == vj.name {
-					_ignore: true
-				}
-				vi
-			},
-		] if val._ignore == _|_ {
-			val
-		},
-	]
-
 	output: {
 		apiVersion: "apps/v1"
 		kind:       "Deployment"
@@ -190,12 +74,6 @@ template: {
 			template: {
 				metadata: {
 					labels: {
-						if parameter.labels != _|_ {
-							parameter.labels
-						}
-						if parameter.addRevisionLabel {
-							"app.oam.dev/revision": context.revision
-						}
 						"app.oam.dev/name":      context.appName
 						"app.oam.dev/component": context.name
 						"application.deploy.reform/component": context.name
@@ -211,11 +89,6 @@ template: {
 					containers: [{
 						name:  context.name
 						image: parameter.image
-						if parameter["port"] != _|_ && parameter["ports"] == _|_ {
-							ports: [{
-								containerPort: parameter.port
-							}]
-						}
 						if parameter["ports"] != _|_ {
 							ports: [ for v in parameter.ports {
 								{
@@ -234,18 +107,6 @@ template: {
 								}}]
 						}
 
-						if parameter["imagePullPolicy"] != _|_ {
-							imagePullPolicy: parameter.imagePullPolicy
-						}
-
-						if parameter["cmd"] != _|_ {
-							command: parameter.cmd
-						}
-
-						if parameter["args"] != _|_ {
-							args: parameter.args
-						}
-
 						if parameter["environmentVariables"] != _|_ {
 							env: [ for ev in parameter["environmentVariables"] {
 								name: ev.name
@@ -257,23 +118,6 @@ template: {
 								}
 							}]
 						}
-
-						if context["config"] != _|_ {
-							env: context.config
-						}
-
-						if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
-							volumeMounts: [ for v in parameter.volumes {
-								{
-									mountPath: v.mountPath
-									name:      v.name
-								}}]
-						}
-
-						if parameter["volumeMounts"] != _|_ {
-							volumeMounts: mountsArray
-						}
-
 					}]
 
 					if parameter["imagePullSecrets"] != _|_ {
@@ -281,42 +125,6 @@ template: {
 							name: v
 						},
 						]
-					}
-
-					if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
-						volumes: [ for v in parameter.volumes {
-							{
-								name: v.name
-								if v.type == "pvc" {
-									persistentVolumeClaim: claimName: v.claimName
-								}
-								if v.type == "configMap" {
-									configMap: {
-										defaultMode: v.defaultMode
-										name:        v.cmName
-										if v.items != _|_ {
-											items: v.items
-										}
-									}
-								}
-								if v.type == "secret" {
-									secret: {
-										defaultMode: v.defaultMode
-										secretName:  v.secretName
-										if v.items != _|_ {
-											items: v.items
-										}
-									}
-								}
-								if v.type == "emptyDir" {
-									emptyDir: medium: v.medium
-								}
-							}
-						}]
-					}
-
-					if parameter["volumeMounts"] != _|_ {
-						volumes: deDupVolumesArray
 					}
 				}
 			}
@@ -368,26 +176,12 @@ template: {
 	}
 
 	parameter: {
-		// +usage=Specify the labels in the workload
-		labels?: [string]: string
-
 		// +usage=Specify the annotations in the workload
 		annotations?: [string]: string
 
 		// +usage=Which image would you like to use for your service
 		// +short=i
 		image: string
-
-		// +usage=Specify image pull policy for your service
-		imagePullPolicy?: "Always" | "Never" | "IfNotPresent"
-
-		// +usage=Specify image pull secrets for your service
-		imagePullSecrets?: [...string]
-
-		// +ignore
-		// +usage=Deprecated field, please use ports instead
-		// +short=p
-		port?: int
 
 		// +usage=Which ports do you want customer traffic sent to, defaults to 80
 		ports?: [...{
@@ -406,16 +200,6 @@ template: {
 		// +ignore
 		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
 		exposeType: *"ClusterIP" | "LoadBalancer"
-
-		// +ignore
-		// +usage=If addRevisionLabel is true, the revision label will be added to the underlying pods
-		addRevisionLabel: *false | bool
-
-		// +usage=Commands to run in the container
-		cmd?: [...string]
-
-		// +usage=Arguments to the entrypoint
-		args?: [...string]
 
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
@@ -443,89 +227,6 @@ template: {
 					// +usage=The key of the config map to select from. Must be a valid secret key
 					key: string
 				}
-			}
-		}]
-
-		volumeMounts?: {
-			// +usage=Mount PVC type volume
-			pvc?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				// +usage=The name of the PVC
-				claimName: string
-			}]
-			// +usage=Mount ConfigMap type volume
-			configMap?: [...{
-				name:        string
-				mountPath:   string
-				subPath?:    string
-				defaultMode: *420 | int
-				cmName:      string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}]
-			// +usage=Mount Secret type volume
-			secret?: [...{
-				name:        string
-				mountPath:   string
-				subPath?:    string
-				defaultMode: *420 | int
-				secretName:  string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}]
-			// +usage=Mount EmptyDir type volume
-			emptyDir?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				medium:    *"" | "Memory"
-			}]
-			// +usage=Mount HostPath type volume
-			hostPath?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				path:      string
-			}]
-		}
-
-		// +usage=Deprecated field, use volumeMounts instead.
-		volumes?: [...{
-			name:      string
-			mountPath: string
-			// +usage=Specify volume type, options: "pvc","configMap","secret","emptyDir", default to emptyDir
-			type: *"emptyDir" | "pvc" | "configMap" | "secret"
-			if type == "pvc" {
-				claimName: string
-			}
-			if type == "configMap" {
-				defaultMode: *420 | int
-				cmName:      string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}
-			if type == "secret" {
-				defaultMode: *420 | int
-				secretName:  string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}
-			if type == "emptyDir" {
-				medium: *"" | "Memory"
 			}
 		}]
 	}
