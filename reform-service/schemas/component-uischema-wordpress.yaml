@@ -43,6 +43,8 @@
     - jsonKey: isUpdate
       uiType: ReformIsUpdate
   uiType: Structs
+  validate:
+    defaultValue: [{"name": "WORDPRESS_DB_HOST"}]
 
 - jsonKey: volumeMounts
   label: Persistent Storage

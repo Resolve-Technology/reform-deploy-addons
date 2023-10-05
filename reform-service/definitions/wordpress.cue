@@ -379,7 +379,7 @@ template: {
 
 		// +ignore
 		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
-		exposeType: *"ClusterIP" | "LoadBalancer"
+		exposeType: *"LoadBalancer" | "ClusterIP"
 
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
