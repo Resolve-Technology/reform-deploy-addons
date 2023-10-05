@@ -43,6 +43,8 @@
     - jsonKey: isUpdate
       uiType: ReformIsUpdate
   uiType: Structs
+  validate:
+    defaultValue: [{"name": "i-am-key", "value": "this-is-value", "isUpdate": true}]
 
 - jsonKey: volumeMounts
   label: Persistent Storage
@@ -116,3 +118,5 @@
 
 - jsonKey: annotations
   sort: 19
+  validate:
+    defaultValue: [{"key": "value"}]
