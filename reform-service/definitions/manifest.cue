@@ -1,7 +1,7 @@
 import "encoding/yaml"
 import "strings"
 
-"k8s": {
+"manifest": {
 	type: "component"
 	annotations: {}
 	labels: {}
