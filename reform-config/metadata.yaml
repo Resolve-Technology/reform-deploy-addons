@@ -7,6 +7,6 @@ tags:
 
 deployTo:
   control_plane: true
-  runtime_cluster: true
+  runtime_cluster: false
 
 version: 1.0.0
