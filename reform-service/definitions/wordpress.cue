@@ -202,11 +202,6 @@ template: {
 					containers: [{
 						name:  context.name
 						image: parameter.image
-						if parameter["port"] != _|_ && parameter["ports"] == _|_ {
-							ports: [{
-								containerPort: parameter.port
-							}]
-						}
 						if parameter["ports"] != _|_ {
 							ports: [ for v in parameter.ports {
 								{
@@ -356,12 +351,6 @@ template: {
 		// +usage=Which image would you like to use for your service
 		// +short=i
 		image: string
-
-
-		// +ignore
-		// +usage=Deprecated field, please use ports instead
-		// +short=p
-		port?: int
 
 		// +usage=Which ports do you want customer traffic sent to, defaults to 80
 		ports?: [...{
