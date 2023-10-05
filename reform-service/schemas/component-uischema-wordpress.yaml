@@ -1,0 +1,123 @@
+- uiType: ImageInput
+  jsonKey: image
+  label: Container Image
+  sort: 1
+  validate:
+    required: true
+    defaultValue: "wordpress:latest"
+
+- jsonKey: exposeType
+  sort: 2
+  validate:
+    required: true
+    defaultValue: "LoadBalancer"
+
+- jsonKey: ports
+  label: Service Ports
+  sort: 3
+  subParameters:
+    - jsonKey: port
+      sort: 1
+      validate:
+        required: true
+        min: 1
+    - jsonKey: protocol
+      sort: 3
+    - jsonKey: name
+      sort: 4
+      disable: true
+    - jsonKey: expose
+      sort: 5
+  validate:
+    required: true
+    defaultValue: [{"port": 80, "protocol": "TCP", "expose": true}]
+
+- jsonKey: annotations
+  sort: 4
+  validate:
+    required: true
+    defaultValue: [{key: "external-dns.alpha.kubernetes.io/hostname", value: "wordpress.reform-deploy.today"}]
+
+- jsonKey: environmentVariables
+  sort: 5
+  label: Environment Variables
+  subParameters:
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+    - jsonKey: valueFrom
+      label: Secret Selector
+      uiType: Ignore
+    - jsonKey: isUpdate
+      uiType: ReformIsUpdate
+  uiType: Structs
+
+- jsonKey: volumeMounts
+  label: Persistent Storage
+  description: "Set the path and type that the service needs to persist."
+  uiType: Group
+  subParameters:
+    - jsonKey: configMap
+      disable: true
+    - jsonKey: secret
+      disable: true
+    - jsonKey: pvc
+      label: Storage By PVC
+      sort: 1
+      subParameters:
+        - jsonKey: name
+          sort: 1
+          validate:
+            required: true
+            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
+        - jsonKey: claimName
+          sort: 3
+        - jsonKey: mountPath
+          sort: 5
+          validate:
+            required: true
+            pattern: ^/(.*)$
+    - jsonKey: hostPath
+      label: Storage By HostPath
+      sort: 3
+      subParameters:
+        - jsonKey: name
+          sort: 1
+          validate:
+            required: true
+            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
+        - jsonKey: path
+          label: Host Path
+          sort: 3
+          validate:
+            required: true
+            pattern: ^/(.*)$
+        - jsonKey: mountPath
+          sort: 5
+          validate:
+            required: true
+            pattern: ^/(.*)$
+    - jsonKey: emptyDir
+      label: Temporary Storage
+      sort: 5
+      subParameters:
+        - jsonKey: name
+          sort: 1
+          validate:
+            required: true
+            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
+        - jsonKey: medium
+          sort: 3
+          validate:
+            required: false
+            options:
+              - label: Memory
+                value: memory
+              - label: Dir
+                value: ""
+        - jsonKey: mountPath
+          sort: 5
+          validate:
+            required: true
+            pattern: ^/(.*)$
+  sort: 6
