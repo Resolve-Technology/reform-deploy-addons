@@ -190,12 +190,6 @@ template: {
 			template: {
 				metadata: {
 					labels: {
-						if parameter.labels != _|_ {
-							parameter.labels
-						}
-						if parameter.addRevisionLabel {
-							"app.oam.dev/revision": context.revision
-						}
 						"app.oam.dev/name":      context.appName
 						"app.oam.dev/component": context.name
 						"application.deploy.reform/component": context.name
@@ -232,18 +226,6 @@ template: {
 										}
 									}
 								}}]
-						}
-
-						if parameter["imagePullPolicy"] != _|_ {
-							imagePullPolicy: parameter.imagePullPolicy
-						}
-
-						if parameter["cmd"] != _|_ {
-							command: parameter.cmd
-						}
-
-						if parameter["args"] != _|_ {
-							args: parameter.args
 						}
 
 						if parameter["environmentVariables"] != _|_ {
@@ -368,9 +350,6 @@ template: {
 	}
 
 	parameter: {
-		// +usage=Specify the labels in the workload
-		labels?: [string]: string
-
 		// +usage=Specify the annotations in the workload
 		annotations?: [string]: string
 
@@ -378,11 +357,6 @@ template: {
 		// +short=i
 		image: string
 
-		// +usage=Specify image pull policy for your service
-		imagePullPolicy?: "Always" | "Never" | "IfNotPresent"
-
-		// +usage=Specify image pull secrets for your service
-		imagePullSecrets?: [...string]
 
 		// +ignore
 		// +usage=Deprecated field, please use ports instead
@@ -406,16 +380,6 @@ template: {
 		// +ignore
 		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
 		exposeType: *"ClusterIP" | "LoadBalancer"
-
-		// +ignore
-		// +usage=If addRevisionLabel is true, the revision label will be added to the underlying pods
-		addRevisionLabel: *false | bool
-
-		// +usage=Commands to run in the container
-		cmd?: [...string]
-
-		// +usage=Arguments to the entrypoint
-		args?: [...string]
 
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
