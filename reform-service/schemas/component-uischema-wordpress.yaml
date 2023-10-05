@@ -34,9 +34,6 @@
 
 - jsonKey: annotations
   sort: 4
-  validate:
-    required: true
-    defaultValue: [{key: "external-dns.alpha.kubernetes.io/hostname", value: "wordpress.reform-deploy.today"}]
 
 - jsonKey: environmentVariables
   sort: 5
