@@ -5,15 +5,15 @@ import (
 )
 
 metadata: {
-	name:        "infrastructure-repository"
-	alias:       "Infrastructure Repository"
+	name:        "terraform-cloud-credential"
+	alias:       "Terraform Cloud Credential"
 	scope:       "project"
-	description: "The repository for the infrastructure configuration"
+	description: "The credentail for the Terraform Cloud"
 	sensitive:   false
 }
 
 template: {
-	templateType: "infrastructure-repository"
+	templateType: "terraform-cloud-credential"
 
 	output: {
 		apiVersion: "v1"
@@ -62,7 +62,7 @@ template: {
 						type: "Opaque"
 					}
 				}
-			},
+			}
 		}
 	}
 
