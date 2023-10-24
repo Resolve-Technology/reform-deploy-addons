@@ -11,17 +11,22 @@
     - jsonKey: valueFrom
       uiType: Ignore
 
-- jsonKey: terraformProviderName
-  label: Terraform Provider Configuration Name
-  description: The configuration name of the terraform provider
+- jsonKey: terraformOrganization
+  label: Terraform Organization Name
+  description: The organization name of the terraform
   sort: 2
 
-- jsonKey: repoName
-  label: Repository Configuration Name
-  description: The configuration name of the repository, in which the repository stores the terraform templates
+- jsonKey: terraformCredential
+  label: Terraform Credential Name
+  description: The credential for the terraform
   sort: 3
 
 - jsonKey: repoNamespace
   label: Repository Configuration Namespace
   description: The namespace of repository configuration, in which the repository stores the terraform templates
   sort: 4
+
+- jsonKey: repoName
+  label: Repository Configuration Name
+  description: The configuration name of the repository, in which the repository stores the terraform templates
+  sort: 5

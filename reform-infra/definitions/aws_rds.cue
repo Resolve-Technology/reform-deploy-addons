@@ -74,13 +74,16 @@ template: {
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
 			destroyResourcesOnDeletion: true
-			storeReadablePlan: "human"
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
+			cloud:
+				organization: parameter.terraformOrganization
+				workspaces:
+					name: context.cluster + "-" + context.name
 			sourceRef: {
-			kind: "GitRepository"
-			name: parameter.repoName
-			namespace: parameter.repoNamespace
+				kind: "GitRepository"
+				name: parameter.repoName
+				namespace: parameter.repoNamespace
 			}
 			vars: [
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom == _|_ { 
@@ -89,6 +92,10 @@ template: {
 				}
 			]
 			varsFrom: [
+				{
+					kind: "Secret"
+					name: parameter.terraformCredentail
+				},
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
 					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -106,17 +113,6 @@ template: {
 					}
 				}
 			]
-			runnerPodTemplate: {
-				spec: {
-					envFrom: [
-						{
-							secretRef: {
-								name: parameter.terraformProviderName
-							}
-						}
-					]
-				}
-			}
 			writeOutputsToSecret: {
 				name: context.name + "-output"
 				labels: {
@@ -125,19 +121,10 @@ template: {
 					"secret.deploy.reform/identifier": context.name
 				}
 			}
-			tfstate: {
-				forceUnlock: "auto"
-			}
-    }
+    	}
 	}
 
 	parameter: {
-		// +usage=The name of the infrastructure repository
-		repoName: *"default-terraform" | string
-		// +usage=The namespace of the infrastructure repository
-		repoNamespace: *"deploy" | string
-		// +usage=The name of the terraform provider
-		terraformProviderName: *"aws" | string
 		// +usage=The name of the rds
 		rdsName: {
 			// +usage=Environment variable name
@@ -162,5 +149,15 @@ template: {
 				}
 			}
 		}
+		// +terraformOrganization=The name of the Terraform Organization
+		terraformOrganization: *"ResolveTechnology" | string
+		// +terraformWorkspace=The name of the Terraform Workspace
+		//terraformWorkspace= *"" | string
+		// +usage=The name of the infrastructure repository
+		repoName: *"default-terraform" | string
+		// +usage=The namespace of the infrastructure repository
+		repoNamespace: *"deploy" | string
+		// +usage=The credentail for terraform
+		terraformCredentail: *"aws" | string
 	}
 }
