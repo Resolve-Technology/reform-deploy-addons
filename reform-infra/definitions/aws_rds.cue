@@ -89,7 +89,7 @@ template: {
 			}
 			cliConfigSecretRef:
 				name: parameter.terraformCredential
-				namespace: context.namespace
+				namespace: parameter.repoNamespace
 			vars: [
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom == _|_ { 
 					name: parameter.rdsName.name
