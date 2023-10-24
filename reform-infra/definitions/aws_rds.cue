@@ -77,6 +77,7 @@ template: {
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
 			namespace: parameter.repoNamespace
+			workspaces: context.name
 			cloud:
 				organization: parameter.terraformOrganization
 				workspaces:
