@@ -79,7 +79,7 @@ template: {
 			cloud:
 				organization: parameter.terraformOrganization
 				workspaces:
-					name: context.name
+					name: "target-aws-rds"
 			sourceRef: {
 				kind: "GitRepository"
 				name: parameter.repoName
