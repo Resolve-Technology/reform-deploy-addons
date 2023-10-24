@@ -85,6 +85,9 @@ template: {
 				name: parameter.repoName
 				namespace: parameter.repoNamespace
 			}
+			cliConfigSecretRef:
+				name: terraformProviderCredential
+				namespace: context.namespace
 			vars: [
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom == _|_ { 
 					name: parameter.rdsName.name
@@ -149,15 +152,15 @@ template: {
 				}
 			}
 		}
-		// +terraformOrganization=The name of the Terraform Organization
+		// +usage=The name of the Terraform Organization
 		terraformOrganization: *"ResolveTechnology" | string
-		// +terraformWorkspace=The name of the Terraform Workspace
-		//terraformWorkspace= *"" | string
 		// +usage=The name of the infrastructure repository
 		repoName: *"default-terraform" | string
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
-		// +usage=The credentail for terraform
-		terraformCredential: *"aws" | string
+		// +usage=The credential for terraform
+		terraformCredential: *"reslv-tfc" | string
+		// +usage=The credential for terraform provider
+		terraformProviderCredential: *"aws" | string
 	}
 }
