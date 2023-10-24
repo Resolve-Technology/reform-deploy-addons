@@ -97,10 +97,6 @@ template: {
 				}
 			]
 			varsFrom: [
-				{
-					kind: "Secret"
-					name: parameter.terraformProviderCredential
-				},
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
 					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -118,6 +114,17 @@ template: {
 					}
 				}
 			]
+			runnerPodTemplate: {
+				spec: {
+					envFrom: [
+						{
+							secretRef: {
+								name: parameter.terraformProviderCredential
+							}
+						}
+					]
+				}
+			}
     	}
 	}
 
