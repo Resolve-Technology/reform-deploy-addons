@@ -1,37 +1,37 @@
-- jsonKey: rdsName
-  label: RDS Name
-  description: The name of the RDS
-  sort: 1
-  subParameters: 
-    - jsonKey: name
-    - jsonKey: value
-      uiType: OutputKeySelector
-      validate:
-        required: true
-    - jsonKey: valueFrom
-      uiType: Ignore
+# - jsonKey: rdsName
+#   label: RDS Name
+#   description: The name of the RDS
+#   sort: 1
+#   subParameters: 
+#     - jsonKey: name
+#     - jsonKey: value
+#       uiType: OutputKeySelector
+#       validate:
+#         required: true
+#     - jsonKey: valueFrom
+#       uiType: Ignore
 
-- jsonKey: terraformOrganization
-  label: Terraform Organization Name
-  description: The organization name of the terraform
-  sort: 2
+# - jsonKey: terraformOrganization
+#   label: Terraform Organization Name
+#   description: The organization name of the terraform
+#   sort: 2
 
-- jsonKey: terraformCredential
-  label: Terraform Credential Name
-  description: The credential for the terraform
-  sort: 3
+# - jsonKey: terraformCredential
+#   label: Terraform Credential Name
+#   description: The credential for the terraform
+#   sort: 3
 
-- jsonKey: terraformProviderCredential
-  label: Terraform Provider Credential Name
-  description: The credential for the terraform provider
-  sort: 4
+# - jsonKey: terraformProviderCredential
+#   label: Terraform Provider Credential Name
+#   description: The credential for the terraform provider
+#   sort: 4
 
-- jsonKey: repoNamespace
-  label: Repository Configuration Namespace
-  description: The namespace of repository configuration, in which the repository stores the terraform templates
-  sort: 5
+# - jsonKey: repoNamespace
+#   label: Repository Configuration Namespace
+#   description: The namespace of repository configuration, in which the repository stores the terraform templates
+#   sort: 5
 
-- jsonKey: repoName
-  label: Repository Configuration Name
-  description: The configuration name of the repository, in which the repository stores the terraform templates
-  sort: 6
+# - jsonKey: repoName
+#   label: Repository Configuration Name
+#   description: The configuration name of the repository, in which the repository stores the terraform templates
+#   sort: 6
