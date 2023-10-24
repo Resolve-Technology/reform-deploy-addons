@@ -71,23 +71,14 @@ template: {
 			interval: "5m"
 			path: pathToTemplate
 			approvePlan: "auto"
-			refreshBeforeApply: false
-			alwaysCleanupRunnerPod: true
-			destroyResourcesOnDeletion: true
-			suspend: false
-			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
-			namespace: "deploy"
-			workspaces: 
-				name: "xxxxx"
 			cloud:
 				organization: parameter.terraformOrganization
 				workspaces:
 					name: "xxxxx"
-			sourceRef: {
+			sourceRef:
 				kind: "GitRepository"
 				name: parameter.repoName
 				namespace: parameter.repoNamespace
-			}
 			cliConfigSecretRef:
 				name: parameter.terraformCredential
 				namespace: parameter.repoNamespace
