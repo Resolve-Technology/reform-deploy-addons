@@ -76,10 +76,11 @@ template: {
 			destroyResourcesOnDeletion: true
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
+			namespace: parameter.repoNamespace
 			cloud:
 				organization: parameter.terraformOrganization
 				workspaces:
-					name: "target-aws-rds"
+					name: context.name
 			sourceRef: {
 				kind: "GitRepository"
 				name: parameter.repoName
