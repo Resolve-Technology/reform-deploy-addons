@@ -77,7 +77,7 @@ template: {
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
 			namespace: parameter.repoNamespace
-			workspaces: context.name
+			workspaces: "xxxx"
 			cloud:
 				organization: parameter.terraformOrganization
 				workspaces:
@@ -118,14 +118,6 @@ template: {
 					}
 				}
 			]
-			writeOutputsToSecret: {
-				name: context.name + "-output"
-				labels: {
-					"app.kubernetes.io/managed-by": "reform-deploy"
-					"secret.deploy.reform/type": "infra-output"
-					"secret.deploy.reform/identifier": context.name
-				}
-			}
     	}
 	}
 
