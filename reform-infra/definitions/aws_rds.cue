@@ -162,5 +162,6 @@ template: {
 		terraformCredential: *"reslv-tfc" | string
 		// +usage=The credential for terraform provider
 		terraformProviderCredential: *"aws" | string
+		terraformWorkspace: string
 	}
 }
