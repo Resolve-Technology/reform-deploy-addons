@@ -86,7 +86,7 @@ template: {
 				namespace: parameter.repoNamespace
 			}
 			cliConfigSecretRef:
-				name: terraformProviderCredential
+				name: terraformCredential
 				namespace: context.namespace
 			vars: [
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom == _|_ { 
@@ -97,7 +97,7 @@ template: {
 			varsFrom: [
 				{
 					kind: "Secret"
-					name: parameter.terraformCredentail
+					name: parameter.terraformProviderCredential
 				},
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
 					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
