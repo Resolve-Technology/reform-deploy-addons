@@ -21,12 +21,17 @@
   description: The credential for the terraform
   sort: 3
 
+- jsonKey: terraformProviderCredential
+  label: Terraform Provider Credential Name
+  description: The credential for the terraform provider
+  sort: 4
+
 - jsonKey: repoNamespace
   label: Repository Configuration Namespace
   description: The namespace of repository configuration, in which the repository stores the terraform templates
-  sort: 4
+  sort: 5
 
 - jsonKey: repoName
   label: Repository Configuration Name
   description: The configuration name of the repository, in which the repository stores the terraform templates
-  sort: 5
+  sort: 6
