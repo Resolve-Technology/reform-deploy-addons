@@ -158,6 +158,6 @@ template: {
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
 		// +usage=The credentail for terraform
-		terraformCredentail: *"aws" | string
+		terraformCredential: *"aws" | string
 	}
 }
