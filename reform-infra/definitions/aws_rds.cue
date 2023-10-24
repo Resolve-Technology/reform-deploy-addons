@@ -71,14 +71,11 @@ template: {
 			interval: "5m"
 			path: pathToTemplate
 			approvePlan: "auto"
-			cloud:
-				organization: parameter.terraformOrganization
-				workspaces:
-					name: "xxxxx"
-			sourceRef:
+			sourceRef: {
 				kind: "GitRepository"
 				name: parameter.repoName
 				namespace: parameter.repoNamespace
+			}
 			cliConfigSecretRef:
 				name: parameter.terraformCredential
 				namespace: parameter.repoNamespace
