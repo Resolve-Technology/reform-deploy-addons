@@ -103,7 +103,7 @@ template: {
 					varsKeys: [
 						"AWS_ACCESS_KEY_ID:aws_access_key",
 						"AWS_SECRET_ACCESS_KEY:aws_secret_key",
-						"AWS_REGION:aws_region"
+						"AWS_DEFAULT_REGION:aws_region"
 					]
 				},
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
