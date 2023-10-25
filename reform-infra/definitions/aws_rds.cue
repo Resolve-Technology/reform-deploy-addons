@@ -73,7 +73,6 @@ template: {
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
-			storeReadablePlan: "human"
 			runnerTerminationGracePeriodSeconds: 300
 			destroyResourcesOnDeletion: true
 			suspend: false
