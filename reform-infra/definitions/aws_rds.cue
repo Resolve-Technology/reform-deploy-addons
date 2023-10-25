@@ -102,9 +102,9 @@ template: {
 					name: parameter.terraformProviderCredential
 					varsKeys: [
 						{
-							AWS_ACCESS_KEY_ID: "aws_access_key",
-							AWS_SECRET_ACCESS_KEY: "aws_secret_key",
-							AWS_REGION: "aws_region"
+							"AWS_ACCESS_KEY_ID:aws_access_key",
+							"AWS_SECRET_ACCESS_KEY:aws_secret_key",
+							"AWS_REGION:aws_region"
 						}
 					]
 				},
