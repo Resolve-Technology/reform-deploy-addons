@@ -79,7 +79,7 @@ template: {
 			cloud: {
 				organization: parameter.terraformOrganization
 				workspaces:
-					name: "xxxxx"
+					name: context.cluster + "-" + context.name
 			}
 			sourceRef: {
 				kind: "GitRepository"
@@ -123,6 +123,14 @@ template: {
 					}
 				}
 			]
+			writeOutputsToSecret: {
+				name: context.name + "-output"
+				labels: {
+					"app.kubernetes.io/managed-by": "reform-deploy"
+					"secret.deploy.reform/type": "infra-output"
+					"secret.deploy.reform/identifier": context.name
+				}
+			}
     	}
 	}
 
@@ -158,7 +166,7 @@ template: {
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
 		// +usage=The credential for terraform
-		terraformCredential: *"reslv-tfc" | string
+		terraformCredential: *"reslv-tfc-static" | string
 		// +usage=The credential for terraform provider
 		terraformProviderCredential: *"aws" | string
 	}
