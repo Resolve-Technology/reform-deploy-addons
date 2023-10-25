@@ -73,7 +73,7 @@ template: {
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
-			runnerTerminationGracePeriodSeconds: "300"
+			runnerTerminationGracePeriodSeconds: 300
 			destroyResourcesOnDeletion: true
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
