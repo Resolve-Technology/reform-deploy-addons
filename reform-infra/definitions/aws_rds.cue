@@ -73,6 +73,7 @@ template: {
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
+			storeReadablePlan: "human"
 			runnerTerminationGracePeriodSeconds: 300
 			destroyResourcesOnDeletion: true
 			suspend: false
@@ -167,7 +168,7 @@ template: {
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
 		// +usage=The credential for terraform
-		terraformCredential: *"reslv-tfc-static" | string
+		terraformCredential: *"reslv-tfc-token" | string
 		// +usage=The credential for terraform provider
 		terraformProviderCredential: *"aws" | string
 	}
