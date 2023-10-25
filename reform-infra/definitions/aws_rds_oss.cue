@@ -52,7 +52,7 @@ import (
 }
 
 template: {
-	pathToTemplate: "./aws/rds"
+	pathToTemplate: "./aws/rds-oss"
 
 	// define terraform resource
 	output: {

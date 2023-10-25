@@ -97,6 +97,17 @@ template: {
 				}
 			]
 			varsFrom: [
+				{
+					kind: "Secret"
+					name: parameter.terraformProviderCredential
+					varsKeys: [
+						{
+							AWS_ACCESS_KEY_ID:aws_access_key,
+							AWS_SECRET_ACCESS_KEY:aws_secret_key,
+							AWS_REGION:aws_region
+						}
+					]
+				},
 				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
 					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -114,17 +125,6 @@ template: {
 					}
 				}
 			]
-			runnerPodTemplate: {
-				spec: {
-					envFrom: [
-						{
-							secretRef: {
-								name: parameter.terraformProviderCredential
-							}
-						}
-					]
-				}
-			}
     	}
 	}
 
