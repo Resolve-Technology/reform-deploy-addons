@@ -17,10 +17,23 @@
   description: The credential for the HashiCorp Vualt
   sort: 2
 
+- jsonKey: terraformConfig
+  label: Terraform Configurations
+  sort: 3
+  subParameters:
+    - jsonKey: organization
+      description: The organization name of the terraform
+      sort: 1
+    - jsonKey: credential
+      description: The credential for the terraform
+      sort: 2
+  validate:
+    defaultValue: [{"organization": ""ResolveTechnology"", "credential": "reslv-tfc-token"}]
+
 - jsonKey: terraformOrganization
   label: Terraform Organization Name
   description: The organization name of the terraform
-  sort: 3
+  sort: 3.1
 
 - jsonKey: terraformCredential
   label: Terraform Credential Name
