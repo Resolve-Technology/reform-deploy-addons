@@ -29,7 +29,7 @@
       sort: 2
   validate:
     required: true
-    defaultValue: [{"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}]
+    defaultValue: {"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}
 
 - jsonKey: terraformOrganization
   label: Terraform Organization Name
