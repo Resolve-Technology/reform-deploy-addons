@@ -79,7 +79,7 @@ template: {
 				}
 				cliConfigSecretRef: {
 					name: parameter.terraformConfig.credential
-					namespace: parameter.repoNamespace
+					namespace: parameter.repositoryConfig.namespace
 				}
 			}
 			// Run on Terraform OSS
@@ -90,7 +90,7 @@ template: {
 				}
 			}
 			interval: "30m"
-			path: parameter.repoDir
+			path: parameter.repositoryConfig.directory
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
@@ -99,8 +99,8 @@ template: {
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
 			sourceRef: {
 				kind: "GitRepository"
-				name: parameter.repoName
-				namespace: parameter.repoNamespace
+				name: parameter.repositoryConfig.name
+				namespace: parameter.repositoryConfig.namespace
 			}
 			vars: [
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.value != _|_ { 
@@ -111,7 +111,7 @@ template: {
 			varsFrom: [
 				{
 					kind: "Secret"
-					name: parameter.vaultCredential
+					name: parameter.vaultConfig.credential
 				},
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
 					if v.valueFrom.secretKeyRef != _|_ {
@@ -142,7 +142,6 @@ template: {
 	}
 
 	parameter: {
-		// +usage=The endpoint of AWS RDS 
 		terraformVariables?: [...{
 			// +usage=Variable name
 			name: string
@@ -166,12 +165,20 @@ template: {
 				}
 			}
 		}]
+		
+		vaultConfig: {
+			// +usage=The credential for HashiCorp Vault
+			credential: string
+		}
+		vaultCredential: *"reslv-hashi-vault" | string
+
 		terraformConfig: {
 			// +usage=The name of the Terraform Organization
 			organization?: string
 			// +usage=The credential for Terraform
 			credential?: string
 		}
+
 		repositoryConfig: {
 			// +usage=The name of the infrastructure repository
 			name: string
@@ -180,13 +187,5 @@ template: {
 			// +usage=The directory for Terraform 
 			directory: string
 		}
-		// +usage=The credential for HashiCorp Vault
-		vaultCredential: *"reslv-hashi-vault" | string
-		// +usage=The name of the infrastructure repository
-		repoName: *"default-terraform" | string
-		// +usage=The namespace of the infrastructure repository
-		repoNamespace: *"deploy" | string
-		// +usage=The directory for Terraform 
-		repoDir: *"./vault/database" | string
 	}
 }

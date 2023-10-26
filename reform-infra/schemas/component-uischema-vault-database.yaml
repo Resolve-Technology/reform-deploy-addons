@@ -12,10 +12,16 @@
   validate:
     defaultValue: [{"name": "k8s_namespace"}, {"name": "database_instance"}, {"name": "database_endpoint"}, {"name": "database_name"}, {"name": "database_username"}, {"name": "database_password"}]
 
-- jsonKey: vaultCredential
-  label: Vault Credential Name
-  description: The credential for the HashiCorp Vualt
+- jsonKey: vaultConfig
+  label: HashiCorp Vault Configurations
   sort: 2
+  subParameters:
+    - jsonKey: credential
+      description: The credential for the HashiCorp Vault
+      sort: 1
+  validate:
+    required: true
+    defaultValue: {"credential": "reslv-hashi-vault"}
 
 - jsonKey: terraformConfig
   label: Terraform Configurations
@@ -47,18 +53,3 @@
   validate:
     required: true
     defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./vault/database"}
-
-- jsonKey: repoNamespace
-  label: Repository Configuration Namespace
-  description: The namespace of repository configuration, in which the repository stores the terraform templates
-  sort: 5
-
-- jsonKey: repoName
-  label: Repository Configuration Name
-  description: The configuration name of the repository, in which the repository stores the terraform templates
-  sort: 6
-
-- jsonKey: repoDir
-  label: Terraform Working Directory
-  description: The working directory for the Terraform run
-  sort: 7
