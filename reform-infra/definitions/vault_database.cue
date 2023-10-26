@@ -56,8 +56,6 @@ import (
 }
 
 template: {
-	pathToTemplate: "./vault/database"
-
 	// define terraform resource
 	output: {
 		apiVersion: "infra.contrib.fluxcd.io/v1alpha2"
@@ -73,7 +71,7 @@ template: {
 		}
 		spec: {
 			interval: "5m"
-			path: pathToTemplate
+			path: parameter.repoDir
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
@@ -96,48 +94,29 @@ template: {
 				namespace: parameter.repoNamespace
 			}
 			vars: [
-				if parameter.terraformVariables != _|_ && parameter.terraformVariables.valueFrom != _|_ { 
-					if parameter.terraformVariables.valueFrom.secretKeyRef != _|_ {
-						kind: "Secret"
-						name: parameter.terraformVariables.valueFrom.secretKeyRef.name
-						varsKeys: [
-							parameter.terraformVariables.valueFrom.secretKeyRef.key
-						]
-					},
-					if parameter.terraformVariables.valueFrom.configMapKeyRef != _|_ {
-						kind: "ConfigMap"
-						name: parameter.terraformVariables.valueFrom.configMapKeyRef.name
-						varsKeys: [
-							parameter.terraformVariables.valueFrom.configMapKeyRef.key
-						]
-					}
+				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.value != _|_ { 
+					name: v.name
+					value: v.value
 				}
 			]
 			varsFrom: [
 				{
 					kind: "Secret"
 					name: parameter.vaultCredential
-					varsKeys: [
-						"vault_address",
-						"vault_auth_namespace",
-						"vault_auth_mount",
-						"vault_auth_username",
-						"vault_auth_password"
-					]
 				},
-				if parameter.terraformVariables != _|_ && parameter.terraformVariables.valueFrom != _|_ { 
-					if parameter.terraformVariables.valueFrom.secretKeyRef != _|_ {
+				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
+					if v.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
-						name: parameter.terraformVariables.valueFrom.secretKeyRef.name
+						name: v.valueFrom.secretKeyRef.name
 						varsKeys: [
-							parameter.terraformVariables.valueFrom.secretKeyRef.key
+							v.valueFrom.secretKeyRef.key
 						]
 					},
-					if parameter.terraformVariables.valueFrom.configMapKeyRef != _|_ {
+					if v.valueFrom.configMapKeyRef != _|_ {
 						kind: "ConfigMap"
-						name: parameter.terraformVariables.valueFrom.configMapKeyRef.name
+						name: v.valueFrom.configMapKeyRef.name
 						varsKeys: [
-							parameter.terraformVariables.valueFrom.configMapKeyRef.key
+							v.valueFrom.configMapKeyRef.key
 						]
 					}
 				}
@@ -187,6 +166,8 @@ template: {
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
 		// +usage=The credential for HashiCorp Vault
+		// +usage=The directory for Terraform 
+		repoDir: *"./vault/database" | string
 		vaultCredential: *"reslv-hashi-vault" | string
 	}
 }
