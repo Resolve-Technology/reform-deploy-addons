@@ -1,0 +1,19 @@
+- jsonKey: terraformOrganization
+  label: Terraform Organization Name
+  description: The organization name of the terraform
+  sort: 2
+
+- jsonKey: repoNamespace
+  label: Repository Configuration Namespace
+  description: The namespace of repository configuration, in which the repository stores the terraform templates
+  sort: 3
+
+- jsonKey: repoName
+  label: Repository Configuration Name
+  description: The configuration name of the repository, in which the repository stores the terraform templates
+  sort: 4
+
+- jsonKey: vaultCredential
+  label: Vault Credential Name
+  description: The credential for the HashiCorp Vualt
+  sort: 5
