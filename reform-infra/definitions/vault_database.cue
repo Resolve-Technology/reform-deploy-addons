@@ -96,19 +96,19 @@ template: {
 				namespace: parameter.repoNamespace
 			}
 			vars: [
-				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
-					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
+				if parameter.terraformVariables != _|_ && parameter.terraformVariables.valueFrom != _|_ { 
+					if parameter.terraformVariables.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
-						name: parameter.rdsName.valueFrom.secretKeyRef.name
+						name: parameter.terraformVariables.valueFrom.secretKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.secretKeyRef.key
+							parameter.terraformVariables.valueFrom.secretKeyRef.key
 						]
 					},
-					if parameter.rdsName.valueFrom.configMapKeyRef != _|_ {
+					if parameter.terraformVariables.valueFrom.configMapKeyRef != _|_ {
 						kind: "ConfigMap"
-						name: parameter.rdsName.valueFrom.configMapKeyRef.name
+						name: parameter.terraformVariables.valueFrom.configMapKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.configMapKeyRef.key
+							parameter.terraformVariables.valueFrom.configMapKeyRef.key
 						]
 					}
 				}
@@ -125,19 +125,19 @@ template: {
 						"vault_auth_password"
 					]
 				},
-				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
-					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
+				if parameter.terraformVariables != _|_ && parameter.terraformVariables.valueFrom != _|_ { 
+					if parameter.terraformVariables.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
-						name: parameter.rdsName.valueFrom.secretKeyRef.name
+						name: parameter.terraformVariables.valueFrom.secretKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.secretKeyRef.key
+							parameter.terraformVariables.valueFrom.secretKeyRef.key
 						]
 					},
-					if parameter.rdsName.valueFrom.configMapKeyRef != _|_ {
+					if parameter.terraformVariables.valueFrom.configMapKeyRef != _|_ {
 						kind: "ConfigMap"
-						name: parameter.rdsName.valueFrom.configMapKeyRef.name
+						name: parameter.terraformVariables.valueFrom.configMapKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.configMapKeyRef.key
+							parameter.terraformVariables.valueFrom.configMapKeyRef.key
 						]
 					}
 				}
