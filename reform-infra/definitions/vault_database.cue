@@ -71,25 +71,25 @@ template: {
 		}
 		spec: {
 			// Run on Terraform Cloud / Enterprise
-			if parameter.terraformCredential != _|_ && parameter.terraformOrganization != _|_ {
+			if parameter.terraformConfig.credential != _|_ && parameter.terraformConfig.organization != _|_ {
 				cloud: {
-					organization: parameter.terraformOrganization
+					organization: parameter.terraformConfig.organization
 					workspaces:
 						name: context.name
 				}
 				cliConfigSecretRef: {
-					name: parameter.terraformCredential
+					name: parameter.terraformConfig.credential
 					namespace: parameter.repoNamespace
 				}
 			}
 			// Run on Terraform OSS
-			if parameter.terraformCredential == _|_ || parameter.terraformOrganization == _|_ {
+			if parameter.terraformConfig.credential == _|_ || parameter.terraformConfig.organization == _|_ {
 				storeReadablePlan: "human"
 				tfstate: {
 					forceUnlock: "auto"
 				}
 			}
-			interval: parameter.reconcileInterval
+			interval: "30m"
 			path: parameter.repoDir
 			approvePlan: "auto"
 			refreshBeforeApply: false
@@ -167,13 +167,19 @@ template: {
 			}
 		}]
 		terraformConfig: {
+			// +usage=The name of the Terraform Organization
 			organization?: string
+			// +usage=The credential for Terraform
 			credential?: string
 		}
-		// +usage=The name of the Terraform Organization
-		terraformOrganization: *"ResolveTechnology" | string
-		// +usage=The credential for Terraform
-		terraformCredential: *"reslv-tfc-token" | string
+		repositoryConfig: {
+			// +usage=The name of the infrastructure repository
+			name: string
+			// +usage=The namespace of the infrastructure repository
+			namespace: string
+			// +usage=The directory for Terraform 
+			directory: string
+		}
 		// +usage=The credential for HashiCorp Vault
 		vaultCredential: *"reslv-hashi-vault" | string
 		// +usage=The name of the infrastructure repository
@@ -182,7 +188,5 @@ template: {
 		repoNamespace: *"deploy" | string
 		// +usage=The directory for Terraform 
 		repoDir: *"./vault/database" | string
-		// +usage=Terrafrom Reconcile Interval
-		reconcileInterval: *"30m" | string
 	}
 }

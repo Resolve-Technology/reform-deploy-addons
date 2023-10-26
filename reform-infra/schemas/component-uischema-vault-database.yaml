@@ -31,15 +31,22 @@
     required: true
     defaultValue: {"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}
 
-- jsonKey: terraformOrganization
-  label: Terraform Organization Name
-  description: The organization name of the terraform
-  sort: 3
-
-- jsonKey: terraformCredential
-  label: Terraform Credential Name
-  description: The credential for the terraform
+- jsonKey: repositoryConfig
+  label: Git Repository Configurations
   sort: 4
+  subParameters:
+    - jsonKey: name
+      description: The namespace of repository configuration, in which the repository stores the terraform templates
+      sort: 1
+    - jsonKey: namespace
+      description: The configuration name of the repository, in which the repository stores the terraform templates
+      sort: 2
+    - jsonKey: directory
+      description: The working directory for the Terraform run
+      sort: 3
+  validate:
+    required: true
+    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./vault/database"}
 
 - jsonKey: repoNamespace
   label: Repository Configuration Namespace
@@ -55,8 +62,3 @@
   label: Terraform Working Directory
   description: The working directory for the Terraform run
   sort: 7
-
-- jsonKey: reconcileInterval
-  label: Reconcile Interval
-  description: The Interval to reconcile Terraform
-  sort: 8
