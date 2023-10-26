@@ -127,7 +127,33 @@ template: {
 
 	parameter: {
 		// +usage=The endpoint of AWS RDS 
-		rdsEndpoint: string
+		rdsEndpoint: {
+			// +usage=Environment variable name
+			name: "database_endpoint"
+			// +usage=The value of the environment variable
+			value?: string
+			// +usage=Specifies whether it is a secret value
+			isSecret: *false | bool
+			// +usage=Specifies whether it should be updated
+			isUpdate: *false | bool
+			// +usage=Specifies a source the value of this var should come from
+			valueFrom?: {
+				// +usage=Selects a key of a secret in the pod's namespace
+				secretKeyRef?: {
+					// +usage=The name of the secret in the pod's namespace to select from
+					name: string
+					// +usage=The key of the secret to select from. Must be a valid secret key
+					key: string
+				}
+				// +usage=Selects a key of a config map in the pod's namespace
+				configMapKeyRef?: {
+					// +usage=The name of the config map in the pod's namespace to select from
+					name: string
+					// +usage=The key of the config map to select from. Must be a valid secret key
+					key: string
+				}
+			}
+		}
 		// +usage=The database name of AWS RDS 
 		rdsDatabase: string
 		// +usage=The username of AWS RDS 
