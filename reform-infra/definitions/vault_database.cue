@@ -170,7 +170,6 @@ template: {
 			// +usage=The credential for HashiCorp Vault
 			credential: string
 		}
-		vaultCredential: *"reslv-hashi-vault" | string
 
 		terraformConfig: {
 			// +usage=The name of the Terraform Organization
