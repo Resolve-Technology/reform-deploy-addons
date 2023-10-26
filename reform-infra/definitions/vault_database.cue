@@ -138,6 +138,8 @@ template: {
 		k8sNamespace: string
 		// +usage=The name of the Terraform Organization
 		terraformOrganization: *"ResolveTechnology" | string
+		// +usage=The credential for Terraform
+		terraformCredential: *"reslv-hashi-vault" | string
 		// +usage=The name of the infrastructure repository
 		repoName: *"default-terraform" | string
 		// +usage=The namespace of the infrastructure repository
