@@ -166,9 +166,9 @@ template: {
 				}
 			}
 		}]
-		terraformConfig: {
-			organization: string
-			credential: string
+		terraformConfig?: {
+			organization?: string
+			credential?: string
 		}
 		// +usage=The name of the Terraform Organization
 		terraformOrganization: *"ResolveTechnology" | string
