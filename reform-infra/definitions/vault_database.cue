@@ -166,7 +166,7 @@ template: {
 				}
 			}
 		}]
-		terraformConfig?: {
+		terraformConfig: {
 			organization?: string
 			credential?: string
 		}

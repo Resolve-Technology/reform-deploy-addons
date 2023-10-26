@@ -28,12 +28,13 @@
       description: The credential for the terraform
       sort: 2
   validate:
+    required: true
     defaultValue: [{"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}]
 
 - jsonKey: terraformOrganization
   label: Terraform Organization Name
   description: The organization name of the terraform
-  sort: 3.1
+  sort: 3
 
 - jsonKey: terraformCredential
   label: Terraform Credential Name
