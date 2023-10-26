@@ -70,27 +70,36 @@ template: {
 			namespace: context.namespace
 		}
 		spec: {
-			interval: "5m"
+			// Run on Terraform Cloud / Enterprise
+			if parameter.terraformCredential != _|_ && parameter.terraformOrganization != _|_ {
+				cloud: {
+					organization: parameter.terraformOrganization
+					workspaces:
+						name: context.name
+				}
+				cliConfigSecretRef: {
+					name: parameter.terraformCredential
+					namespace: parameter.repoNamespace
+				}
+			}
+			// Run on Terraform OSS
+			if parameter.terraformCredential == _|_ || parameter.terraformOrganization == _|_ {
+				storeReadablePlan: "human"
+				tfstate: {
+					forceUnlock: "auto"
+				}
+			}
+			interval: parameter.reconcileInterval
 			path: parameter.repoDir
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
-			runnerTerminationGracePeriodSeconds: 300
 			destroyResourcesOnDeletion: true
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
-			cloud: {
-				organization: parameter.terraformOrganization
-				workspaces:
-					name: context.name
-			}
 			sourceRef: {
 				kind: "GitRepository"
 				name: parameter.repoName
-				namespace: parameter.repoNamespace
-			}
-			cliConfigSecretRef: {
-				name: parameter.terraformCredential
 				namespace: parameter.repoNamespace
 			}
 			vars: [
@@ -157,17 +166,23 @@ template: {
 				}
 			}
 		}]
+		terraformConfig: {
+			organization: string
+			credential: string
+		}
 		// +usage=The name of the Terraform Organization
 		terraformOrganization: *"ResolveTechnology" | string
 		// +usage=The credential for Terraform
 		terraformCredential: *"reslv-tfc-token" | string
+		// +usage=The credential for HashiCorp Vault
+		vaultCredential: *"reslv-hashi-vault" | string
 		// +usage=The name of the infrastructure repository
 		repoName: *"default-terraform" | string
 		// +usage=The namespace of the infrastructure repository
 		repoNamespace: *"deploy" | string
-		// +usage=The credential for HashiCorp Vault
 		// +usage=The directory for Terraform 
 		repoDir: *"./vault/database" | string
-		vaultCredential: *"reslv-hashi-vault" | string
+		// +usage=Terrafrom Reconcile Interval
+		reconcileInterval: *"30m" | string
 	}
 }

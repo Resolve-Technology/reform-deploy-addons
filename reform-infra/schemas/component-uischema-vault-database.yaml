@@ -41,3 +41,8 @@
   label: Terraform Working Directory
   description: The working directory for the Terraform run
   sort: 7
+
+- jsonKey: reconcileInterval
+  label: Reconcile Interval
+  description: The Interval to reconcile Terraform
+  sort: 8
