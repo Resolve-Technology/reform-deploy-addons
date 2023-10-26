@@ -96,7 +96,7 @@ template: {
 				namespace: parameter.repoNamespace
 			}
 			vars: [
-				if parameter.k8sNamespace != _|_ && parameter.k8sNamespace.valueFrom == _|_ { 
+				if parameter.k8sNamespace != _|_ { 
 					name: k8s_namespace
 					value: parameter.k8sNamespace
 				}
@@ -112,23 +112,7 @@ template: {
 						"vault_auth_username",
 						"vault_auth_password"
 					]
-				},
-				// if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
-				// 	if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
-				// 		kind: "Secret"
-				// 		name: parameter.rdsName.valueFrom.secretKeyRef.name
-				// 		varsKeys: [
-				// 			parameter.rdsName.valueFrom.secretKeyRef.key
-				// 		]
-				// 	},
-				// 	if parameter.rdsName.valueFrom.configMapKeyRef != _|_ {
-				// 		kind: "ConfigMap"
-				// 		name: parameter.rdsName.valueFrom.configMapKeyRef.name
-				// 		varsKeys: [
-				// 			parameter.rdsName.valueFrom.configMapKeyRef.key
-				// 		]
-				// 	}
-				// }
+				}
 			]
 			writeOutputsToSecret: {
 				name: context.name + "-output"
