@@ -1,3 +1,19 @@
+- jsonKey: terraformVariables
+  sort: 1
+  label: Terraform Variables
+  subParameters:
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+    - jsonKey: valueFrom
+      label: Secret Selector
+      uiType: Ignore
+    - jsonKey: isUpdate
+      uiType: ReformIsUpdate
+  uiType: Structs
+  validate:
+    defaultValue: [{"name": "k8s_namespace"}, {"name": "database_instance"}, {"name": "database_endpoint"}, {"name": "database_name"}, {"name": "database_username"}, {"name": "database_password"}]
+
 - jsonKey: terraformOrganization
   label: Terraform Organization Name
   description: The organization name of the terraform
