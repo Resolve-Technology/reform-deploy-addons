@@ -160,10 +160,6 @@ template: {
 			name: string
 			// +usage=The value of the variable
 			value?: string
-			// +usage=Specifies whether it is a secret value
-			isSecret: *false | bool
-			// +usage=Specifies whether it should be updated
-			isUpdate: *false | bool
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
@@ -185,7 +181,7 @@ template: {
 		// +usage=The name of the Terraform Organization
 		terraformOrganization: *"ResolveTechnology" | string
 		// +usage=The credential for Terraform
-		terraformCredential: *"reslv-hashi-vault" | string
+		terraformCredential: *"reslv-tfc-token" | string
 		// +usage=The name of the infrastructure repository
 		repoName: *"default-terraform" | string
 		// +usage=The namespace of the infrastructure repository
