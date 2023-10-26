@@ -97,7 +97,7 @@ template: {
 			}
 			vars: [
 				if parameter.k8sNamespace != _|_ { 
-					name: k8s_namespace
+					name: "k8s_namespace"
 					value: parameter.k8sNamespace
 				}
 			]
