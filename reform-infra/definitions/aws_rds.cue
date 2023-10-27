@@ -105,6 +105,15 @@ template: {
 				}
 			]
 			varsFrom: [
+				{
+					kind: "Secret"
+					name: parameter.terraformProviderConfig.credential
+					varsKeys: [
+						"AWS_ACCESS_KEY_ID:aws_access_key",
+						"AWS_SECRET_ACCESS_KEY:aws_secret_key",
+						"AWS_DEFAULT_REGION:aws_region"
+					]
+				},
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
 					if v.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -173,6 +182,11 @@ template: {
 			organization?: string
 			// +usage=The credential for Terraform
 			credential?: string
+		}
+
+		terraformProviderConfig: {
+			// +usage=The credential for AWS provider
+			credential: string
 		}
 
 		repositoryConfig: {

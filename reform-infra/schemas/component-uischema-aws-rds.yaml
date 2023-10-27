@@ -14,7 +14,7 @@
 
 - jsonKey: terraformConfig
   label: Terraform Configurations
-  sort: 3
+  sort: 2
   subParameters:
     - jsonKey: organization
       description: The organization name of the terraform
@@ -25,6 +25,17 @@
   validate:
     required: true
     defaultValue: {"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}
+
+- jsonKey: terraformProviderConfig
+  label: Terraform Provider Configurations
+  sort: 3
+  subParameters:
+    - jsonKey: credential
+      description: The credential for the provider
+      sort: 1
+  validate:
+    required: true
+    defaultValue: {"credential": "aws"}
 
 - jsonKey: repositoryConfig
   label: Git Repository Configurations
