@@ -19,4 +19,4 @@
   label: CA Certificate Bundle
   sort: 5
   uiType: CertBase64
-  value: false
+  disabled: true
