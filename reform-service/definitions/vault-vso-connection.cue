@@ -29,8 +29,8 @@ template: {
 
 	// define Deployment resouece
 	output: {
-		apiVersion: "apps/v1"
-		kind:       "Deployment"
+		apiVersion: "secrets.hashicorp.com/v1beta1"
+		kind:       "VaultConnection"
 		metadata: {
 			labels: {
 				"application.deploy.reform/component":     context.name
