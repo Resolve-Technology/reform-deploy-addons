@@ -2,9 +2,14 @@
   sort: 1
 
 - jsonKey: headers
-  sort: 2
   label: Headers
-  subParameters:
-    - jsonKey: name
-    - jsonKey: value
-  uiType: Structs
+  sort: 2
+
+- jsonKey: tlsServerName
+  sort: 3
+
+- jsonKey: caCert
+  sort: 4
+
+- jsonKey: skipTLSVerify
+  sort: 5

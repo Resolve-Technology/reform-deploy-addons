@@ -33,35 +33,26 @@ template: {
 		kind:       "VaultConnection"
 		metadata: {
 			labels: {
+				"app.oam.dev/name":                        context.appName
+				"app.oam.dev/component":                   context.name
 				"application.deploy.reform/component":     context.name
 				"application.deploy.reform/componentType": componentType
+				"app.kubernetes.io/name":                  context.name
 			}
 		}
 		spec: {
-			selector: matchLabels: {
-				"app.oam.dev/component": context.name
+			address: parameter.address
+			if parameter.tlsServerName != _|_ {
+				tlsServerName: parameter.tlsServerName
 			}
-
-			template: {
-				metadata: {
-					labels: {
-						"app.oam.dev/name":                        context.appName
-						"app.oam.dev/component":                   context.name
-						"application.deploy.reform/component":     context.name
-						"application.deploy.reform/componentType": componentType
-						"app.kubernetes.io/name":                  context.name
-					}
-				}
-
-				spec: {
-					address: parameter.address
-					if parameter["headers"] != _|_ {
-						headers: [ for v in parameter["headers"] {
-							name:  v.name
-							value: v.value
-						}]
-					}
-				}
+			if parameter.headers != _|_ {
+				headers: [ for v in parameter.headers {
+					name:  v.name
+					value: v.value
+				}]
+			}
+			if parameter.skipTLSVerify != false {
+				skipTLSVerify: parameter.skipTLSVerify
 			}
 		}
 	}
@@ -69,9 +60,12 @@ template: {
 	parameter: {
 		address: string
 
-		headers?: [...{
-			name:  string
-			value: string
-		}]
+		headers?: [string]: string
+
+		tlsServerName?: string
+
+		caCert?: string
+
+		skipTLSVerify?: bool
 	}
 }
