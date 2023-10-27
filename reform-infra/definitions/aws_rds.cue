@@ -52,8 +52,6 @@ import (
 }
 
 template: {
-	pathToTemplate: "./aws/rds"
-
 	// define terraform resource
 	output: {
 		apiVersion: "infra.contrib.fluxcd.io/v1alpha2"
@@ -68,58 +66,68 @@ template: {
 			namespace: context.namespace
 		}
 		spec: {
-			interval: "5m"
-			path: pathToTemplate
+			// Run on Terraform Cloud / Enterprise
+			if parameter.terraformConfig.credential != _|_ && parameter.terraformConfig.organization != _|_ {
+				cloud: {
+					organization: parameter.terraformConfig.organization
+					workspaces:
+						name: context.name
+				}
+				cliConfigSecretRef: {
+					name: parameter.terraformConfig.credential
+					namespace: parameter.repositoryConfig.namespace
+				}
+			}
+			// Run on Terraform OSS
+			if parameter.terraformConfig.credential == _|_ || parameter.terraformConfig.organization == _|_ {
+				storeReadablePlan: "human"
+				tfstate: {
+					forceUnlock: "auto"
+				}
+			}
+			interval: "30m"
+			path: parameter.repositoryConfig.directory
 			approvePlan: "auto"
 			refreshBeforeApply: false
 			alwaysCleanupRunnerPod: true
-			runnerTerminationGracePeriodSeconds: 300
 			destroyResourcesOnDeletion: true
 			suspend: false
 			serviceAccountName: "deploy-vela-core" // namepsaced, if deploy to other namespace, need to create service account
-			cloud: {
-				organization: parameter.terraformOrganization
-				workspaces:
-					name: context.name
-			}
 			sourceRef: {
 				kind: "GitRepository"
-				name: parameter.repoName
-				namespace: parameter.repoNamespace
-			}
-			cliConfigSecretRef: {
-				name: parameter.terraformCredential
-				namespace: parameter.repoNamespace
+				name: parameter.repositoryConfig.name
+				namespace: parameter.repositoryConfig.namespace
 			}
 			vars: [
-				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom == _|_ { 
-					name: parameter.rdsName.name
-					value: parameter.rdsName.value
+				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.value != _|_ { 
+					name: v.name
+					value: v.value
 				}
 			]
 			varsFrom: [
-				{
-					kind: "Secret"
-					name: parameter.terraformProviderCredential
-					varsKeys: [
-						"AWS_ACCESS_KEY_ID:aws_access_key",
-						"AWS_SECRET_ACCESS_KEY:aws_secret_key",
-						"AWS_DEFAULT_REGION:aws_region"
-					]
-				},
-				if parameter.rdsName != _|_ && parameter.rdsName.valueFrom != _|_ { 
-					if parameter.rdsName.valueFrom.secretKeyRef != _|_ {
+				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
+					if v.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
-						name: parameter.rdsName.valueFrom.secretKeyRef.name
+						name: v.valueFrom.secretKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.secretKeyRef.key
+							if v.name != v.valueFrom.secretKeyRef.key {
+								"\(v.valueFrom.secretKeyRef.key):\(v.name)"
+							}
+							if v.name == v.valueFrom.secretKeyRef.key {
+								v.valueFrom.secretKeyRef.key
+							}
 						]
 					},
-					if parameter.rdsName.valueFrom.configMapKeyRef != _|_ {
+					if v.valueFrom.configMapKeyRef != _|_ {
 						kind: "ConfigMap"
-						name: parameter.rdsName.valueFrom.configMapKeyRef.name
+						name: v.valueFrom.configMapKeyRef.name
 						varsKeys: [
-							parameter.rdsName.valueFrom.configMapKeyRef.key
+							if v.name != v.valueFrom.configMapKeyRef.key {
+								"\(v.valueFrom.configMapKeyRef.key):\(v.name)"
+							}
+							if v.name == v.valueFrom.configMapKeyRef.key {
+								v.valueFrom.configMapKeyRef.key
+							}
 						]
 					}
 				}
@@ -136,11 +144,10 @@ template: {
 	}
 
 	parameter: {
-		// +usage=The name of the rds
-		rdsName: {
-			// +usage=Environment variable name
-			name: "rds_name"
-			// +usage=The value of the environment variable
+		terraformVariables?: [...{
+			// +usage=Variable name
+			name: string
+			// +usage=The value of the variable
 			value?: string
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
@@ -159,16 +166,22 @@ template: {
 					key: string
 				}
 			}
+		}]
+
+		terraformConfig: {
+			// +usage=The name of the Terraform Organization
+			organization?: string
+			// +usage=The credential for Terraform
+			credential?: string
 		}
-		// +usage=The name of the Terraform Organization
-		terraformOrganization: *"ResolveTechnology" | string
-		// +usage=The name of the infrastructure repository
-		repoName: *"default-terraform" | string
-		// +usage=The namespace of the infrastructure repository
-		repoNamespace: *"deploy" | string
-		// +usage=The credential for terraform
-		terraformCredential: *"reslv-tfc-token" | string
-		// +usage=The credential for terraform provider
-		terraformProviderCredential: *"aws" | string
+
+		repositoryConfig: {
+			// +usage=The name of the infrastructure repository
+			name: string
+			// +usage=The namespace of the infrastructure repository
+			namespace: string
+			// +usage=The directory for Terraform 
+			directory: string
+		}
 	}
 }
