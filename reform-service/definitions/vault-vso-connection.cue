@@ -64,9 +64,7 @@ template: {
 
 		tlsServerName?: string
 
-		caCert?: {
-			...
-		}
+		caCert?: string
 
 		skipTLSVerify?: bool
 	}

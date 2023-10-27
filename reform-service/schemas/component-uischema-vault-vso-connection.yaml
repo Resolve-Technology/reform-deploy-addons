@@ -15,6 +15,7 @@
   label: CA Certificate Bundle
   sort: 4
   uiType: CertBase64
+  description: The certificate public key, Please input or upload the cert file.
 
 - jsonKey: skipTLSVerify
   label: Skip TLS Verification
