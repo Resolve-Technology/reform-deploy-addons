@@ -19,3 +19,6 @@
   label: CA Certificate Bundle
   sort: 5
   uiType: CertBase64
+  displayUpload: false
+  props:
+    editUploadText: "XXX"
