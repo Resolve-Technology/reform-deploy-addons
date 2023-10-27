@@ -1,0 +1,10 @@
+- jsonKey: address
+  sort: 1
+
+- jsonKey: headers
+  sort: 2
+  label: Headers
+  subParameters:
+    - jsonKey: name
+    - jsonKey: value
+  uiType: Structs
