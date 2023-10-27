@@ -15,8 +15,7 @@
   label: Skip TLS Verification
   sort: 4
 
-- jsonKey: caCert
-  label: CA Certificate Bundle
-  sort: 5
-  uiType: CertBase64
-  disabled: true
+# - jsonKey: caCert
+#   label: CA Certificate Bundle
+#   sort: 5
+#   uiType: CertBase64
