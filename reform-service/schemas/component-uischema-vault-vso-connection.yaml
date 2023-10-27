@@ -13,6 +13,7 @@
 - jsonKey: caCert
   label: CA Cert
   sort: 4
+  uiType: CertBase64
 
 - jsonKey: skipTLSVerify
   label: Skip TLS Verification
