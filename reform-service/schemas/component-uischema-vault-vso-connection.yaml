@@ -15,7 +15,6 @@
   label: CA Certificate Bundle
   sort: 4
   uiType: CertBase64
-  message: xxxxx
 
 - jsonKey: skipTLSVerify
   label: Skip TLS Verification
