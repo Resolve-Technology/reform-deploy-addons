@@ -71,7 +71,7 @@ template: {
 		}
 		spec: {
 			// Run on Terraform Cloud / Enterprise
-			if parameter.terraformConfig.credential != _|_ && parameter.terraformConfig.organization != _|_ {
+			if ToLower(parameter.terraformConfig.organization) != "oss" {
 				cloud: {
 					organization: parameter.terraformConfig.organization
 					workspaces:
@@ -83,7 +83,7 @@ template: {
 				}
 			}
 			// Run on Terraform OSS
-			if parameter.terraformConfig.credential == _|_ || parameter.terraformConfig.organization == _|_ {
+			if ToLower(parameter.terraformConfig.organization) == "oss" {
 				storeReadablePlan: "human"
 				tfstate: {
 					forceUnlock: "auto"
@@ -183,9 +183,9 @@ template: {
 
 		terraformConfig: {
 			// +usage=The name of the Terraform Organization
-			organization?: string
+			organization: string
 			// +usage=The credential for Terraform
-			credential?: string
+			credential: string
 		}
 
 		repositoryConfig: {
