@@ -7,10 +7,11 @@ import (
 	type: "component"
 	annotations: {}
 	labels: {
-		"outputs.0": "db_endpoint"
-		"outputs.1": "db_name",
-		"outputs.2": "db_username",
-		"outputs.3": "db_password"
+		"outputs.0": "db_instance"
+		"outputs.1": "db_endpoint"
+		"outputs.2": "db_name",
+		"outputs.3": "db_username",
+		"outputs.4": "db_password"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
