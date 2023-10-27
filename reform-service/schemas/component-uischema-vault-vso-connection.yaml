@@ -12,12 +12,10 @@
   sort: 3
 
 - jsonKey: caCert
-  label: CA Cert
+  label: CA Certificate Bundle
   sort: 4
   uiType: CertBase64
-  disabled: true
-  state:
-    message: "Upload and paste CA certificate bundle"
+  
 
 - jsonKey: skipTLSVerify
   label: Skip TLS Verification
