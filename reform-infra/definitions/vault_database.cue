@@ -119,7 +119,9 @@ template: {
 						name: v.valueFrom.secretKeyRef.name
 						varsKeys: [
 							if v.name != v.valueFrom.secretKeyRef.key {
-								v.valueFrom.secretKeyRef.key\:v.name
+								origName = v.valueFrom.secretKeyRef.key
+								newName = v.name
+								origName:newName
 							}
 							if v.name == v.valueFrom.secretKeyRef.key {
 								v.valueFrom.secretKeyRef.key
@@ -131,7 +133,9 @@ template: {
 						name: v.valueFrom.configMapKeyRef.name
 						varsKeys: [
 							if v.name != v.valueFrom.configMapKeyRef.key {
-								v.valueFrom.configMapKeyRef.key\:v.name
+								origName = v.valueFrom.configMapKeyRef.key
+								newName = v.name
+								origName:newName
 							}
 							if v.name == v.valueFrom.configMapKeyRef.key {
 								v.valueFrom.configMapKeyRef.key
