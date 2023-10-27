@@ -5,6 +5,7 @@
 - jsonKey: headers
   label: HTTP Headers
   sort: 2
+  uiType: KV
 
 - jsonKey: tlsServerName
   label: TLS Server Name
