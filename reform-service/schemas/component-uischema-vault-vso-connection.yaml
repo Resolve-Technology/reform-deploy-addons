@@ -1,15 +1,19 @@
 - jsonKey: address
+  label: Vault Address
   sort: 1
 
 - jsonKey: headers
-  label: Headers
+  label: HTTP Headers
   sort: 2
 
 - jsonKey: tlsServerName
+  label: TLS Server Name
   sort: 3
 
 - jsonKey: caCert
+  label: CA Cert
   sort: 4
 
 - jsonKey: skipTLSVerify
+  label: Skip TLS Verification
   sort: 5
