@@ -11,14 +11,11 @@
   label: TLS Server Name
   sort: 3
 
-- jsonKey: caCert
-  label: CA Certificate Bundle
-  sort: 4
-  uiType: CertBase64
-  validate:
-    required: false
-  checked: false
-
 - jsonKey: skipTLSVerify
   label: Skip TLS Verification
+  sort: 4
+
+- jsonKey: caCert
+  label: CA Certificate Bundle
   sort: 5
+  uiType: CertBase64
