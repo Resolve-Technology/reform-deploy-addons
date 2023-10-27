@@ -15,7 +15,7 @@ import (
 				apiVersion: "secrets.hashicorp.com/v1beta1"
 				kind:       "VaultConnection"
 			}
-			type: "VaultConnection.hashicorp.com/v1beta1"
+			type: "vaultconnections.secrets.hashicorp.com"
 		}
 		status: {
 			healthPolicy: #"""
