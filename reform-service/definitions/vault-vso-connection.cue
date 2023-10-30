@@ -19,7 +19,7 @@ import (
 		}
 		status: {
 			healthPolicy: #"""
-				isHealth: context.output.status.valid=="true" | string
+				isHealth: context.output.status.valid == true
 				"""#
 		}
 	}
