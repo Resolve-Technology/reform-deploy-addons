@@ -1,12 +1,12 @@
-# - jsonKey: vaultConnectionRef
-#   label: Vault Connection Reference
-#   sort: 1
+- jsonKey: vaultConnectionRef
+  label: Vault Connection Reference
+  sort: 1
 
-# - jsonKey: method
-#   label: Auth Method
-#   sort: 2
+- jsonKey: method
+  label: Auth Method
+  sort: 2
 
-# - jsonKey: headers
-#   label: HTTP Headers
-#   sort: 3
-#   uiType: KV
+- jsonKey: headers
+  label: HTTP Headers
+  sort: 3
+  uiType: KV
