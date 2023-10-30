@@ -2,9 +2,22 @@
   label: Vault Connection Reference
   sort: 1
 
-- jsonKey: method
+- jsonKey: authMethod
   label: Auth Method
   sort: 2
+  uiType: Group
+  subParameters:
+  - jsonKey: method
+    sort: 1
+  - jsonKey: mount
+    sort: 2
+  - jsonKey: kubernetes
+    sort: 3
+    conditions:
+    - jsonKey: authMethod.method
+      op: ==
+      value: kubernetes
+      action: enable
 
 - jsonKey: headers
   label: HTTP Headers

@@ -54,9 +54,18 @@ template: {
 	}
 
 	parameter: {
-		vaultConnectionRef: *"\(context.appName)" | string
+		vaultConnectionRef: string
 
-		method: *"kubernetes" | "appRole" | "jwt" | "aws"
+		authMethod: {
+			method: *"kubernetes" | "appRole" | "jwt" | "aws"
+			mount: string
+			kubernetes?: {
+				role: string
+				serviceAccount: string
+				audiences?: [...string]
+				tokenExpirationSeconds?: int
+			}
+		}
 
 		headers?: [string]: string
 	}
