@@ -56,7 +56,7 @@ template: {
 	parameter: {
 		vaultConnectionRef: string
 
-		method: *kubernetes
+		method: string
 
 		headers?: [string]: string
 	}
