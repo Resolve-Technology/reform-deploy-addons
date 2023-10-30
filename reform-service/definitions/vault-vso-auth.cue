@@ -42,7 +42,7 @@ template: {
 			}
 		}
 		spec: {
-			vaultConnectionRef: parameter.address
+			vaultConnectionRef: parameter.vaultConnectionRef
 			method: parameter.method
 			if parameter.headers != _|_ {
 				headers: [ for v in parameter.headers {
