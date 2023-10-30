@@ -18,15 +18,35 @@
   - jsonKey: roleValue
     label: Role
     uiType: OutputKeySelector
+    conditions:
+      - jsonKey: authMethod.method
+        op: ==
+        value: kubernetes
+        action: enable
   - jsonKey: roleValueFrom
     label: Secret Selector
     uiType: Ignore
+    conditions:
+      - jsonKey: authMethod.method
+        op: ==
+        value: kubernetes
+        action: enable
   - jsonKey: serviceAccountValue
     label: Service Account
     uiType: OutputKeySelector
+    conditions:
+      - jsonKey: authMethod.method
+        op: ==
+        value: kubernetes
+        action: enable
   - jsonKey: serviceAccountValueFrom
     label: Secret Selector
     uiType: Ignore
+    conditions:
+      - jsonKey: authMethod.method
+        op: ==
+        value: kubernetes
+        action: enable
 
 - jsonKey: headers
   label: HTTP Headers

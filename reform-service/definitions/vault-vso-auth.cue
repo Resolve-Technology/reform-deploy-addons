@@ -58,41 +58,41 @@ template: {
 
 		authMethod: {
 			method: *"kubernetes" | "appRole" | "jwt" | "aws"
-			if method == "kubernetes" {
-				mountValue?: "kubernetes" | string
-				mountValueFrom?: {
-					secretKeyRef?: {
-						name: string
-						key: string
-					}
-					configMapKeyRef?: {
-						name: string
-						key: string
-					}
+			mountValue?: "kubernetes" | string
+			mountValueFrom?: {
+				secretKeyRef?: {
+					name: string
+					key: string
 				}
-				roleValue?: string
-				roleValueFrom?: {
-					secretKeyRef?: {
-						name: string
-						key: string
-					}
-					configMapKeyRef?: {
-						name: string
-						key: string
-					}
-				}
-				serviceAccountValue?: string
-				serviceAccountValueFrom?: {
-					secretKeyRef?: {
-						name: string
-						key: string
-					}
-					configMapKeyRef?: {
-						name: string
-						key: string
-					}
+				configMapKeyRef?: {
+					name: string
+					key: string
 				}
 			}
+			// Begin kubernetes method
+			roleValue?: string
+			roleValueFrom?: {
+				secretKeyRef?: {
+					name: string
+					key: string
+				}
+				configMapKeyRef?: {
+					name: string
+					key: string
+				}
+			}
+			serviceAccountValue?: string
+			serviceAccountValueFrom?: {
+				secretKeyRef?: {
+					name: string
+					key: string
+				}
+				configMapKeyRef?: {
+					name: string
+					key: string
+				}
+			}
+			// End kubernetes method
 		}
 
 		headers?: [string]: string
