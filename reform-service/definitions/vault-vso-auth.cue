@@ -59,7 +59,7 @@ template: {
 	}
 
 	parameter: {
-		vaultConnectionRef: *parameter.appName | string
+		vaultConnectionRef: string
 
 		method: *kubernetes
 
