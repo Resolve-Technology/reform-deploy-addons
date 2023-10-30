@@ -32,6 +32,7 @@ template: {
 		apiVersion: "secrets.hashicorp.com/v1beta1"
 		kind:       "VaultConnection"
 		metadata: {
+			name: context.name
 			labels: {
 				"app.oam.dev/name":                        context.appName
 				"app.oam.dev/component":                   context.name
