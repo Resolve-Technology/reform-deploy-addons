@@ -58,32 +58,40 @@ template: {
 
 		authMethod: {
 			method: *"kubernetes" | "appRole" | "jwt" | "aws"
-			mount: {
-				// +usage=The value of the variable
-				value?: string
-				// +usage=Specifies a source the value of this var should come from
-				valueFrom?: {
-					// +usage=Selects a key of a secret in the pod's namespace
+			kubernetes?: {
+				mountValue?: string
+				mountValueFrom?: {
 					secretKeyRef?: {
-						// +usage=The name of the secret in the pod's namespace to select from
 						name: string
-						// +usage=The key of the secret to select from. Must be a valid secret key
 						key: string
 					}
-					// +usage=Selects a key of a config map in the pod's namespace
 					configMapKeyRef?: {
-						// +usage=The name of the config map in the pod's namespace to select from
 						name: string
-						// +usage=The key of the config map to select from. Must be a valid secret key
 						key: string
 					}
 				}
-			}
-			kubernetes?: {
-				role: string
-				serviceAccount: string
-				audiences?: [...string]
-				tokenExpirationSeconds?: int
+				roleValue?: string
+				roleValueFrom?: {
+					secretKeyRef?: {
+						name: string
+						key: string
+					}
+					configMapKeyRef?: {
+						name: string
+						key: string
+					}
+				}
+				serviceAccountValue?: string
+				serviceAccountValueFrom?: {
+					secretKeyRef?: {
+						name: string
+						key: string
+					}
+					configMapKeyRef?: {
+						name: string
+						key: string
+					}
+				}
 			}
 		}
 

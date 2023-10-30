@@ -12,9 +12,10 @@
   - jsonKey: mount
     sort: 2
     subParameters:
-      - jsonKey: value
+      - jsonKey: mountValue
+        label: Mount
         uiType: OutputKeySelector
-      - jsonKey: valueFrom
+      - jsonKey: mountValueFrom
         label: Secret Selector
         uiType: Ignore
   - jsonKey: kubernetes
