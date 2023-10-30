@@ -54,7 +54,7 @@ template: {
 	}
 
 	parameter: {
-		vaultConnectionRef: string
+		vaultConnectionRef?: string
 
 		authMethod: {
 			method: string
