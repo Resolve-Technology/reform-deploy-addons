@@ -1,5 +1,5 @@
-- jsonKey: address
-  label: Vault Address
+- jsonKey: vaultConnectionRef
+  label: Vault Connection Reference
   sort: 1
 
 - jsonKey: method
