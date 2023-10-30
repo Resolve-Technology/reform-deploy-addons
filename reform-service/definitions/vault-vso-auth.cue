@@ -43,17 +43,12 @@ template: {
 		}
 		spec: {
 			vaultConnectionRef: parameter.address
-			if parameter.tlsServerName != _|_ {
-				tlsServerName: parameter.tlsServerName
-			}
+			method: parameter.method
 			if parameter.headers != _|_ {
 				headers: [ for v in parameter.headers {
 					name:  v.name
 					value: v.value
 				}]
-			}
-			if parameter.skipTLSVerify != false {
-				skipTLSVerify: parameter.skipTLSVerify
 			}
 		}
 	}
