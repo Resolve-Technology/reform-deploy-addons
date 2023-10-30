@@ -59,7 +59,7 @@ template: {
 		authMethod: {
 			method: *"kubernetes" | "appRole" | "jwt" | "aws"
 			if type == "kubernetes" {
-				mountValue?: string
+				mountValue?: "kubernetes" | string
 				mountValueFrom?: {
 					secretKeyRef?: {
 						name: string
