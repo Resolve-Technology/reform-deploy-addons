@@ -79,7 +79,7 @@ template: {
 					}
 				}
 			}
-			if type == "kubernetes" {
+			kubernetes?: {
 				role: string
 				serviceAccount: string
 				audiences?: [...string]

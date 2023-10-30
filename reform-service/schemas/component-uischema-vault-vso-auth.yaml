@@ -17,13 +17,13 @@
       - jsonKey: valueFrom
         label: Secret Selector
         uiType: Ignore
-  # - jsonKey: kubernetes
-  #   sort: 3
-    # conditions:
-    # - jsonKey: authMethod.method
-    #   op: ==
-    #   value: kubernetes
-    #   action: enable
+  - jsonKey: kubernetes
+    sort: 3
+    conditions:
+    - jsonKey: authMethod.method
+      op: ==
+      value: kubernetes
+      action: enable
 
 - jsonKey: headers
   label: HTTP Headers
