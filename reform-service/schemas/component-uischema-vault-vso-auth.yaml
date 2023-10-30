@@ -9,27 +9,24 @@
   subParameters:
   - jsonKey: method
     sort: 1
-  - jsonKey: kubernetes
-    sort: 2
-    subParameters:
-      - jsonKey: mountValue
-        label: Mount
-        uiType: OutputKeySelector
-      - jsonKey: mountValueFrom
-        label: Secret Selector
-        uiType: Ignore
-      - jsonKey: roleValue
-        label: Role
-        uiType: OutputKeySelector
-      - jsonKey: roleValueFrom
-        label: Secret Selector
-        uiType: Ignore
-      - jsonKey: serviceAccountValue
-        label: Service Account
-        uiType: OutputKeySelector
-      - jsonKey: serviceAccountValueFrom
-        label: Secret Selector
-        uiType: Ignore
+  - jsonKey: mountValue
+    label: Mount
+    uiType: OutputKeySelector
+  - jsonKey: mountValueFrom
+    label: Secret Selector
+    uiType: Ignore
+  - jsonKey: roleValue
+    label: Role
+    uiType: OutputKeySelector
+  - jsonKey: roleValueFrom
+    label: Secret Selector
+    uiType: Ignore
+  - jsonKey: serviceAccountValue
+    label: Service Account
+    uiType: OutputKeySelector
+  - jsonKey: serviceAccountValueFrom
+    label: Secret Selector
+    uiType: Ignore
 
 - jsonKey: headers
   label: HTTP Headers
