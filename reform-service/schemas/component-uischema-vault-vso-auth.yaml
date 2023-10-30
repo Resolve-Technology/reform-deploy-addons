@@ -11,11 +11,6 @@
     sort: 1
   - jsonKey: kubernetes
     sort: 2
-    conditions:
-    - jsonKey: authMethod.method
-      op: ==
-      value: kubernetes
-      action: enable
     subParameters:
       - jsonKey: mountValue
         label: Mount
@@ -24,13 +19,13 @@
         label: Secret Selector
         uiType: Ignore
       - jsonKey: roleValue
-        label: Mount
+        label: Role
         uiType: OutputKeySelector
       - jsonKey: roleValueFrom
         label: Secret Selector
         uiType: Ignore
       - jsonKey: serviceAccountValue
-        label: Mount
+        label: Service Account
         uiType: OutputKeySelector
       - jsonKey: serviceAccountValueFrom
         label: Secret Selector
