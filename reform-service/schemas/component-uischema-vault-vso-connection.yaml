@@ -1,6 +1,9 @@
 - jsonKey: address
   label: Vault Address
   sort: 1
+  validate:
+    required: true
+    defaultValue: "http://vault.vault.svc.cluster.local:8200"
 
 - jsonKey: headers
   label: HTTP Headers
@@ -15,7 +18,7 @@
   label: Skip TLS Verification
   sort: 4
 
-# - jsonKey: caCert
-#   label: CA Certificate Bundle
-#   sort: 5
-#   uiType: CertBase64
+- jsonKey: caCert
+  label: CA Certificate Bundle
+  sort: 5
+  uiType: CertBase64

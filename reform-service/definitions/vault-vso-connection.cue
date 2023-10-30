@@ -66,6 +66,6 @@ template: {
 
 		skipTLSVerify?: bool
 
-		// caCert?: string
+		caCert?: string
 	}
 }
