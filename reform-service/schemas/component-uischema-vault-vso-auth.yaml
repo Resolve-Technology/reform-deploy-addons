@@ -9,6 +9,18 @@
   subParameters:
   - jsonKey: method
     sort: 1
+    uiType: Select
+    validate: 
+      defaultValue: ""
+      options:
+        - label: kubernetes
+          value: kubernetes
+        - label: appRole
+          value: appRole
+        - label: jwt
+          value: jwt
+        - label: aws
+          value: aws
   - jsonKey: mountValue
     label: Mount
     uiType: OutputKeySelector

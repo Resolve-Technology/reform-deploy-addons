@@ -57,7 +57,7 @@ template: {
 		vaultConnectionRef: string
 
 		authMethod: {
-			method: *"kubernetes" | "appRole" | "jwt" | "aws"
+			method: string
 			mountValue?: string
 			mountValueFrom?: {
 				secretKeyRef?: {
