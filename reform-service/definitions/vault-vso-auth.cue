@@ -54,7 +54,7 @@ template: {
 	}
 
 	parameter: {
-		vaultConnectionRef: string
+		vaultConnectionRef: *"\(context.appName)" | string
 
 		method: *"kubernetes" | "appRole" | "jwt" | "aws"
 
