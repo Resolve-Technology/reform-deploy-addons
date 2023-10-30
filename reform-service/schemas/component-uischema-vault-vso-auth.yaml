@@ -1,0 +1,12 @@
+- jsonKey: address
+  label: Vault Address
+  sort: 1
+
+- jsonKey: method
+  label: Auth Method
+  sort: 2
+
+- jsonKey: headers
+  label: HTTP Headers
+  sort: 3
+  uiType: KV

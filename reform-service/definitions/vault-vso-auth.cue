@@ -4,18 +4,18 @@ import (
 	"encoding/json"
 )
 
-"vault-vso-connection": {
+"vault-vso-auth": {
 	type: "component"
 	annotations: {}
 	labels: {}
-	description: "HashiCorp Vault Secrets Operator - Vault Connection API"
+	description: "HashiCorp Vault Secrets Operator - Vault Auth API"
 	attributes: {
 		workload: {
 			definition: {
 				apiVersion: "secrets.hashicorp.com/v1beta1"
-				kind:       "VaultConnection"
+				kind:       "VaultAuth"
 			}
-			type: "vaultconnections.secrets.hashicorp.com"
+			type: "vaultauths.secrets.hashicorp.com"
 		}
 		status: {
 			healthPolicy: #"""
@@ -25,12 +25,12 @@ import (
 	}
 }
 template: {
-	componentType: "vault-vso-connection"
+	componentType: "vault-vso-auth"
 
 	// define Deployment resouece
 	output: {
 		apiVersion: "secrets.hashicorp.com/v1beta1"
-		kind:       "VaultConnection"
+		kind:       "VaultAuth"
 		metadata: {
 			name: context.appName
 			labels: {
@@ -42,7 +42,7 @@ template: {
 			}
 		}
 		spec: {
-			address: parameter.address
+			vaultConnectionRef: parameter.address
 			if parameter.tlsServerName != _|_ {
 				tlsServerName: parameter.tlsServerName
 			}
@@ -59,12 +59,10 @@ template: {
 	}
 
 	parameter: {
-		address: string
+		vaultConnectionRef: *parameter.appName | string
+
+		method: *kubernetes
 
 		headers?: [string]: string
-
-		tlsServerName?: string
-
-		skipTLSVerify?: bool
 	}
 }
