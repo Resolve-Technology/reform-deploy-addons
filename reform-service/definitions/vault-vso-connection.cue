@@ -19,7 +19,7 @@ import (
 		}
 		status: {
 			healthPolicy: #"""
-				isHealth: context.output.status.valid | bool
+				isHealth: context.output.status.valid
 				"""#
 		}
 	}
