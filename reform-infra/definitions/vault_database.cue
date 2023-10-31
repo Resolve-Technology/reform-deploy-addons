@@ -6,16 +6,17 @@ import (
 "vault-database": {
 	type: "component"
 	annotations: {}
-	labels: {
-		"outputs.0": "vault_address"
-		"outputs.1": "vault_namespace",
-		"outputs.2": "vso_auth_method",
-		"outputs.3": "vso_auth_mount",
-		"outputs.4": "vso_auth_role",
-		"outputs.5": "vso_auth_sa",
-		"outputs.6": "vso_secret_mount",
-		"outputs.7": "vso_secret_path"
-	}
+	labels: {}
+	// labels: {
+	// 	"outputs.0": "vault_address"
+	// 	"outputs.1": "vault_namespace",
+	// 	"outputs.2": "vso_auth_method",
+	// 	"outputs.3": "vso_auth_mount",
+	// 	"outputs.4": "vso_auth_role",
+	// 	"outputs.5": "vso_auth_sa",
+	// 	"outputs.6": "vso_secret_mount",
+	// 	"outputs.7": "vso_secret_path"
+	// }
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
 		workload: {
@@ -106,6 +107,10 @@ template: {
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.value != _|_ { 
 					name: v.name
 					value: v.value
+				},
+				{
+					name: "app_name"
+					value: context.appName
 				}
 			]
 			varsFrom: [
@@ -118,9 +123,9 @@ template: {
 						kind: "Secret"
 						name: parameter.kubernetesConfig.credential
 						varsKeys: [
-							"ca.crt:cluster_ca_certificate",
-							"endpoint:host",
-							"token"
+							"ca.crt:k8s_cluster_ca_certificate",
+							"endpoint:k8s_host",
+							"token:k8s_token"
 						]
 					},
 				}
@@ -151,14 +156,14 @@ template: {
 					}
 				}
 			]
-			writeOutputsToSecret: {
-				name: context.name + "-output"
-				labels: {
-					"app.kubernetes.io/managed-by": "reform-deploy"
-					"secret.deploy.reform/type": "infra-output"
-					"secret.deploy.reform/identifier": context.name
-				}
-			}
+			// writeOutputsToSecret: {
+			// 	name: context.name + "-output"
+			// 	labels: {
+			// 		"app.kubernetes.io/managed-by": "reform-deploy"
+			// 		"secret.deploy.reform/type": "infra-output"
+			// 		"secret.deploy.reform/identifier": context.name
+			// 	}
+			// }
     	}
 	}
 
