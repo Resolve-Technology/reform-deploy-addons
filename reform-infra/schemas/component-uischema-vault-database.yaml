@@ -15,8 +15,6 @@
 - jsonKey: terraformConfig
   label: Terraform Configurations
   sort: 2
-  style:
-    colSpan: 24
   subParameters:
     - jsonKey: organization
       description: The organization name of the terraform
@@ -31,8 +29,6 @@
 - jsonKey: kubernetesConfig
   label: Kubernetes Configurations
   sort: 4
-  style:
-    colSpan: 24
   subParameters:
     - jsonKey: credential
       description: The credential for the Kubernetes cluster
@@ -44,8 +40,6 @@
 - jsonKey: vaultConfig
   label: HashiCorp Vault Configurations
   sort: 4
-  style:
-    colSpan: 24
   subParameters:
     - jsonKey: credential
       description: The credential for the HashiCorp Vault
@@ -57,8 +51,6 @@
 - jsonKey: repositoryConfig
   label: Git Repository Configurations
   sort: 5
-  style:
-    colSpan: 24
   subParameters:
     - jsonKey: name
       description: The namespace of repository configuration, in which the repository stores the terraform templates
