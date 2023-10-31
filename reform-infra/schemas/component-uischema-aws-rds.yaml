@@ -10,7 +10,7 @@
       uiType: Ignore
   uiType: Structs
   validate:
-    defaultValue: [{"name": "rds_name"},{"name": "db_name", "value": "wordpress"},{"name": "username", "value": "wordpress"}]
+    defaultValue: [{"name": "rds_name"}]
 
 - jsonKey: terraformConfig
   label: Terraform Configurations

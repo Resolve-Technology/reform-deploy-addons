@@ -113,6 +113,17 @@ template: {
 					kind: "Secret"
 					name: parameter.vaultConfig.credential
 				},
+				if parameter.kubernetesConfig.credential != _|_ { 
+					{
+						kind: "Secret"
+						name: parameter.kubernetesConfig.credential
+						varsKeys: [
+							"ca.crt:cluster_ca_certificate"
+							"endpoint:host"
+							"token"
+						]
+					},
+				}
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
 					if v.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -186,6 +197,11 @@ template: {
 			organization?: string
 			// +usage=The credential for Terraform
 			credential?: string
+		}
+
+		kubernetesConfig: {
+			// +usage=The credential for HashiCorp Vault
+			credential: string
 		}
 
 		repositoryConfig: {

@@ -12,44 +12,69 @@
   validate:
     defaultValue: [{"name": "k8s_namespace"}, {"name": "database_instance"}, {"name": "database_endpoint"}, {"name": "database_name"}, {"name": "database_username"}, {"name": "database_password"}]
 
-- jsonKey: vaultConfig
-  label: HashiCorp Vault Configurations
-  sort: 2
-  subParameters:
-    - jsonKey: credential
-      description: The credential for the HashiCorp Vault
-      sort: 1
-  validate:
-    required: true
-    defaultValue: {"credential": "reslv-hashi-vault"}
-
 - jsonKey: terraformConfig
   label: Terraform Configurations
-  sort: 3
+  sort: 2
   subParameters:
     - jsonKey: organization
       description: The organization name of the terraform
       sort: 1
+      style:
+        colSpan: 24
     - jsonKey: credential
       description: The credential for the terraform
       sort: 2
+      style:
+        colSpan: 24
   validate:
     required: true
     defaultValue: {"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}
 
+- jsonKey: kubernetesConfig
+  label: Kubernetes Configurations
+  sort: 4
+  subParameters:
+    - jsonKey: credential
+      description: The credential for the Kubernetes cluster
+      sort: 1
+      style:
+        colSpan: 24
+  validate:
+    required: true
+    defaultValue: {"credential": "target"}
+
+- jsonKey: vaultConfig
+  label: HashiCorp Vault Configurations
+  sort: 4
+  subParameters:
+    - jsonKey: credential
+      description: The credential for the HashiCorp Vault
+      sort: 1
+      style:
+        colSpan: 24
+  validate:
+    required: true
+    defaultValue: {"credential": "reslv-hashi-vault"}
+
 - jsonKey: repositoryConfig
   label: Git Repository Configurations
-  sort: 4
+  sort: 5
   subParameters:
     - jsonKey: name
       description: The namespace of repository configuration, in which the repository stores the terraform templates
       sort: 1
+      style:
+        colSpan: 24
     - jsonKey: namespace
       description: The configuration name of the repository, in which the repository stores the terraform templates
       sort: 2
+      style:
+        colSpan: 24
     - jsonKey: directory
       description: The working directory for the Terraform run
       sort: 3
+      style:
+        colSpan: 24
   validate:
     required: true
-    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./vault/database"}
+    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./vault/database-vso"}
