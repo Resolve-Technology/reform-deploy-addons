@@ -118,8 +118,8 @@ template: {
 						kind: "Secret"
 						name: parameter.kubernetesConfig.credential
 						varsKeys: [
-							"ca.crt:cluster_ca_certificate"
-							"endpoint:host"
+							"ca.crt:cluster_ca_certificate",
+							"endpoint:host",
 							"token"
 						]
 					},
