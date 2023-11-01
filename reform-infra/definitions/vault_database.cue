@@ -6,7 +6,12 @@ import (
 "vault-database": {
 	type: "component"
 	annotations: {}
-	labels: {}
+	labels: {
+		"outputs.0": "database_endpoint",
+		"outputs.1": "database_name",
+		"outputs.2": "database_username",
+		"outputs.3": "database_password"
+	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
 		workload: {
