@@ -36,7 +36,7 @@
 
 - jsonKey: cpu
   uiType: CPUNumber
-  sort: 3
+  sort: 4
   label: CPU
   description: Specifies the cpu resource required for the container, If set to 0, there is no limit.
   validate:
@@ -47,7 +47,7 @@
 
 - jsonKey: memory
   uiType: MemoryNumber
-  sort: 4
+  sort: 5
   label: Memory
   description: Specifies the memory resource required for the container, If set to 0, there is no limit.
   validate:
@@ -58,7 +58,7 @@
 
 - jsonKey: containers
   label: Containers
-  sort: 5
+  sort: 6
   subParameters:
     - jsonKey: port
       sort: 1
@@ -80,7 +80,7 @@
 - jsonKey: readinessProbe
   uiType: Group
   label: ReadinessProbe
-  sort: 6
+  sort: 7
   subParameters:
   - jsonKey: handler
     sort: 1
@@ -160,7 +160,7 @@
 - jsonKey: livenessProbe
   uiType: Group
   label: LivenessProbe
-  sort: 7
+  sort: 8
   subParameters:
   - jsonKey: handler
     sort: 1
