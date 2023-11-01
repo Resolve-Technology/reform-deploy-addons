@@ -100,7 +100,7 @@ template: {
 									if ev.vsoEnabled {
 										valueFrom: {
 											secretKeyRef: {
-												name: ev.valueFrom.name
+												name: strings.Join(["vso", ev.valueFrom.secretKeyRef.name], "-")
 												key: ev.name
 											}
 										}
