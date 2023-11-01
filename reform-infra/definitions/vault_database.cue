@@ -7,16 +7,18 @@ import (
 	type: "component"
 	annotations: {}
 	labels: {
-		"outputs.0": "vault_address"
-		"outputs.1": "vault_namespace",
-		"outputs.2": "vso_auth_method",
-		"outputs.3": "vso_auth_mount",
-		"outputs.4": "vso_auth_role",
-		"outputs.5": "vso_auth_sa",
-		"outputs.6": "vso_secret_mount",
-		"outputs.7": "vso_secret_path",
-		"outputs.8": "database_endpoint",
-		"outputs.9": "database_name"
+		"outputs.0": "database_endpoint",
+		"outputs.1": "database_name",
+		"outputs.2": "database_username"
+		"outputs.3": "database_password"
+		// "outputs.0": "vault_address"
+		// "outputs.1": "vault_namespace",
+		// "outputs.2": "vso_auth_method",
+		// "outputs.3": "vso_auth_mount",
+		// "outputs.4": "vso_auth_role",
+		// "outputs.5": "vso_auth_sa",
+		// "outputs.6": "vso_secret_mount",
+		// "outputs.7": "vso_secret_path",
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
