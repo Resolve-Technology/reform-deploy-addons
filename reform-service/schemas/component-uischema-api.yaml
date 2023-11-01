@@ -15,16 +15,9 @@
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
+    - jsonKey: vsoEnabled
+      label: Secret Managed by Vault Secret Operator
   uiType: Structs
-
-- jsonKey: vsoSecrets
-  sort: 3
-  label: Secrets managed by Vault Secrets Operator
-  subParameters:
-    - jsonKey: name
-      label: Component Name
-  style:
-    colSpan: 12
 
 - jsonKey: cpu
   uiType: CPUNumber

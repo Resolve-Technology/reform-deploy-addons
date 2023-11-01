@@ -105,12 +105,6 @@ template: {
 							}]
 						}
 
-						if parameter["vsoSecrets"] != _|_ {
-							envFrom: [ for v in parameter["vsoSecrets"] {
-								secretRef: strings.Join([context.app_name, v.name, "vso-output"], "-")
-							}]
-						}
-
 						if parameter["services"] != _|_ {
 							ports: [ for s in parameter.containers {
 								{
@@ -275,10 +269,7 @@ template: {
 					key: string
 				}
 			}
-		}]
-
-		vsoSecrets?: [...{
-			name: string
+			vsoEnabled: bool
 		}]
 
 		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
