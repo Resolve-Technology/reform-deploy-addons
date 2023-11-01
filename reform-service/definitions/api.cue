@@ -107,7 +107,7 @@ template: {
 
 						if parameter["vsoSecrets"] != _|_ {
 							envFrom: [ for v in parameter["vsoSecrets"] {
-								secretRef: strings.Join([context.app_name, v.name, "output"], "-")
+								secretRef: strings.Join([context.app_name, v.name, "vso-output"], "-")
 							}]
 						}
 

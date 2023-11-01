@@ -23,8 +23,8 @@
   subParameters:
     - jsonKey: name
       label: Component Name
-      style:
-        colSpan: 12
+  style:
+    colSpan: 12
 
 - jsonKey: cpu
   uiType: CPUNumber
