@@ -105,6 +105,12 @@ template: {
 							}]
 						}
 
+						if parameter["vsoSecrets"] != _|_ {
+							envFrom: [ for v in parameter["vsoSecrets"] {
+								secretRef: strings.Join([context.app_name, v.name, "output"], "-")
+							}]
+						}
+
 						if parameter["services"] != _|_ {
 							ports: [ for s in parameter.containers {
 								{
@@ -208,38 +214,38 @@ template: {
 	}
 
 	// define Ingress resource
-	outputs: {
-		if parameter.containers != _|_ for s in parameter.containers {
-			ingress: {
-				apiVersion: "networking.k8s.io/v1"
-				kind:       "Ingress"
-				metadata: {
-					name: context.name
-					labels: {
-						"application.deploy.reform/component":     context.name
-						"application.deploy.reform/componentType": componentType
-					}
-				}
-				spec: {
-					rules: [{
-						host: s.domainHost
-						http: {
-							paths: [{
-								path:     s.path
-								pathType: s.pathType
-								backend: {
-									service: {
-										name: context.name
-										port: number: s.port
-									}
-								}
-							}]
-						}
-					}]
-				}
-			}
-		}
-	}
+	// outputs: {
+	// 	if parameter.containers != _|_ for s in parameter.containers {
+	// 		ingress: {
+	// 			apiVersion: "networking.k8s.io/v1"
+	// 			kind:       "Ingress"
+	// 			metadata: {
+	// 				name: context.name
+	// 				labels: {
+	// 					"application.deploy.reform/component":     context.name
+	// 					"application.deploy.reform/componentType": componentType
+	// 				}
+	// 			}
+	// 			spec: {
+	// 				rules: [{
+	// 					host: s.domainHost
+	// 					http: {
+	// 						paths: [{
+	// 							path:     s.path
+	// 							pathType: s.pathType
+	// 							backend: {
+	// 								service: {
+	// 									name: context.name
+	// 									port: number: s.port
+	// 								}
+	// 							}
+	// 						}]
+	// 					}
+	// 				}]
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	parameter: {
 		// +usage=Which image would you like to use for your service
@@ -288,11 +294,11 @@ template: {
 			// +usage=Which protocol would you like the service to expose
 			protocol: *"TCP" | "UDP" | "SCTP"
 			// +usage=Domain host name for exposed service
-			domainHost: string
+			domainHost?: string
 			// +usage=The URL path you want customer traffic sent to
-			path: string
+			path?: string
 			// +usage=The type of path matching you want
-			pathType: *"Prefix" | "Exact" | "ImplementationSpecific"
+			pathType?: *"Prefix" | "Exact" | "ImplementationSpecific"
 		}]
 
 		// +usage=Instructions for assessing whether the container is alive.
