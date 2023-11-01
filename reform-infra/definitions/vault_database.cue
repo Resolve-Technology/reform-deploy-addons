@@ -14,7 +14,9 @@ import (
 		"outputs.4": "vso_auth_role",
 		"outputs.5": "vso_auth_sa",
 		"outputs.6": "vso_secret_mount",
-		"outputs.7": "vso_secret_path"
+		"outputs.7": "vso_secret_path",
+		"outputs.8": "database_endpoint",
+		"outputs.9": "database_name"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
