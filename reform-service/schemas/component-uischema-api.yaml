@@ -8,22 +8,31 @@
   label: Environment Variables
   subParameters:
     - jsonKey: name
+      sort: 1
     - jsonKey: value
       uiType: OutputKeySelector
+      sort: 2
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
+  uiType: Structs
+
+- jsonKey: extraSecrets
+  sort: 3
+  label: Extra Secrets
+  subParameters:
     - jsonKey: type
-      label: Secret Type
+      sort: 1
       uiType: Select
       validate: 
-        defaultValue: ""
+        defaultValue: vaultSecretOperator
         options:
           - label: Vault Secrets Operator
-            value: VaultSecretsOperator
-          - label: Secret File
-            value: SecretFile
-  uiType: Structs
+            value: vaultSecretsOperator
+          - label: Secrets File
+            value: secrtsFile
+    - jsonKey: name
+      sort: 2
 
 - jsonKey: cpu
   uiType: CPUNumber

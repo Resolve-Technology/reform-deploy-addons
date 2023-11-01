@@ -252,7 +252,6 @@ template: {
 			name: string
 			// +usage=The value of the environment variable
 			value?: string
-			type?: string
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
@@ -270,6 +269,11 @@ template: {
 					key: string
 				}
 			}
+		}]
+
+		extraSecrets?: [...{
+			type: string
+			name?: string
 		}]
 
 		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
