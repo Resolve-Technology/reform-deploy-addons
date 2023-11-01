@@ -123,6 +123,7 @@
         validate:
           required: true
           min: 1
+          defaultValue: 80
   - jsonKey: timeoutSeconds
     sort: 5
     style:
@@ -203,6 +204,7 @@
         validate:
           required: true
           min: 1
+          defaultValue: 80
   - jsonKey: timeoutSeconds
     sort: 5
     style:
