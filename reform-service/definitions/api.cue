@@ -246,22 +246,13 @@ template: {
 		// +short=i
 		image: string
 
-		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
-		cpu?: string
-
-		// +usage=Specifies the attributes of the memory resource required for the container.
-		memory?: string
-
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
 			// +usage=Environment variable name
 			name: string
 			// +usage=The value of the environment variable
 			value?: string
-			// +usage=Specifies whether it is a secret value
-			isSecret: *false | bool
-			// +usage=Specifies whether it should be updated
-			isUpdate: *false | bool
+			type?: string
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
@@ -280,6 +271,12 @@ template: {
 				}
 			}
 		}]
+
+		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
+		cpu?: string
+
+		// +usage=Specifies the attributes of the memory resource required for the container.
+		memory?: string
 
 		// +usage=Define the services you want to expose from your container
 		containers: [...{

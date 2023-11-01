@@ -3,8 +3,27 @@
   label: Container Image
   sort: 1
 
-- jsonKey: imagePullSecrets
+- jsonKey: environmentVariables
   sort: 2
+  label: Environment Variables
+  subParameters:
+    - jsonKey: name
+    - jsonKey: value
+      uiType: OutputKeySelector
+    - jsonKey: valueFrom
+      label: Secret Selector
+      uiType: Ignore
+    - jsonKey: type
+      label: Secret Type
+      uiType: Select
+      validate: 
+        defaultValue: ""
+        options:
+          - label: Vault Secrets Operator
+            value: VaultSecretsOperator
+          - label: Secret File
+            value: SecretFile
+  uiType: Structs
 
 - jsonKey: cpu
   uiType: CPUNumber
@@ -28,23 +47,9 @@
   style:
     colSpan: 12
 
-- jsonKey: environmentVariables
-  sort: 5
-  label: Environment Variables
-  subParameters:
-    - jsonKey: name
-    - jsonKey: value
-      uiType: OutputKeySelector
-    - jsonKey: valueFrom
-      label: Secret Selector
-      uiType: Ignore
-    - jsonKey: isUpdate
-      uiType: ReformIsUpdate
-  uiType: Structs
-
 - jsonKey: containers
   label: Containers
-  sort: 6
+  sort: 5
   subParameters:
     - jsonKey: port
       sort: 1
@@ -66,6 +71,7 @@
 - jsonKey: readinessProbe
   uiType: Group
   label: ReadinessProbe
+  sort: 6
   subParameters:
   - jsonKey: handler
     sort: 1
@@ -141,11 +147,11 @@
     sort: 9
     style:
       colSpan: 12
-  sort: 7
 
 - jsonKey: livenessProbe
   uiType: Group
   label: LivenessProbe
+  sort: 7
   subParameters:
   - jsonKey: handler
     sort: 1
@@ -221,4 +227,3 @@
     sort: 9
     style:
       colSpan: 12
-  sort: 8
