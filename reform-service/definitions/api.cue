@@ -92,15 +92,6 @@ template: {
 					containers: [{
 						name:  context.name
 						image: parameter.image
-						if parameter["services"] != _|_ {
-							ports: [ for s in parameter.containers {
-								{
-									containerPort: s.port
-									protocol:      s.protocol
-									_name:         "port-" + strconv.FormatInt(s.port, 10)
-									name:          _name + "-" + strings.ToLower(s.protocol)
-								}}]
-						}
 
 						if parameter["environmentVariables"] != _|_ {
 							env: [ for ev in parameter["environmentVariables"] {
@@ -112,6 +103,16 @@ template: {
 									value: ev.value
 								}
 							}]
+						}
+
+						if parameter["services"] != _|_ {
+							ports: [ for s in parameter.containers {
+								{
+									containerPort: s.port
+									protocol:      s.protocol
+									_name:         "port-" + strconv.FormatInt(s.port, 10)
+									name:          _name + "-" + strings.ToLower(s.protocol)
+								}}]
 						}
 
 						if parameter["cpu"] != _|_ {
@@ -128,15 +129,6 @@ template: {
 							}
 						}
 
-						// policy for securityContext
-						securityContext: {
-							readOnlyRootFilesystem: true
-							capabilities: {
-								drop: ["ALL", "CAP_NET_RAW"]
-							}
-						}
-
-						// policy for probe
 						livenessProbe: {
 							if parameter.livenessProbe.handler == "CMD" {
 								exec: parameter.livenessProbe.exec
@@ -170,14 +162,13 @@ template: {
 							failureThreshold:    parameter.livenessProbe.failureThreshold
 						}
 
+						securityContext: {
+							readOnlyRootFilesystem: true
+							capabilities: {
+								drop: ["ALL", "CAP_NET_RAW"]
+							}
+						}
 					}]
-
-					if parameter["imagePullSecrets"] != _|_ {
-						imagePullSecrets: [ for v in parameter.imagePullSecrets {
-							name: v
-						},
-						]
-					}
 				}
 			}
 		}
@@ -254,9 +245,6 @@ template: {
 		// +usage=Which image would you like to use for your service
 		// +short=i
 		image: string
-
-		// +usage=Specify image pull secrets for your service
-		imagePullSecrets?: [...string]
 
 		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
 		cpu?: string
