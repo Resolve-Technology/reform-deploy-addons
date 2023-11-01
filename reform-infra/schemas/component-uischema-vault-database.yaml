@@ -10,7 +10,7 @@
       uiType: Ignore
   uiType: Structs
   validate:
-    defaultValue: [{"name": "k8s_namespace"}, {"name": "database_instance"}, {"name": "database_endpoint"}, {"name": "database_name"}, {"name": "database_username"}, {"name": "database_password"}]
+    defaultValue: [{"name": "target_namespace"}, {"name": "target_deployment"}, {"name": "database_instance"}, {"name": "database_endpoint"}, {"name": "database_name"}, {"name": "database_username"}, {"name": "database_password"}]
 
 - jsonKey: terraformConfig
   label: Terraform Configurations
