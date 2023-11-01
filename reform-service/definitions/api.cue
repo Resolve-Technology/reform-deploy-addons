@@ -115,7 +115,7 @@ template: {
 							}]
 						}
 
-						if parameter["services"] != _|_ {
+						if parameter.containers != _|_ {
 							ports: [ for s in parameter.containers {
 								{
 									containerPort: s.port
