@@ -111,7 +111,7 @@ template: {
 				},
 				{
 					name: "app_name"
-					value: context.appName
+					value: context.name
 				}
 			]
 			varsFrom: [
