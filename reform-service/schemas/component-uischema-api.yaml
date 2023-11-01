@@ -17,22 +17,9 @@
       uiType: Ignore
   uiType: Structs
 
-- jsonKey: extraSecrets
+- jsonKey: vsoSecrets
   sort: 3
-  label: Extra Secrets
-  subParameters:
-    - jsonKey: type
-      sort: 1
-      uiType: Select
-      validate: 
-        defaultValue: vaultSecretOperator
-        options:
-          - label: Vault Secrets Operator
-            value: vaultSecretsOperator
-          - label: Secrets File
-            value: secrtsFile
-    - jsonKey: name
-      sort: 2
+  label: Mount Vault Secrets Operator by Component Name
 
 - jsonKey: cpu
   uiType: CPUNumber
