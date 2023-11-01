@@ -37,7 +37,6 @@ import (
 			healthPolicy: #"""
 				ready: {
 					readyStatus: *false | bool
-					planStatus: *false | bool
 					applyStatus: *false | bool
 				} & {
 					if (context.output.status != _|_) && (context.output.status.conditions != _|_) {
@@ -45,16 +44,13 @@ import (
 							if condition.type == "Ready" ||  {
 								readyStatus: condition.status == "True"
 							}
-							if condition.type == "Plan" ||  {
-								planStatus: condition.status == "False"
-							}
 							if condition.type == "Apply" ||  {
 								applyStatus: condition.status == "True"
 							}
 						}
 					}
 				}
-				isHealth: ready.readyStatus && ready.planStatus & ready.applyStatus
+				isHealth: ready.readyStatus && ready.applyStatus
 				"""#
 		}
 	}
