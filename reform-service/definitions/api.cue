@@ -97,7 +97,17 @@ template: {
 							env: [ for ev in parameter["environmentVariables"] {
 								name: ev.name
 								if ev.valueFrom != _|_ {
-									valueFrom: ev.valueFrom
+									if ev.vsoEnabled {
+										valueFrom: {
+											secretKeyRef: {
+												name: strings.Join(["vso", ev.valueFrom.name], "-")
+												key: ev.name
+											}
+										}
+									}
+									if !ev.vsoEnabled {
+										valueFrom: ev.valueFrom
+									}
 								}
 								if ev.valueFrom == _|_ && ev.value != _|_ {
 									value: ev.value
