@@ -19,7 +19,10 @@
 
 - jsonKey: vsoSecrets
   sort: 3
-  label: Mount Vault Secrets Operator by Component Name
+  label: Secrets manageed by Vault Secrets Operator
+  subParameters:
+    - jsonKey: name
+      label: Component Name
 
 - jsonKey: cpu
   uiType: CPUNumber
