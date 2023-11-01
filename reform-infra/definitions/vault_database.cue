@@ -6,17 +6,16 @@ import (
 "vault-database": {
 	type: "component"
 	annotations: {}
-	labels: {}
-	// labels: {
-	// 	"outputs.0": "vault_address"
-	// 	"outputs.1": "vault_namespace",
-	// 	"outputs.2": "vso_auth_method",
-	// 	"outputs.3": "vso_auth_mount",
-	// 	"outputs.4": "vso_auth_role",
-	// 	"outputs.5": "vso_auth_sa",
-	// 	"outputs.6": "vso_secret_mount",
-	// 	"outputs.7": "vso_secret_path"
-	// }
+	labels: {
+		"outputs.0": "vault_address"
+		"outputs.1": "vault_namespace",
+		"outputs.2": "vso_auth_method",
+		"outputs.3": "vso_auth_mount",
+		"outputs.4": "vso_auth_role",
+		"outputs.5": "vso_auth_sa",
+		"outputs.6": "vso_secret_mount",
+		"outputs.7": "vso_secret_path"
+	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
 		workload: {
@@ -156,14 +155,14 @@ template: {
 					}
 				}
 			]
-			// writeOutputsToSecret: {
-			// 	name: context.name + "-output"
-			// 	labels: {
-			// 		"app.kubernetes.io/managed-by": "reform-deploy"
-			// 		"secret.deploy.reform/type": "infra-output"
-			// 		"secret.deploy.reform/identifier": context.name
-			// 	}
-			// }
+			writeOutputsToSecret: {
+				name: context.name + "-output"
+				labels: {
+					"app.kubernetes.io/managed-by": "reform-deploy"
+					"secret.deploy.reform/type": "infra-output"
+					"secret.deploy.reform/identifier": context.name
+				}
+			}
     	}
 	}
 
