@@ -217,39 +217,48 @@ template: {
 		}
 	}
 
-	// define Ingress resource
-	// outputs: {
-	// 	if parameter.containers != _|_ for s in parameter.containers {
-	// 		ingress: {
-	// 			apiVersion: "networking.k8s.io/v1"
-	// 			kind:       "Ingress"
-	// 			metadata: {
-	// 				name: context.name
-	// 				labels: {
-	// 					"application.deploy.reform/component":     context.name
-	// 					"application.deploy.reform/componentType": componentType
-	// 				}
-	// 			}
-	// 			spec: {
-	// 				rules: [{
-	// 					host: s.domainHost
-	// 					http: {
-	// 						paths: [{
-	// 							path:     s.path
-	// 							pathType: s.pathType
-	// 							backend: {
-	// 								service: {
-	// 									name: context.name
-	// 									port: number: s.port
-	// 								}
-	// 							}
-	// 						}]
-	// 					}
-	// 				}]
-	// 			}
-	// 		}
-	// 	}
-	// }
+	define Ingress resource
+	outputs: {
+		if parameter.containers != _|_ for s in parameter.containers {
+			ingress: {
+				apiVersion: "networking.k8s.io/v1"
+				kind:       "Ingress"
+				metadata: {
+					name: context.name
+					annotations: {
+						kubernetes.io/tls-acme: 'true'
+					}
+					labels: {
+						"application.deploy.reform/component":     context.name
+						"application.deploy.reform/componentType": componentType
+					}
+				}
+				spec: {
+					rules: [{
+						host: s.domainHost
+						http: {
+							paths: [{
+								path:     s.path
+								pathType: s.pathType
+								backend: {
+									service: {
+										name: context.name
+										port: number: s.port
+									}
+								}
+							}]
+						}
+					}]
+					tls: [{
+						hosts: [{
+							s.domainHost
+						}]
+						secretName: strings.Join([context.name, "tls"], "-")
+					}]
+				}
+			}
+		}
+	}
 
 	parameter: {
 		// +usage=Which image would you like to use for your service
