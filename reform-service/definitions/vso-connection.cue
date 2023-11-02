@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-"vault-vso-connection": {
+"vso-connection": {
 	type: "component"
 	annotations: {}
 	labels: {}
@@ -25,7 +25,7 @@ import (
 	}
 }
 template: {
-	componentType: "vault-vso-connection"
+	componentType: "vso-connection"
 
 	// define Deployment resouece
 	output: {
