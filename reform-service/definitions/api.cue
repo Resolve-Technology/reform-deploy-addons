@@ -173,7 +173,7 @@ template: {
 						}
 
 						securityContext: {
-							readOnlyRootFilesystem: true
+							readOnlyRootFilesystem: false
 							capabilities: {
 								drop: ["ALL", "CAP_NET_RAW"]
 							}
