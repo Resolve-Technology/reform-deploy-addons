@@ -172,12 +172,12 @@ template: {
 							failureThreshold:    parameter.livenessProbe.failureThreshold
 						}
 
-						// securityContext: {
-						// 	readOnlyRootFilesystem: true
-						// 	capabilities: {
-						// 		drop: ["ALL", "CAP_NET_RAW"]
-						// 	}
-						// }
+						securityContext: {
+							readOnlyRootFilesystem: true
+							capabilities: {
+								drop: ["ALL", "CAP_NET_RAW"]
+							}
+						}
 					}]
 				}
 			}
