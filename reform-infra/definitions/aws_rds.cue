@@ -36,21 +36,17 @@ import (
 				"""#
 			healthPolicy: #"""
 				ready: {
-					readyStatus: *false | bool
-					applyStatus: *false | bool
+					isHealth: *false | bool
 				} & {
 					if (context.output.status != _|_) && (context.output.status.conditions != _|_) {
 						for condition in context.output.status.conditions {
-							if condition.type == "Ready" ||  {
-								readyStatus: condition.status == "True"
-							}
-							if condition.type == "Apply" ||  {
-								applyStatus: condition.status == "True"
+							if condition.type == "Ready" {
+								isHealth: condition.status == "True"
 							}
 						}
 					}
 				}
-				isHealth: ready.readyStatus && ready.applyStatus
+				isHealth: ready.isHealth
 				"""#
 		}
 	}
