@@ -217,7 +217,7 @@ template: {
 		}
 	}
 
-	define Ingress resource
+	// define Ingress resource
 	outputs: {
 		if parameter.containers != _|_ for s in parameter.containers {
 			ingress: {
@@ -249,10 +249,10 @@ template: {
 							}]
 						}
 					}]
-					// tls: [{
-					// 	hosts: [s.domainHost]
-					// 	secretName: strings.Join([context.name, "tls"], "-")
-					// }]
+					tls: [{
+						hosts: [s.domainHost]
+						secretName: strings.Join([context.name, "tls"], "-")
+					}]
 				}
 			}
 		}
