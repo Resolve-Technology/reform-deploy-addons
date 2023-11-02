@@ -226,7 +226,7 @@ template: {
 				metadata: {
 					name: context.name
 					annotations: {
-						"kubernetes.io/tls-acme": 'true'
+						"kubernetes.io/tls-acme": true
 					}
 					labels: {
 						"application.deploy.reform/component":     context.name
@@ -249,10 +249,10 @@ template: {
 							}]
 						}
 					}]
-					tls: [{
-						hosts: [s.domainHost]
-						secretName: strings.Join([context.name, "tls"], "-")
-					}]
+					// tls: [{
+					// 	hosts: [s.domainHost]
+					// 	secretName: strings.Join([context.name, "tls"], "-")
+					// }]
 				}
 			}
 		}
