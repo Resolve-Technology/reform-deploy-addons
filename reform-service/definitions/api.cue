@@ -250,9 +250,9 @@ template: {
 						}
 					}]
 					tls: [{
-						hosts: [{
+						hosts: [
 							s.domainHost
-						}]
+						]
 						secretName: strings.Join([context.name, "tls"], "-")
 					}]
 				}
