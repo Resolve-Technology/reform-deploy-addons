@@ -226,7 +226,7 @@ template: {
 				metadata: {
 					name: context.name
 					annotations: {
-						kubernetes.io/tls-acme: 'true'
+						"kubernetes.io/tls-acme": 'true'
 					}
 					labels: {
 						"application.deploy.reform/component":     context.name
