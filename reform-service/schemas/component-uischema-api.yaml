@@ -2,6 +2,9 @@
   jsonKey: image
   label: Container Image
   sort: 1
+  validate:
+    required: true
+    defaultValue: "alanatreslv/nodejs-mysql-demo:v1.0"
 
 - jsonKey: environmentVariables
   sort: 2
@@ -18,6 +21,8 @@
     - jsonKey: vsoEnabled
       label: Secret Managed by Vault Secret Operator
   uiType: Structs
+    validate:
+    defaultValue: [{"name": "database_endpoint"}, {"name": "database_name"}, {"name": "username", "vsoEnabled: true"}, {"name": "password", "vsoEnabled: true"}]
 
 - jsonKey: cpu
   uiType: CPUNumber
@@ -60,7 +65,7 @@
       sort: 5
   validate:
     required: true
-    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "", "path": "/", "pathType": "Prefix"}]
+    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "web-demo.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
 
 - jsonKey: readinessProbe
   uiType: Group
