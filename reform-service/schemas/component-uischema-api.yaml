@@ -114,11 +114,11 @@
         sort: 5
   - jsonKey: tcpSocket
     sort: 4
-    conditions:
-      - jsonKey: readinessProbe.handler
-        op: ==
-        value: TCPSocket
-        action: enable
+    # conditions:
+    #   - jsonKey: readinessProbe.handler
+    #     op: ==
+    #     value: TCPSocket
+    #     action: enable
     validate:
       required: true
     subParameters:
@@ -196,11 +196,11 @@
         sort: 5
   - jsonKey: tcpSocket
     sort: 4
-    conditions:
-      - jsonKey: livenessProbe.handler
-        op: ==
-        value: TCPSocket
-        action: enable
+    # conditions:
+    #   - jsonKey: livenessProbe.handler
+    #     op: ==
+    #     value: TCPSocket
+    #     action: enable
     validate:
       required: true
     subParameters:
