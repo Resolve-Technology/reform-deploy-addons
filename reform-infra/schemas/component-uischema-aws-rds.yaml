@@ -10,7 +10,7 @@
       uiType: Ignore
   uiType: Structs
   validate:
-    defaultValue: [{"name": "rds_name"}]
+    defaultValue: [{"name": "rds_name", "value": "aws-rds"}, {"name": "db_name", "value": "demo"}, {"name": "username", "value": "demo"}]
 
 - jsonKey: terraformConfig
   label: Terraform Configurations
