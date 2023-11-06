@@ -4,15 +4,11 @@
   sort: 1
   validate:
     required: true
-    defaultValue: "wordpress:latest"
+    defaultValue: "wordpress:php8.0"
 
-- jsonKey: exposeType
+- jsonKey: containers
+  label: Expose Service
   sort: 2
-  validate:
-
-- jsonKey: ports
-  label: Service Ports
-  sort: 3
   subParameters:
     - jsonKey: port
       sort: 1
@@ -20,103 +16,220 @@
         required: true
         min: 1
     - jsonKey: protocol
+      sort: 2
+    - jsonKey: domainHost
       sort: 3
-    - jsonKey: name
+    - jsonKey: path
       sort: 4
-      disable: true
-    - jsonKey: expose
+    - jsonKey: pathType
       sort: 5
   validate:
     required: true
-    defaultValue: [{"port": 80, "protocol": "TCP", "expose": true, "name": "http"}]
-
-- jsonKey: annotations
-  sort: 4
-  validate:
-    defaultValue: {"external-dns.alpha.kubernetes.io/hostname": "wordpress.reform-deploy.today"}
+    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "wordpress.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
 
 - jsonKey: environmentVariables
-  sort: 5
+  sort: 3
   label: Environment Variables
   subParameters:
     - jsonKey: name
+      sort: 1
     - jsonKey: value
       uiType: OutputKeySelector
+      sort: 2
     - jsonKey: valueFrom
       label: Secret Selector
       uiType: Ignore
-    - jsonKey: isUpdate
-      uiType: ReformIsUpdate
+    - jsonKey: vsoEnabled
+      label: Secret Managed by Vault Secret Operator
+      disable: true
   uiType: Structs
   validate:
-    defaultValue: [{"name": "WORDPRESS_DB_HOST"}, {"name": "WORDPRESS_DB_NAME"}, {"name": "WORDPRESS_DB_USER"}, {"name": "WORDPRESS_DB_PASSWORD"}]
+    defaultValue: [{"name": "WORDPRESS_DB_HOST", "vsoEnabled": false}, {"name": "WORDPRESS_DB_NAME", "vsoEnabled": false}, {"name": "WORDPRESS_DB_USER", "vsoEnabled": false}, {"name": "WORDPRESS_DB_PASSWORD", "vsoEnabled": false}]
 
-- jsonKey: volumeMounts
-  label: Persistent Storage
-  description: "Set the path and type that the service needs to persist."
+- jsonKey: cpu
+  uiType: CPUNumber
+  sort: 4
+  disable: true
+  label: CPU
+  description: Specifies the cpu resource required for the container, If set to 0, there is no limit.
+  validate:
+    required: true
+    defaultValue: "0.5"
+  style:
+    colSpan: 12
+
+- jsonKey: memory
+  uiType: MemoryNumber
+  sort: 5
+  disable: true
+  label: Memory
+  description: Specifies the memory resource required for the container, If set to 0, there is no limit.
+  validate:
+    required: true
+    defaultValue: "128Mi"
+  style:
+    colSpan: 12
+
+- jsonKey: readinessProbe
   uiType: Group
+  label: ReadinessProbe
+  sort: 6
+  disable: true
   subParameters:
-    - jsonKey: configMap
-      disable: true
-    - jsonKey: secret
-      disable: true
-    - jsonKey: pvc
-      label: Storage By PVC
-      sort: 1
-      subParameters:
-        - jsonKey: name
-          sort: 1
-          validate:
-            required: true
-            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
-        - jsonKey: claimName
-          sort: 3
-        - jsonKey: mountPath
-          sort: 5
-          validate:
-            required: true
-            pattern: ^/(.*)$
-    - jsonKey: hostPath
-      label: Storage By HostPath
-      sort: 3
-      subParameters:
-        - jsonKey: name
-          sort: 1
-          validate:
-            required: true
-            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
-        - jsonKey: path
-          label: Host Path
-          sort: 3
-          validate:
-            required: true
-            pattern: ^/(.*)$
-        - jsonKey: mountPath
-          sort: 5
-          validate:
-            required: true
-            pattern: ^/(.*)$
-    - jsonKey: emptyDir
-      label: Temporary Storage
-      sort: 5
-      subParameters:
-        - jsonKey: name
-          sort: 1
-          validate:
-            required: true
-            pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])$
-        - jsonKey: medium
-          sort: 3
-          validate:
-            required: false
-            options:
-              - label: Memory
-                value: memory
-              - label: Dir
-                value: ""
-        - jsonKey: mountPath
-          sort: 5
-          validate:
-            required: true
-            pattern: ^/(.*)$
-  sort: 12
+  - jsonKey: handler
+    sort: 1
+  - jsonKey: exec
+    sort: 2
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: CMD
+        action: enable
+    validate:
+      required: true
+  - jsonKey: httpGet
+    sort: 3
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: HTTP
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        sort: 1
+        validate:
+          required: true
+          min: 1
+        style:
+          colSpan: 12
+      - jsonKey: path
+        sort: 3
+        validate:
+          required: true
+          pattern: ^/(.*)$
+        style:
+          colSpan: 12
+      - jsonKey: httpHeaders
+        sort: 5
+  - jsonKey: tcpSocket
+    sort: 4
+    # conditions:
+    #   - jsonKey: readinessProbe.handler
+    #     op: ==
+    #     value: TCPSocket
+    #     action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        validate:
+          required: true
+          min: 1
+          defaultValue: 80
+  - jsonKey: timeoutSeconds
+    sort: 5
+    style:
+      colSpan: 12
+  - jsonKey: failureThreshold
+    sort: 6
+    style:
+      colSpan: 12
+  - jsonKey: initialDelaySeconds
+    sort: 7
+    style:
+      colSpan: 12
+    validate:
+      defaultValue: 5
+      required: true
+  - jsonKey: periodSeconds
+    sort: 8
+    style:
+      colSpan: 12
+  - jsonKey: successThreshold
+    sort: 9
+    style:
+      colSpan: 12
+
+- jsonKey: livenessProbe
+  uiType: Group
+  label: LivenessProbe
+  sort: 7
+  disable: true
+  subParameters:
+  - jsonKey: handler
+    sort: 1
+  - jsonKey: exec
+    sort: 2
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: CMD
+        action: enable
+    validate:
+      required: true
+  - jsonKey: httpGet
+    sort: 3
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: HTTP
+        action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        sort: 1
+        validate:
+          required: true
+          min: 1
+        style:
+          colSpan: 12
+      - jsonKey: path
+        sort: 3
+        validate:
+          required: true
+          pattern: ^/(.*)$
+        style:
+          colSpan: 12
+      - jsonKey: httpHeaders
+        sort: 5
+  - jsonKey: tcpSocket
+    sort: 4
+    # conditions:
+    #   - jsonKey: livenessProbe.handler
+    #     op: ==
+    #     value: TCPSocket
+    #     action: enable
+    validate:
+      required: true
+    subParameters:
+      - jsonKey: port
+        validate:
+          required: true
+          min: 1
+          defaultValue: 80
+  - jsonKey: timeoutSeconds
+    sort: 5
+    style:
+      colSpan: 12
+  - jsonKey: failureThreshold
+    sort: 6
+    style:
+      colSpan: 12
+  - jsonKey: initialDelaySeconds
+    sort: 7
+    style:
+      colSpan: 12
+    validate:
+      defaultValue: 5
+      required: true
+  - jsonKey: periodSeconds
+    sort: 8
+    style:
+      colSpan: 12
+  - jsonKey: successThreshold
+    sort: 9
+    style:
+      colSpan: 12

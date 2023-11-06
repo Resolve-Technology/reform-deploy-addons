@@ -50,6 +50,11 @@ import (
 				}
 				_isHealth: (context.output.spec.replicas == ready.readyReplicas) && (context.output.spec.replicas == ready.updatedReplicas) && (context.output.spec.replicas == ready.replicas) && (ready.observedGeneration == context.output.metadata.generation || ready.observedGeneration > context.output.metadata.generation)
 				isHealth: *_isHealth | bool
+				if context.output.metadata.annotations != _|_ {
+					if context.output.metadata.annotations["app.oam.dev/disable-health-check"] != _|_ {
+						isHealth: true
+					}
+				}
 				"""#
 		}
 	}
@@ -57,128 +62,13 @@ import (
 template: {
 	componentType: "wordpress"
 
-	mountsArray: [
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.pvc != _|_ for v in parameter.volumeMounts.pvc {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.configMap != _|_ for v in parameter.volumeMounts.configMap {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.secret != _|_ for v in parameter.volumeMounts.secret {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.emptyDir != _|_ for v in parameter.volumeMounts.emptyDir {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.hostPath != _|_ for v in parameter.volumeMounts.hostPath {
-			{
-				mountPath: v.mountPath
-				if v.subPath != _|_ {
-					subPath: v.subPath
-				}
-				name: v.name
-			}
-		},
-	]
-
-	volumesList: [
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.pvc != _|_ for v in parameter.volumeMounts.pvc {
-			{
-				name: v.name
-				persistentVolumeClaim: claimName: v.claimName
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.configMap != _|_ for v in parameter.volumeMounts.configMap {
-			{
-				name: v.name
-				configMap: {
-					defaultMode: v.defaultMode
-					name:        v.cmName
-					if v.items != _|_ {
-						items: v.items
-					}
-				}
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.secret != _|_ for v in parameter.volumeMounts.secret {
-			{
-				name: v.name
-				secret: {
-					defaultMode: v.defaultMode
-					secretName:  v.secretName
-					if v.items != _|_ {
-						items: v.items
-					}
-				}
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.emptyDir != _|_ for v in parameter.volumeMounts.emptyDir {
-			{
-				name: v.name
-				emptyDir: medium: v.medium
-			}
-		},
-
-		if parameter.volumeMounts != _|_ && parameter.volumeMounts.hostPath != _|_ for v in parameter.volumeMounts.hostPath {
-			{
-				name: v.name
-				hostPath: {
-					path: v.path
-				}
-			}
-		},
-	]
-
-	deDupVolumesArray: [
-		for val in [
-			for i, vi in volumesList {
-				for j, vj in volumesList if j < i && vi.name == vj.name {
-					_ignore: true
-				}
-				vi
-			},
-		] if val._ignore == _|_ {
-			val
-		},
-	]
-
+	// define Deployment resouece
 	output: {
 		apiVersion: "apps/v1"
 		kind:       "Deployment"
 		metadata: {
 			labels: {
-				"application.deploy.reform/component": context.name
+				"application.deploy.reform/component":     context.name
 				"application.deploy.reform/componentType": componentType
 			}
 		}
@@ -190,11 +80,11 @@ template: {
 			template: {
 				metadata: {
 					labels: {
-						"app.oam.dev/name":      context.appName
-						"app.oam.dev/component": context.name
-						"application.deploy.reform/component": context.name
+						"app.oam.dev/name":                        context.appName
+						"app.oam.dev/component":                   context.name
+						"application.deploy.reform/component":     context.name
 						"application.deploy.reform/componentType": componentType
-						"app.kubernetes.io/name": context.name
+						"app.kubernetes.io/name":                  context.name
 					}
 				}
 
@@ -202,124 +92,110 @@ template: {
 					containers: [{
 						name:  context.name
 						image: parameter.image
-						if parameter["ports"] != _|_ {
-							ports: [ for v in parameter.ports {
-								{
-									containerPort: v.port
-									protocol:      v.protocol
-									if v.name != _|_ {
-										name: v.name
-									}
-									if v.name == _|_ {
-										_name: "port-" + strconv.FormatInt(v.port, 10)
-										name:  *_name | string
-										if v.protocol != "TCP" {
-											name: _name + "-" + strings.ToLower(v.protocol)
-										}
-									}
-								}}]
-						}
 
 						if parameter["environmentVariables"] != _|_ {
 							env: [ for ev in parameter["environmentVariables"] {
 								name: ev.name
 								if ev.valueFrom != _|_ {
-									valueFrom: ev.valueFrom
-								} 
+									if ev.vsoEnabled {
+										valueFrom: {
+											secretKeyRef: {
+												name: strings.Join(["vso", ev.valueFrom.secretKeyRef.name], "-")
+												key: ev.name
+											}
+										}
+									}
+									if !ev.vsoEnabled {
+										valueFrom: ev.valueFrom
+									}
+								}
 								if ev.valueFrom == _|_ && ev.value != _|_ {
 									value: ev.value
 								}
 							}]
 						}
 
-						if context["config"] != _|_ {
-							env: context.config
-						}
-
-						if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
-							volumeMounts: [ for v in parameter.volumes {
+						if parameter.containers != _|_ {
+							ports: [ for s in parameter.containers {
 								{
-									mountPath: v.mountPath
-									name:      v.name
+									containerPort: s.port
+									protocol:      s.protocol
+									_name:         "port-" + strconv.FormatInt(s.port, 10)
+									name:          _name + "-" + strings.ToLower(s.protocol)
 								}}]
 						}
 
-						if parameter["volumeMounts"] != _|_ {
-							volumeMounts: mountsArray
+						if parameter["cpu"] != _|_ {
+							resources: {
+								limits: cpu:   parameter.cpu
+								requests: cpu: parameter.cpu
+							}
 						}
 
-					}]
-
-					if parameter["imagePullSecrets"] != _|_ {
-						imagePullSecrets: [ for v in parameter.imagePullSecrets {
-							name: v
-						},
-						]
-					}
-
-					if parameter["volumes"] != _|_ && parameter["volumeMounts"] == _|_ {
-						volumes: [ for v in parameter.volumes {
-							{
-								name: v.name
-								if v.type == "pvc" {
-									persistentVolumeClaim: claimName: v.claimName
-								}
-								if v.type == "configMap" {
-									configMap: {
-										defaultMode: v.defaultMode
-										name:        v.cmName
-										if v.items != _|_ {
-											items: v.items
-										}
-									}
-								}
-								if v.type == "secret" {
-									secret: {
-										defaultMode: v.defaultMode
-										secretName:  v.secretName
-										if v.items != _|_ {
-											items: v.items
-										}
-									}
-								}
-								if v.type == "emptyDir" {
-									emptyDir: medium: v.medium
-								}
+						if parameter["memory"] != _|_ {
+							resources: {
+								limits: memory:   parameter.memory
+								requests: memory: parameter.memory
 							}
-						}]
-					}
+						}
 
-					if parameter["volumeMounts"] != _|_ {
-						volumes: deDupVolumesArray
-					}
+						livenessProbe: {
+							if parameter.livenessProbe.handler == "CMD" {
+								exec: parameter.livenessProbe.exec
+							}
+							if parameter.livenessProbe.handler == "HTTP" {
+								httpGet: parameter.livenessProbe.httpGet
+							}
+							if parameter.livenessProbe.handler == "TCPSocket" {
+								tcpSocket: parameter.livenessProbe.tcpSocket
+							}
+							initialDelaySeconds: parameter.livenessProbe.initialDelaySeconds
+							periodSeconds:       parameter.livenessProbe.periodSeconds
+							timeoutSeconds:      parameter.livenessProbe.timeoutSeconds
+							successThreshold:    parameter.livenessProbe.successThreshold
+							failureThreshold:    parameter.livenessProbe.failureThreshold
+						}
+						readinessProbe: {
+							if parameter.livenessProbe.handler == "CMD" {
+								exec: parameter.livenessProbe.exec
+							}
+							if parameter.livenessProbe.handler == "HTTP" {
+								httpGet: parameter.livenessProbe.httpGet
+							}
+							if parameter.livenessProbe.handler == "TCPSocket" {
+								tcpSocket: parameter.livenessProbe.tcpSocket
+							}
+							initialDelaySeconds: parameter.livenessProbe.initialDelaySeconds
+							periodSeconds:       parameter.livenessProbe.periodSeconds
+							timeoutSeconds:      parameter.livenessProbe.timeoutSeconds
+							successThreshold:    parameter.livenessProbe.successThreshold
+							failureThreshold:    parameter.livenessProbe.failureThreshold
+						}
+
+						// securityContext: {
+						// 	readOnlyRootFilesystem: true
+						// 	capabilities: {
+						// 		drop: ["ALL", "CAP_NET_RAW"]
+						// 	}
+						// }
+					}]
 				}
 			}
 		}
 	}
 
+	// define Service resource
 	exposePorts: [
-		if parameter.ports != _|_ for v in parameter.ports if v.expose == true {
-			port:       v.port
-			targetPort: v.port
-			if v.name != _|_ {
-				name: v.name
-			}
-			if v.name == _|_ {
-				_name: "port-" + strconv.FormatInt(v.port, 10)
-				name:  *_name | string
-				if v.protocol != "TCP" {
-					name: _name + "-" + strings.ToLower(v.protocol)
-				}
-			}
-			// if parameter.exposeType == "NodePort" {
-			// 	nodePort: v.nodePort
-			// }
-			if v.protocol != _|_ {
-				protocol: v.protocol
+		if parameter.containers != _|_ for s in parameter.containers {
+			port:       s.port
+			targetPort: s.port
+			_name:      "port-" + strconv.FormatInt(s.port, 10)
+			name:       _name + "-" + strings.ToLower(s.protocol)
+			if s.protocol != _|_ {
+				protocol: s.protocol
 			}
 		},
 	]
-
 	outputs: {
 		if len(exposePorts) != 0 {
 			webserviceExpose: {
@@ -328,47 +204,64 @@ template: {
 				metadata: {
 					name: context.name
 					labels: {
-						"application.deploy.reform/component": context.name
+						"application.deploy.reform/component":     context.name
 						"application.deploy.reform/componentType": componentType
 					}
-				if parameter.annotations != _|_ {
-					annotations: parameter.annotations
-				}
 				}
 				spec: {
-					selector: "app.oam.dev/component": context.name
+					selector: "application.deploy.reform/component": context.name
 					ports: exposePorts
-					type:  parameter.exposeType
+					type:  "ClusterIP"
+				}
+			}
+		}
+	}
+
+	// define Ingress resource
+	outputs: {
+		if parameter.containers != _|_ for s in parameter.containers {
+			ingress: {
+				apiVersion: "networking.k8s.io/v1"
+				kind:       "Ingress"
+				metadata: {
+					name: context.name
+					annotations: {
+						"kubernetes.io/tls-acme": "true"
+					}
+					labels: {
+						"application.deploy.reform/component":     context.name
+						"application.deploy.reform/componentType": componentType
+					}
+				}
+				spec: {
+					rules: [{
+						host: s.domainHost
+						http: {
+							paths: [{
+								path:     s.path
+								pathType: s.pathType
+								backend: {
+									service: {
+										name: context.name
+										port: number: s.port
+									}
+								}
+							}]
+						}
+					}]
+					tls: [{
+						hosts: [s.domainHost]
+						secretName: strings.Join([context.name, "tls"], "-")
+					}]
 				}
 			}
 		}
 	}
 
 	parameter: {
-		// +usage=Specify the annotations in the workload
-		annotations?: [string]: string
-
 		// +usage=Which image would you like to use for your service
 		// +short=i
 		image: string
-
-		// +usage=Which ports do you want customer traffic sent to, defaults to 80
-		ports?: [...{
-			// +usage=Number of port to expose on the pod's IP address
-			port: int
-			// +usage=Name of the port
-			name?: string
-			// +usage=Protocol for port. Must be UDP, TCP, or SCTP
-			protocol: *"TCP" | "UDP" | "SCTP"
-			// +usage=Specify if the port should be exposed
-			expose: *false | bool
-			// // +usage=exposed node port. Only Valid when exposeType is NodePort
-			// nodePort: int
-		}]
-
-		// +ignore
-		// +usage=Specify what kind of Service you want. options: "ClusterIP", "NodePort", "LoadBalancer"
-		exposeType: *"LoadBalancer" | "ClusterIP"
 
 		// +usage=Define arguments by using environment variables
 		environmentVariables?: [...{
@@ -376,10 +269,6 @@ template: {
 			name: string
 			// +usage=The value of the environment variable
 			value?: string
-			// +usage=Specifies whether it is a secret value
-			isSecret: *false | bool
-			// +usage=Specifies whether it should be updated
-			isUpdate: *false | bool
 			// +usage=Specifies a source the value of this var should come from
 			valueFrom?: {
 				// +usage=Selects a key of a secret in the pod's namespace
@@ -397,89 +286,79 @@ template: {
 					key: string
 				}
 			}
+			vsoEnabled: *false | bool
 		}]
 
-		volumeMounts?: {
-			// +usage=Mount PVC type volume
-			pvc?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				// +usage=The name of the PVC
-				claimName: string
-			}]
-			// +usage=Mount ConfigMap type volume
-			configMap?: [...{
-				name:        string
-				mountPath:   string
-				subPath?:    string
-				defaultMode: *420 | int
-				cmName:      string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}]
-			// +usage=Mount Secret type volume
-			secret?: [...{
-				name:        string
-				mountPath:   string
-				subPath?:    string
-				defaultMode: *420 | int
-				secretName:  string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}]
-			// +usage=Mount EmptyDir type volume
-			emptyDir?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				medium:    *"" | "Memory"
-			}]
-			// +usage=Mount HostPath type volume
-			hostPath?: [...{
-				name:      string
-				mountPath: string
-				subPath?:  string
-				path:      string
+		// +usage=Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)
+		cpu?: string
+
+		// +usage=Specifies the attributes of the memory resource required for the container.
+		memory?: string
+
+		// +usage=Define the services you want to expose from your container
+		containers: [...{
+			// +usage=Which port would you like the service to expose
+			port: int
+			// +usage=Which protocol would you like the service to expose
+			protocol: *"TCP" | "UDP" | "SCTP"
+			// +usage=Domain host name for exposed service
+			domainHost?: string
+			// +usage=The URL path you want customer traffic sent to
+			path?: string
+			// +usage=The type of path matching you want
+			pathType?: *"Prefix" | "Exact" | "ImplementationSpecific"
+		}]
+
+		// +usage=Instructions for assessing whether the container is alive.
+		livenessProbe: #HealthProbe
+
+		// +usage=Instructions for assessing whether the container is in a suitable state to serve traffic.
+		readinessProbe: #HealthProbe
+	}
+
+	#HealthProbe: {
+
+		handler: *"TCPSocket" | "CMD" | "HTTP"
+
+		// +usage=Instructions for assessing container health by executing a command. Either this attribute or the httpGet attribute or the tcpSocket attribute MUST be specified. This attribute is mutually exclusive with both the httpGet attribute and the tcpSocket attribute.
+		exec?: {
+			// +usage=A command to be executed inside the container to assess its health. Each space delimited token of the command is a separate array element. Commands exiting 0 are considered to be successful probes, whilst all other exit codes are considered failures.
+			command: [...string]
+		}
+
+		// +usage=Instructions for assessing container health by executing an HTTP GET request. Either this attribute or the exec attribute or the tcpSocket attribute MUST be specified. This attribute is mutually exclusive with both the exec attribute and the tcpSocket attribute.
+		httpGet?: {
+			// +usage=The endpoint, relative to the port, to which the HTTP GET request should be directed.
+			path: string
+			// +usage=The TCP socket within the container to which the HTTP GET request should be directed.
+			port:    int
+			host?:   string
+			scheme?: *"HTTP" | string
+			httpHeaders?: [...{
+				name:  string
+				value: string
 			}]
 		}
 
-		// +usage=Deprecated field, use volumeMounts instead.
-		volumes?: [...{
-			name:      string
-			mountPath: string
-			// +usage=Specify volume type, options: "pvc","configMap","secret","emptyDir", default to emptyDir
-			type: *"emptyDir" | "pvc" | "configMap" | "secret"
-			if type == "pvc" {
-				claimName: string
-			}
-			if type == "configMap" {
-				defaultMode: *420 | int
-				cmName:      string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}
-			if type == "secret" {
-				defaultMode: *420 | int
-				secretName:  string
-				items?: [...{
-					key:  string
-					path: string
-					mode: *511 | int
-				}]
-			}
-			if type == "emptyDir" {
-				medium: *"" | "Memory"
-			}
-		}]
+		// +usage=Instructions for assessing container health by probing a TCP socket. Either this attribute or the exec attribute or the httpGet attribute MUST be specified. This attribute is mutually exclusive with both the exec attribute and the httpGet attribute.
+		tcpSocket: {
+			// +usage=The TCP socket within the container that should be probed to assess container health.
+			port: *80 | int
+		}
+
+		// +usage=Number of seconds after the container is started before the first probe is initiated.
+		initialDelaySeconds: *0 | int
+
+		// +usage=How often, in seconds, to execute the probe.
+		periodSeconds: *10 | int
+
+		// +usage=Number of seconds after which the probe times out.
+		timeoutSeconds: *1 | int
+
+		// +usage=Minimum consecutive successes for the probe to be considered successful after having failed.
+		successThreshold: *1 | int
+
+		// +usage=Number of consecutive failures required to determine the container is not alive (liveness probe) or not ready (readiness probe).
+		failureThreshold: *3 | int
 	}
 }
