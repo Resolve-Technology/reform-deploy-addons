@@ -25,7 +25,7 @@
       sort: 5
   validate:
     required: true
-    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "wordpress.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
+    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "wordpress-demo.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
 
 - jsonKey: environmentVariables
   sort: 3
