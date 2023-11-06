@@ -22,7 +22,7 @@
       label: Secret Managed by Vault Secret Operator
   uiType: Structs
     validate:
-    defaultValue: [{"name": "database_endpoint"}, {"name": "database_name"}, {"name": "username", "vsoEnabled: true"}, {"name": "password", "vsoEnabled: true"}]
+    defaultValue: [{"name": "database_endpoint"}, {"name": "database_name"}, {"name": "username", "vsoEnabled: "true""}, {"name": "password", "vsoEnabled: "true""}]
 
 - jsonKey: cpu
   uiType: CPUNumber
