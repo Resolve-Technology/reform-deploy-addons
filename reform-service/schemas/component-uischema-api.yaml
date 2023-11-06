@@ -6,8 +6,29 @@
     required: true
     defaultValue: "alanatreslv/nodejs-mysql-demo:v1.0"
 
-- jsonKey: environmentVariables
+- jsonKey: containers
+  label: Expose Service
   sort: 2
+  subParameters:
+    - jsonKey: port
+      sort: 1
+      validate:
+        required: true
+        min: 1
+    - jsonKey: protocol
+      sort: 2
+    - jsonKey: domainHost
+      sort: 3
+    - jsonKey: path
+      sort: 4
+    - jsonKey: pathType
+      sort: 5
+  validate:
+    required: true
+    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "web-demo.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
+
+- jsonKey: environmentVariables
+  sort: 3
   label: Environment Variables
   subParameters:
     - jsonKey: name
@@ -48,31 +69,10 @@
   style:
     colSpan: 12
 
-- jsonKey: containers
-  label: Containers
-  sort: 6
-  subParameters:
-    - jsonKey: port
-      sort: 1
-      validate:
-        required: true
-        min: 1
-    - jsonKey: protocol
-      sort: 2
-    - jsonKey: domainHost
-      sort: 3
-    - jsonKey: path
-      sort: 4
-    - jsonKey: pathType
-      sort: 5
-  validate:
-    required: true
-    defaultValue: [{"port": 80, "protocol": "TCP", "domainHost": "web-demo.reform-deploy.today", "path": "/", "pathType": "Prefix"}]
-
 - jsonKey: readinessProbe
   uiType: Group
   label: ReadinessProbe
-  sort: 7
+  sort: 6
   disable: true
   subParameters:
   - jsonKey: handler
@@ -154,7 +154,7 @@
 - jsonKey: livenessProbe
   uiType: Group
   label: LivenessProbe
-  sort: 8
+  sort: 7
   disable: true
   subParameters:
   - jsonKey: handler
