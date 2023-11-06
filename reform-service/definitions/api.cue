@@ -343,7 +343,7 @@ template: {
 		// +usage=Instructions for assessing container health by probing a TCP socket. Either this attribute or the exec attribute or the httpGet attribute MUST be specified. This attribute is mutually exclusive with both the exec attribute and the httpGet attribute.
 		tcpSocket?: {
 			// +usage=The TCP socket within the container that should be probed to assess container health.
-			port: int
+			port: *80 | int
 		}
 
 		// +usage=Number of seconds after the container is started before the first probe is initiated.
