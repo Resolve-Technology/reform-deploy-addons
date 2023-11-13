@@ -100,6 +100,14 @@ template: {
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.value != _|_ { 
 					name: v.name
 					value: v.value
+				},
+				{
+					name: "context_name"
+					value: context.name
+				},
+				{
+					name: "context_appname"
+					value: context.appName
 				}
 			]
 			varsFrom: [
