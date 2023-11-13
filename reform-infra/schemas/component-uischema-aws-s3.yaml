@@ -52,4 +52,4 @@
       sort: 3
   validate:
     required: true
-    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./aws/aws-s3"}
+    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./aws/s3"}
