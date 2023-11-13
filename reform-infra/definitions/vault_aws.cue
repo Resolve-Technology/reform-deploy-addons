@@ -3,15 +3,14 @@ import (
 	"strings"
 )
 
-"aws-s3": {
+"vault-aws": {
 	type: "component"
 	annotations: {}
 	labels: {
 		"outputs.0": "bucket_name"
 		"outputs.1": "bucket_region"
-		"outputs.2": "vault_root_access_key"
-		"outputs.3": "vault_root_secret_key"
-		"outputs.4": "vault_iam_user"
+		"outputs.2": "aws_access_key"
+		"outputs.3": "aws_secret_key"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
@@ -116,13 +115,19 @@ template: {
 			varsFrom: [
 				{
 					kind: "Secret"
-					name: parameter.terraformProviderConfig.credential
-					varsKeys: [
-						"AWS_ACCESS_KEY_ID:aws_access_key",
-						"AWS_SECRET_ACCESS_KEY:aws_secret_key",
-						"AWS_DEFAULT_REGION:aws_region"
-					]
+					name: parameter.vaultConfig.credential
 				},
+				if parameter.kubernetesConfig.credential != _|_ { 
+					{
+						kind: "Secret"
+						name: parameter.kubernetesConfig.credential
+						varsKeys: [
+							"ca.crt:k8s_cluster_ca_certificate",
+							"endpoint:k8s_host",
+							"token:k8s_token"
+						]
+					},
+				}
 				if parameter.terraformVariables != _|_ for v in parameter.terraformVariables if v.valueFrom != _|_ { 
 					if v.valueFrom.secretKeyRef != _|_ {
 						kind: "Secret"
@@ -185,6 +190,11 @@ template: {
 				}
 			}
 		}]
+		
+		vaultConfig: {
+			// +usage=The credential for HashiCorp Vault
+			credential: string
+		}
 
 		terraformConfig: {
 			// +usage=The name of the Terraform Organization
@@ -193,8 +203,8 @@ template: {
 			credential?: string
 		}
 
-		terraformProviderConfig: {
-			// +usage=The credential for AWS provider
+		kubernetesConfig: {
+			// +usage=The credential for HashiCorp Vault
 			credential: string
 		}
 
