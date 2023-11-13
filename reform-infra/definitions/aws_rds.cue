@@ -9,8 +9,8 @@ import (
 	labels: {
 		"outputs.0": "database_instance"
 		"outputs.1": "database_endpoint"
-		"outputs.2": "database_name",
-		"outputs.3": "database_username",
+		"outputs.2": "database_name"
+		"outputs.3": "database_username"
 		"outputs.4": "database_password"
 	}
 	description: "Infrastructure component that can be deployed as a service"

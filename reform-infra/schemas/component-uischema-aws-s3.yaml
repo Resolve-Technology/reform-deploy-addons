@@ -1,27 +1,55 @@
-- jsonKey: bucketName
-  label: Bucket Name
-  description: The name of the S3 bucket
+- jsonKey: terraformVariables
   sort: 1
-  subParameters: 
+  label: Terraform Variables
+  subParameters:
     - jsonKey: name
     - jsonKey: value
       uiType: OutputKeySelector
-      validate:
-        required: true
     - jsonKey: valueFrom
+      label: Secret Selector
       uiType: Ignore
+  uiType: Structs
+  validate:
+    defaultValue: [{"name": "bucket_prefix", "value": "aws-s3"}]
 
-- jsonKey: terraformProviderName
-  label: Terraform Provider Configuration Name
-  description: The configuration name of the terraform provider
+- jsonKey: terraformConfig
+  label: Terraform Configurations
   sort: 2
+  subParameters:
+    - jsonKey: organization
+      description: The organization name of the terraform
+      sort: 1
+    - jsonKey: credential
+      description: The credential for the terraform
+      sort: 2
+  validate:
+    required: true
+    defaultValue: {"organization": "ResolveTechnology", "credential": "reslv-tfc-token"}
 
-- jsonKey: repoName
-  label: Repository Configuration Name
-  description: The configuration name of the repository, in which the repository stores the terraform templates
+- jsonKey: terraformProviderConfig
+  label: Terraform Provider Configurations
   sort: 3
+  subParameters:
+    - jsonKey: credential
+      description: The credential for the provider
+      sort: 1
+  validate:
+    required: true
+    defaultValue: {"credential": "aws"}
 
-- jsonKey: repoNamespace
-  label: Repository Configuration Namespace
-  description: The namespace of repository configuration, in which the repository stores the terraform templates
+- jsonKey: repositoryConfig
+  label: Git Repository Configurations
   sort: 4
+  subParameters:
+    - jsonKey: name
+      description: The namespace of repository configuration, in which the repository stores the terraform templates
+      sort: 1
+    - jsonKey: namespace
+      description: The configuration name of the repository, in which the repository stores the terraform templates
+      sort: 2
+    - jsonKey: directory
+      description: The working directory for the Terraform run
+      sort: 3
+  validate:
+    required: true
+    defaultValue: {"name": "default-terraform", "namespace": "deploy", "directory": "./aws/aws-s3"}
