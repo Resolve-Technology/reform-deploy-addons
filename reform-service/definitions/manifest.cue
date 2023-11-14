@@ -13,8 +13,6 @@ template: {
 	output: yaml.Unmarshal(parameter.object)
 	
 	parameter: {
-		object: {
-			...
-		}
+		object: string
 	}
 }
