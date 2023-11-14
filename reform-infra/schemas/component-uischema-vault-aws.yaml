@@ -10,7 +10,7 @@
       uiType: Ignore
   uiType: Structs
   validate:
-    defaultValue: [{"name": "target_namespace"}, {"name": "target_deployment"}, {"name": "bucket_name"}, {"name": "bucket_region"}, {"name": "vault_root_access_key"}, {"name": "vault_root_secret_key"}, {"name": "vault_iam_user"}]
+    defaultValue: [{"name": "target_namespace"}, {"name": "target_deployment"}, {"name": "bucket_prefix"}, {"name": "bucket_name"}, {"name": "bucket_region"}, {"name": "vault_root_access_key"}, {"name": "vault_root_secret_key"}]
 
 - jsonKey: terraformConfig
   label: Terraform Configurations
