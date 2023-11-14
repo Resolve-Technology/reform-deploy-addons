@@ -12,7 +12,6 @@ import (
 		"outputs.2": "bucket_region"
 		"outputs.3": "vault_root_access_key"
 		"outputs.4": "vault_root_secret_key"
-		"outputs.5": "vault_iam_user"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
