@@ -9,8 +9,8 @@ import (
 	labels: {
 		"outputs.0": "bucket_name"
 		"outputs.1": "bucket_region"
-		"outputs.2": "aws_access_key"
-		"outputs.3": "aws_secret_key"
+		"outputs.2": "access_key"
+		"outputs.3": "secret_key"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {

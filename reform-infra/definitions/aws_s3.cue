@@ -7,12 +7,11 @@ import (
 	type: "component"
 	annotations: {}
 	labels: {
-		"outputs.0": "bucket_prefix"
-		"outputs.1": "bucket_name"
-		"outputs.2": "bucket_arn"
-		"outputs.3": "bucket_region"
-		"outputs.4": "vault_root_access_key"
-		"outputs.5": "vault_root_secret_key"
+		"outputs.0": "bucket_name"
+		"outputs.1": "bucket_arn"
+		"outputs.2": "bucket_region"
+		"outputs.3": "access_key"
+		"outputs.4": "secret_key"
 	}
 	description: "Infrastructure component that can be deployed as a service"
 	attributes: {
