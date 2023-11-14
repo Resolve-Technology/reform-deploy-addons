@@ -12,6 +12,6 @@ template: {
 	output: strings.Replace(yaml.Unmarshal(parameter.object), "\r", " ", -1)
 	
 	parameter: {
-		object: string
+		object: [string]
 	}
 }
