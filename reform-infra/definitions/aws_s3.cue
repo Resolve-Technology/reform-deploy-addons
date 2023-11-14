@@ -13,7 +13,7 @@ import (
 		"outputs.4": "vault_root_access_key"
 		"outputs.5": "vault_root_secret_key"
 	}
-	description: "Infrastructure component that can be deployed as a service"
+	description: "Infrastructure component that can be deployed as a service - v2"
 	attributes: {
 		workload: {
 			definition: {
