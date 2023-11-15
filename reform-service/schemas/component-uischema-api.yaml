@@ -73,7 +73,6 @@
   uiType: Group
   label: ReadinessProbe
   sort: 6
-  disable: true
   subParameters:
   - jsonKey: handler
     sort: 1
@@ -114,11 +113,11 @@
         sort: 5
   - jsonKey: tcpSocket
     sort: 4
-    # conditions:
-    #   - jsonKey: readinessProbe.handler
-    #     op: ==
-    #     value: TCPSocket
-    #     action: enable
+    conditions:
+      - jsonKey: readinessProbe.handler
+        op: ==
+        value: TCPSocket
+        action: enable
     validate:
       required: true
     subParameters:
@@ -155,7 +154,6 @@
   uiType: Group
   label: LivenessProbe
   sort: 7
-  disable: true
   subParameters:
   - jsonKey: handler
     sort: 1
@@ -196,11 +194,11 @@
         sort: 5
   - jsonKey: tcpSocket
     sort: 4
-    # conditions:
-    #   - jsonKey: livenessProbe.handler
-    #     op: ==
-    #     value: TCPSocket
-    #     action: enable
+    conditions:
+      - jsonKey: livenessProbe.handler
+        op: ==
+        value: TCPSocket
+        action: enable
     validate:
       required: true
     subParameters:
