@@ -9,20 +9,7 @@ import (
 	annotations: {}
 	labels: {}
 	description: "Configuration Management"
-	attributes: {
-		workload: {
-			definition: {
-				apiVersion: "v1"
-				kind:       "Secret"
-			}
-			type: "secrets.core"
-		}
-		status: {
-			healthPolicy: #"""
-				isHealth: true
-				"""#
-		}
-	}
+	attributes: {}
 }
 
 template: {
