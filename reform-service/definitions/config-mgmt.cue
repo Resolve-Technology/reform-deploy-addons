@@ -17,11 +17,6 @@ import (
 			}
 			type: "secrets"
 		}
-		status: {
-			healthPolicy: #"""
-				isHealth: true
-				"""#
-		}
 	}
 }
 
