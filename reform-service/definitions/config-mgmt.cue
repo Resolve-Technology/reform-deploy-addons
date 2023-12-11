@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-"secrets": {
+"config-mgmt": {
 	type: "component"
 	annotations: {}
 	labels: {}
@@ -12,7 +12,7 @@ import (
 	attributes: {}
 }
 template: {
-	componentType: "secret"
+	componentType: "config-mgmt"
 
 	output: {
 		apiVersion: "v1"
