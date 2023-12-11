@@ -9,8 +9,17 @@ import (
 	annotations: {}
 	labels: {}
 	description: "Configuration Management"
-	attributes: {}
+	attributes: {
+		workload: {
+			definition: {
+				apiVersion: "v1"
+				kind:       "Secret"
+			}
+			type: "Secret"
+		}
+	}
 }
+
 template: {
 	componentType: "config-mgmt"
 
