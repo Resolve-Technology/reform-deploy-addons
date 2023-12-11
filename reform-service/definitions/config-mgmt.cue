@@ -17,6 +17,11 @@ import (
 			}
 			type: "Secret"
 		}
+		status: {
+			healthPolicy: #"""
+				isHealth: True
+				"""#
+		}
 	}
 }
 
