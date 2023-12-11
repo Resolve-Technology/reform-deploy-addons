@@ -7,7 +7,7 @@
   sort: 2
   uiType: Select
   validate:
-    defaultValue: ""
+    defaultValue: "custom"
     options:
       - label: Addon Repository
         value: addon-repository
@@ -83,6 +83,17 @@
         - jsonKey: type
           op: ==
           value: terraform-aws-provider
+          action: enable
+    - jsonKey: registry
+      label: Registry
+      conditions:
+        - jsonKey: type
+          op: ==
+          value: helm-registry
+          action: enable
+        - jsonKey: type
+          op: ==
+          value: image-registry
           action: enable
     - jsonKey: AWS_DEFAULT_REGION
       label: AWS_DEFAULT_REGION
@@ -175,3 +186,23 @@
           op: ==
           value: custom
           action: enable
+
+- jsonKey: customData
+  label: Custom Data
+  sort: 3
+  uiType: Group
+  conditions:
+    - jsonKey: type
+      op: ==
+      value: custom
+      action: enable
+
+- jsonKey: customSecretData
+  label: Custom Secret Data
+  sort: 4
+  uiType: Group
+  conditions:
+    - jsonKey: type
+      op: ==
+      value: custom
+      action: enable
