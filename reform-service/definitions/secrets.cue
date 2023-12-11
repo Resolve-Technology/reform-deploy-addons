@@ -29,75 +29,75 @@ template: {
 			}
 		}
 		data: {
-			// Git Repository
-			if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" {
-				provider:   parameter.data.provider
-				repository: parameter.data.repository
-			}
+			// // Git Repository
+			// if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" {
+			// 	provider:   parameter.data.provider
+			// 	repository: parameter.data.repository
+			// }
 
-			// Helm | Docker Registry
-			if parameter.type == "helm-registry" || parameter.type == "image-registry" {
-				registry: parameter.secretData.registry
-			}
+			// // Helm | Docker Registry
+			// if parameter.type == "helm-registry" || parameter.type == "image-registry" {
+			// 	registry: parameter.secretData.registry
+			// }
 
-			// AWS
-			if parameter.type == "terraform-aws-provider" {
-				AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
-				AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
-			}
+			// // AWS
+			// if parameter.type == "terraform-aws-provider" {
+			// 	AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
+			// 	AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
+			// }
 
-			// Custom Data
-			if parameter.type == "custom" {
-				custom_data: parameter.secretData.customData
-			}
+			// // Custom Data
+			// if parameter.type == "custom" {
+			// 	custom_data: parameter.secretData.customData
+			// }
 
 			// Secret Name of Configuration Secret Data
 			secretData: parameter.name
 		}
 	}
 
-	outputs: {
-		secretData: {
-			apiVersion: "v1"
-			kind:       "Secret"
-			metadata: {
-				name:      parameter.name
-				namespace: deploy
-				labels: {
-					"app.oam.dev/name":                        context.appName
-					"app.oam.dev/component":                   context.name
-					"application.deploy.reform/component":     context.name
-					"application.deploy.reform/componentType": componentType
-					"app.kubernetes.io/name":                  context.name
-				}
-			}
-			data: {
-				// Username & Password
-				if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" || parameter.type == "helm-registry" {
-					username: parameter.secretData.username
-					password: parameter.secretData.username
-				}
+	// outputs: {
+	// 	secretData: {
+	// 		apiVersion: "v1"
+	// 		kind:       "Secret"
+	// 		metadata: {
+	// 			name:      parameter.name
+	// 			namespace: deploy
+	// 			labels: {
+	// 				"app.oam.dev/name":                        context.appName
+	// 				"app.oam.dev/component":                   context.name
+	// 				"application.deploy.reform/component":     context.name
+	// 				"application.deploy.reform/componentType": componentType
+	// 				"app.kubernetes.io/name":                  context.name
+	// 			}
+	// 		}
+	// 		data: {
+	// 			// Username & Password
+	// 			if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" || parameter.type == "helm-registry" {
+	// 				username: parameter.secretData.username
+	// 				password: parameter.secretData.username
+	// 			}
 
-				// JSON Content
-				if parameter.type == "image-registry" {
-					".dockerconfigjson": parameter.secretData.jsonContent
-				}
-				if parameter.type == "terraform-cloud-credential" {
-					"terraform.tfrc": parameter.secretData.jsonContent
-				}
+	// 			// JSON Content
+	// 			if parameter.type == "image-registry" {
+	// 				".dockerconfigjson": parameter.secretData.jsonContent
+	// 			}
+	// 			if parameter.type == "terraform-cloud-credential" {
+	// 				"terraform.tfrc": parameter.secretData.jsonContent
+	// 			}
 
-				// AWS
-				if parameter.type == "terraform-aws-provider" {
-					AWS_SECRET_ACCESS_KEY: parameter.secretData.AWS_SECRET_ACCESS_KEY
-				}
+	// 			// AWS
+	// 			if parameter.type == "terraform-aws-provider" {
+	// 				AWS_SECRET_ACCESS_KEY: parameter.secretData.AWS_SECRET_ACCESS_KEY
+	// 			}
 
-				// Custom Secrets
-				if parameter.type == "custom" {
-					custom_data: parameter.secretData.customSecretData
-				}
-			}
-		}
-	}
+	// 			// Custom Secrets
+	// 			if parameter.type == "custom" {
+	// 				custom_data: parameter.secretData.customSecretData
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	parameter: {
 		// Name of Configuration
@@ -106,33 +106,33 @@ template: {
 		// Configuration Type
 		type: string
 
-		data?: {
-			// Git | Helm | Docker
-			provider?:   string
-			repository?: string
-			registry?:   string
+		// data?: {
+		// 	// Git | Helm | Docker
+		// 	provider?:   string
+		// 	repository?: string
+		// 	registry?:   string
 
-			// Custom Data
-			customData?: [string]: string
+		// 	// Custom Data
+		// 	customData?: [string]: string
 
-			// AWS
-			AWS_ACCESS_KEY_ID?:  string
-			AWS_DEFAULT_REGION?: string
-		}
+		// 	// AWS
+		// 	AWS_ACCESS_KEY_ID?:  string
+		// 	AWS_DEFAULT_REGION?: string
+		// }
 
-		secretData?: {
-			// Username & Password
-			username?: string
-			password?: string
+		// secretData?: {
+		// 	// Username & Password
+		// 	username?: string
+		// 	password?: string
 
-			// JSON Content
-			jsonContent?: {}
+		// 	// JSON Content
+		// 	jsonContent?: {}
 
-			// Custom Secrets
-			customSecretData?: [string]: string
+		// 	// Custom Secrets
+		// 	customSecretData?: [string]: string
 
-			// AWS
-			AWS_SECRET_ACCESS_KEY?: string
-		}
+		// 	// AWS
+		// 	AWS_SECRET_ACCESS_KEY?: string
+		// }
 	}
 }
