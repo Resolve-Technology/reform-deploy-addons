@@ -54,15 +54,9 @@ template: {
 				registry: parameter.secretData.registry
 			}
 
-			// AWS
-			if parameter.type == "terraform-aws-provider" {
-				AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
-				AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
-			}
-
 			// Custom Data
 			if parameter.type == "custom" {
-				custom_data: parameter.secretData.customData
+				customData: parameter.secretData.customData
 			}
 
 			// Secret Name of Configuration Secret Data
@@ -92,22 +86,9 @@ template: {
 					password: parameter.secretData.username
 				}
 
-				// JSON Content
-				if parameter.type == "image-registry" {
-					".dockerconfigjson": parameter.secretData.jsonContent
-				}
-				if parameter.type == "terraform-cloud-credential" {
-					"terraform.tfrc": parameter.secretData.jsonContent
-				}
-
-				// AWS
-				if parameter.type == "terraform-aws-provider" {
-					AWS_SECRET_ACCESS_KEY: parameter.secretData.AWS_SECRET_ACCESS_KEY
-				}
-
 				// Custom Secrets
 				if parameter.type == "custom" {
-					custom_data: parameter.secretData.customSecretData
+					customData: parameter.secretData.customSecretData
 				}
 			}
 		}
@@ -128,10 +109,6 @@ template: {
 
 			// Custom Data
 			customData?: [string]: string
-
-			// AWS
-			AWS_ACCESS_KEY_ID?:  string
-			AWS_DEFAULT_REGION?: string
 		}
 
 		secretData?: {
@@ -144,9 +121,6 @@ template: {
 
 			// Custom Secrets
 			customSecretData?: [string]: string
-
-			// AWS
-			AWS_SECRET_ACCESS_KEY?: string
 		}
 	}
 }
