@@ -27,30 +27,30 @@ template: {
 			}
 		}
 		data: {
-			// Git Repository
-			if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" {
-				provider:   parameter.data.provider
-				repository: parameter.data.repository
-			}
+			// // Git Repository
+			// if parameter.type == "addon-repository" || parameter.type == "policy-repository" || parameter.type == "infrastructure-repository" || parameter.type == "application-repository" {
+			// 	provider:   parameter.data.provider
+			// 	repository: parameter.data.repository
+			// }
 
-			// Helm | Docker Registry
-			if parameter.type == "helm-registry" || parameter.type == "image-registry" {
-				registry: parameter.secretData.registry
-			}
+			// // Helm | Docker Registry
+			// if parameter.type == "helm-registry" || parameter.type == "image-registry" {
+			// 	registry: parameter.secretData.registry
+			// }
 
-			// AWS
-			if parameter.type == "terraform-aws-provider" {
-				AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
-				AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
-			}
+			// // AWS
+			// if parameter.type == "terraform-aws-provider" {
+			// 	AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
+			// 	AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
+			// }
 
-			// Custom Data
-			if parameter.type == "custom" {
-				custom_data: parameter.secretData.customData
-			}
+			// // Custom Data
+			// if parameter.type == "custom" {
+			// 	custom_data: parameter.secretData.customData
+			// }
 
-			// Secret Name of Configuration Secret Data
-			secretData: parameter.name
+			// // Secret Name of Configuration Secret Data
+			// secretData: parameter.name
 		}
 	}
 
@@ -104,33 +104,33 @@ template: {
 		// Configuration Type
 		type: string
 
-		data?: {
-			// Git | Helm | Docker
-			provider?:   string
-			repository?: string
-			registry?:   string
+		// data?: {
+		// 	// Git | Helm | Docker
+		// 	provider?:   string
+		// 	repository?: string
+		// 	registry?:   string
 
-			// Custom Data
-			customData?: [string]: string
+		// 	// Custom Data
+		// 	customData?: [string]: string
 
-			// AWS
-			AWS_ACCESS_KEY_ID?:  string
-			AWS_DEFAULT_REGION?: string
-		}
+		// 	// AWS
+		// 	AWS_ACCESS_KEY_ID?:  string
+		// 	AWS_DEFAULT_REGION?: string
+		// }
 
-		secretData?: {
-			// Username & Password
-			username?: string
-			password?: string
+		// secretData?: {
+		// 	// Username & Password
+		// 	username?: string
+		// 	password?: string
 
-			// JSON Content
-			jsonContent?: {}
+		// 	// JSON Content
+		// 	jsonContent?: {}
 
-			// Custom Secrets
-			customSecretData?: [string]: string
+		// 	// Custom Secrets
+		// 	customSecretData?: [string]: string
 
-			// AWS
-			AWS_SECRET_ACCESS_KEY?: string
-		}
+		// 	// AWS
+		// 	AWS_SECRET_ACCESS_KEY?: string
+		// }
 	}
 }
