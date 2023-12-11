@@ -28,7 +28,7 @@ template: {
 		kind:       "Secret"
 		metadata: {
 			name:      strings.Join([parameter.type, parameter.name], "-")
-			namespace: deploy
+			namespace: "deploy"
 			labels: {
 				"app.oam.dev/name":                        context.appName
 				"app.oam.dev/component":                   context.name
@@ -71,7 +71,7 @@ template: {
 			kind:       "Secret"
 			metadata: {
 				name:      parameter.name
-				namespace: deploy
+				namespace: "deploy"
 				labels: {
 					"app.oam.dev/name":                        context.appName
 					"app.oam.dev/component":                   context.name
