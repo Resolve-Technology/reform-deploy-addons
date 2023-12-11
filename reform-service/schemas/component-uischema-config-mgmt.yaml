@@ -175,7 +175,7 @@
 
 - jsonKey: customData
   label: Custom Data
-  sort: 3
+  sort: 5
   uiType: Group
   conditions:
     - jsonKey: type
@@ -185,7 +185,7 @@
 
 - jsonKey: customSecretData
   label: Custom Secret Data
-  sort: 4
+  sort: 6
   uiType: Group
   conditions:
     - jsonKey: type
