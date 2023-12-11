@@ -34,9 +34,9 @@
   uiType: Group
   conditions:
     - jsonKey: type
-      op: ==
+      op: !=
       value: custom
-      action: disable
+      action: enable
   subParameters:
     - jsonKey: provider
       label: Provider
@@ -114,9 +114,9 @@
   uiType: Group
   conditions:
     - jsonKey: type
-      op: ==
+      op: !=
       value: custom
-      action: disable
+      action: enable
   subParameters:
     - jsonKey: username
       label: username
