@@ -172,3 +172,23 @@
           op: ==
           value: terraform-aws-provider
           action: enable
+
+- jsonKey: customData
+  label: Custom Data
+  sort: 5
+  uiType: KV
+  conditions:
+    - jsonKey: type
+      op: ==
+      value: custom
+      action: enable
+
+- jsonKey: customSecretData
+  label: Custom Secret Data
+  sort: 6
+  uiType: KV
+  conditions:
+    - jsonKey: type
+      op: ==
+      value: custom
+      action: enable
