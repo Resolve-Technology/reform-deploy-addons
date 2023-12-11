@@ -19,7 +19,7 @@ import (
 		}
 		status: {
 			healthPolicy: #"""
-				isHealth: True
+				isHealth: true
 				"""#
 		}
 	}
