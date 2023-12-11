@@ -15,7 +15,7 @@ import (
 				apiVersion: "v1"
 				kind:       "Secret"
 			}
-			type: "secret.core"
+			type: "secrets.core"
 		}
 		status: {
 			healthPolicy: #"""
