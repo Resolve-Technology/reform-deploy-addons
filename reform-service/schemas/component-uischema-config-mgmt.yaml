@@ -34,7 +34,7 @@
   uiType: Group
   conditions:
     - jsonKey: type
-      op: !=
+      op: "!="
       value: custom
       action: enable
   subParameters:
@@ -114,7 +114,7 @@
   uiType: Group
   conditions:
     - jsonKey: type
-      op: !=
+      op: "!="
       value: custom
       action: enable
   subParameters:
