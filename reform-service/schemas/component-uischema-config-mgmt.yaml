@@ -41,6 +41,9 @@
     - jsonKey: provider
       label: Provider
       uiType: Select
+      sort: 1
+      style:
+        colSpan: 24
       validate:
         defaultValue: ""
         options:
@@ -65,6 +68,9 @@
           action: enable
     - jsonKey: repository
       label: Repository
+      sort: 2
+      style:
+        colSpan: 24
       conditions:
         - jsonKey: type
           op: ==
@@ -84,6 +90,9 @@
           action: enable
     - jsonKey: AWS_ACCESS_KEY_ID
       label: AWS_ACCESS_KEY_ID
+      sort: 3
+      style:
+        colSpan: 24
       conditions:
         - jsonKey: type
           op: ==
@@ -91,6 +100,9 @@
           action: enable
     - jsonKey: registry
       label: Registry
+      sort: 4
+      style:
+        colSpan: 24
       conditions:
         - jsonKey: type
           op: ==
@@ -102,6 +114,9 @@
           action: enable
     - jsonKey: AWS_DEFAULT_REGION
       label: AWS_DEFAULT_REGION
+      sort: 5
+      style:
+        colSpan: 24
       conditions:
         - jsonKey: type
           op: ==
@@ -120,6 +135,9 @@
   subParameters:
     - jsonKey: username
       label: username
+      style:
+        colSpan: 24
+      sort: 1
       conditions:
         - jsonKey: type
           op: ==
@@ -143,6 +161,10 @@
           action: enable
     - jsonKey: password
       label: Password
+      uiType: Password
+      style:
+        colSpan: 24
+      sort: 2
       conditions:
         - jsonKey: type
           op: ==
@@ -166,6 +188,10 @@
           action: enable
     - jsonKey: jsonContent
       label: JSON Content
+      uiType: K8sObjectsCode
+      style:
+        colSpan: 24
+      sort: 3
       conditions:
         - jsonKey: type
           op: ==
@@ -177,6 +203,10 @@
           action: enable
     - jsonKey: AWS_SECRET_ACCESS_KEY
       label: AWS_SECRET_ACCESS_KEY
+      uiType: Password
+      style:
+        colSpan: 24
+      sort: 4
       conditions:
         - jsonKey: type
           op: ==
@@ -187,6 +217,8 @@
   label: Custom Data
   sort: 5
   uiType: KV
+  style:
+    colSpan: 24
   conditions:
     - jsonKey: type
       op: ==
@@ -197,6 +229,8 @@
   label: Custom Secret Data
   sort: 6
   uiType: KV
+  style:
+    colSpan: 24
   conditions:
     - jsonKey: type
       op: ==

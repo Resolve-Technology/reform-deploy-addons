@@ -46,13 +46,13 @@ template: {
 
 			// Helm | Docker Registry
 			if parameter.type == "helm-registry" || parameter.type == "image-registry" {
-				registry: parameter.secretData.registry
+				registry: parameter.data.registry
 			}
 
 			// AWS
 			if parameter.type == "terraform-aws-provider" {
-				AWS_ACCESS_KEY_ID:  parameter.secretData.AWS_ACCESS_KEY_ID
-				AWS_DEFAULT_REGION: parameter.secretData.AWS_DEFAULT_REGION
+				AWS_ACCESS_KEY_ID:  parameter.data.AWS_ACCESS_KEY_ID
+				AWS_DEFAULT_REGION: parameter.data.AWS_DEFAULT_REGION
 			}
 
 			// Custom Data
@@ -115,33 +115,33 @@ template: {
 		// Configuration Type
 		type: string
 
-		data?: {
+		data: {
 			// Git | Helm | Docker
-			provider?:   string
-			repository?: string
-			registry?:   string
+			provider:   string
+			repository: string
+			registry:   string
 
 			// AWS
-			AWS_ACCESS_KEY_ID?:  string
-			AWS_DEFAULT_REGION?: string
+			AWS_ACCESS_KEY_ID:  string
+			AWS_DEFAULT_REGION: string
 		}
 
-		secretData?: {
+		secretData: {
 			// Username & Password
-			username?: string
-			password?: string
+			username: string
+			password: string
 
 			// JSON Content
-			jsonContent?: {}
+			jsonContent: {}
 
 			// AWS
-			AWS_SECRET_ACCESS_KEY?: string
+			AWS_SECRET_ACCESS_KEY: string
 		}
 
 		// Custom Data
-		customData?: [string]: string
+		customData: [string]: string
 
 		// Custom Secrets
-		customSecretData?: [string]: string
+		customSecretData: [string]: string
 	}
 }
