@@ -57,7 +57,7 @@ template: {
 
 			// Custom Data
 			if parameter.type == "custom" {
-				custom_data: parameter.customData
+				custom_data: parameter.data.customData
 			}
 
 			// Secret Name of Configuration Secret Data
@@ -102,7 +102,7 @@ template: {
 
 				// Custom Secrets
 				if parameter.type == "custom" {
-					custom_data: parameter.customSecretData
+					custom_data: parameter.secretData.customSecretData
 				}
 			}
 		}
@@ -124,6 +124,9 @@ template: {
 			// AWS
 			AWS_ACCESS_KEY_ID:  string
 			AWS_DEFAULT_REGION: string
+
+			// Custom Data
+			customData: [string]: string
 		}
 
 		secretData: {
@@ -136,12 +139,9 @@ template: {
 
 			// AWS
 			AWS_SECRET_ACCESS_KEY: string
+
+			// Custom Secrets
+			customSecretData: [string]: string
 		}
-
-		// Custom Data
-		customData: [string]: string
-
-		// Custom Secrets
-		customSecretData: [string]: string
 	}
 }

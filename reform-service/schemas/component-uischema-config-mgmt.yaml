@@ -122,6 +122,17 @@
           op: ==
           value: terraform-aws-provider
           action: enable
+    - jsonKey: customData
+      label: Custom
+      sort: 6
+      uiType: KV
+      style:
+        colSpan: 24
+      conditions:
+        - jsonKey: type
+          op: ==
+          value: custom
+          action: enable
 
 - jsonKey: secretData
   label: Secret Data
@@ -212,27 +223,14 @@
           op: ==
           value: terraform-aws-provider
           action: enable
-
-- jsonKey: customData
-  label: Custom Data
-  sort: 5
-  uiType: KV
-  style:
-    colSpan: 24
-  conditions:
-    - jsonKey: type
-      op: ==
-      value: custom
-      action: enable
-
-- jsonKey: customSecretData
-  label: Custom Secret Data
-  sort: 6
-  uiType: KV
-  style:
-    colSpan: 24
-  conditions:
-    - jsonKey: type
-      op: ==
-      value: custom
-      action: enable
+    - jsonKey: customSecretData
+      label: Custom
+      sort: 5
+      uiType: KV
+      style:
+        colSpan: 24
+      conditions:
+        - jsonKey: type
+          op: ==
+          value: custom
+          action: enable
