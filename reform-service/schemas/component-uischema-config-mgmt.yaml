@@ -32,11 +32,6 @@
   label: Data
   sort: 3
   uiType: Group
-  conditions:
-    - jsonKey: type
-      op: "!="
-      value: custom
-      action: enable
   subParameters:
     - jsonKey: provider
       label: Provider
@@ -138,11 +133,6 @@
   label: Secret Data
   sort: 4
   uiType: Group
-  conditions:
-    - jsonKey: type
-      op: "!="
-      value: custom
-      action: enable
   subParameters:
     - jsonKey: username
       label: username
